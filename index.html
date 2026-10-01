@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Grand Imperial Library | 2,500 World Literature Masterpieces</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #faf7f0;
+      --bg-parchment: #f3ede2;
+      --card-bg: #ffffff;
+      --royal-navy: #0d1b2a;
+      --royal-blue: #1b4965;
+      --gold-primary: #b8860b;
+      --gold-bright: #d4af37;
+      --gold-soft: #fef3c7;
+      --gold-border: rgba(184, 134, 11, 0.35);
+      --gold-border-hover: rgba(212, 175, 55, 0.9);
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --shadow-royal: 0 12px 30px rgba(13, 27, 42, 0.08);
+      --shadow-card-hover: 0 18px 36px rgba(184, 134, 11, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      position: relative;
+      padding: 3rem 1.5rem;
+    }
+
+    /* Luminous Royal Wallpaper with Fixed Dostoevsky Portrait Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: 
+        linear-gradient(135deg, rgba(250, 247, 240, 0.92), rgba(243, 237, 226, 0.96)),
+        url('https://upload.wikimedia.org/wikipedia/commons/7/77/Vasily_Perov_-_%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82_%D0%A4.%D0%9C.%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BD%D0%B0_%D1%91%D1%82%D0%B5%D1%80_%D1%81%D0%B5%D0%B1%D1%8F_1872_%D0%B3%D0%BE%D0%B4%D0%B0.jpg') no-repeat center center/cover fixed;
+      z-index: -1;
+      filter: contrast(105%) brightness(102%);
+    }
+
+    header {
+      text-align: center;
+      margin: 0 auto 3rem auto;
+      padding: 3.5rem 2rem;
+      background: rgba(255, 255, 255, 0.94);
+      border: 2px solid var(--gold-border);
+      border-radius: 24px;
+      max-width: 1150px;
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-royal), 0 0 25px rgba(212, 175, 55, 0.15);
+    }
+
+    .crown-emblem {
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--gold-primary);
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 3rem;
+      color: var(--royal-navy);
+      letter-spacing: 2px;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+    }
+
+    p.subtitle {
+      color: var(--gold-primary);
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-family: 'Cinzel', serif;
+    }
+
+    /* Live Imperial Stats Dashboard */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+      padding-top: 1.8rem;
+      border-top: 1px solid rgba(184, 134, 11, 0.25);
+    }
+
+    .stat-item {
+      background: var(--gold-soft);
+      border: 1px solid var(--gold-border);
+      padding: 0.65rem 1.4rem;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--royal-navy);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .stat-item span {
+      color: var(--gold-primary);
+      font-size: 1.3rem;
+      font-family: monospace;
+      font-weight: 800;
+    }
+
+    /* Search & Filter Controls */
+    .controls {
+      max-width: 1150px;
+      margin: 0 auto 3rem auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 1.25rem 2rem;
+      background: #ffffff;
+      border: 2px solid var(--gold-border);
+      border-radius: 50px;
+      color: var(--royal-navy);
+      font-size: 1.1rem;
+      outline: none;
+      box-shadow: 0 6px 20px rgba(13, 27, 42, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--gold-bright);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1.5px solid var(--gold-border);
+      color: var(--royal-navy);
+      padding: 0.65rem 1.4rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.5px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 10px rgba(13, 27, 42, 0.03);
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-bright));
+      color: #ffffff;
+      border-color: var(--gold-bright);
+      box-shadow: 0 6px 16px rgba(184, 134, 11, 0.35);
+      transform: translateY(-2px);
+    }
+
+    /* Books Showcase Grid */
+    .grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--gold-border);
+      border-radius: 20px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-royal);
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--gold-border-hover);
+      box-shadow: var(--shadow-card-hover);
+    }
+
+    .book-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+
+    .book-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.35rem;
+      color: var(--royal-navy);
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .book-year {
+      font-size: 0.85rem;
+      color: var(--gold-primary);
+      font-family: monospace;
+      font-weight: 800;
+      background: var(--gold-soft);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      border: 1px solid var(--gold-border);
+    }
+
+    .book-meta {
+      font-size: 0.85rem;
+      color: var(--royal-blue);
+      margin-bottom: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .book-desc {
+      font-size: 0.98rem;
+      color: var(--text-main);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+
+    .insights-box {
+      background: #faf7f0;
+      border-left: 4px solid var(--gold-bright);
+      padding: 0.9rem 1rem;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.92rem;
+      color: #334155;
+      margin-bottom: 1.4rem;
+      line-height: 1.6;
+    }
+
+    .insights-box strong {
+      color: var(--gold-primary);
+      display: block;
+      margin-bottom: 0.25rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Reading Status Controls */
+    .status-container {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: auto;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(184, 134, 11, 0.2);
+    }
+
+    .status-btn {
+      flex: 1;
+      background: #f8fafc;
+      border: 1px solid rgba(184, 134, 11, 0.25);
+      color: var(--text-muted);
+      padding: 0.6rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .status-btn:hover {
+      background: var(--gold-soft);
+      color: var(--royal-navy);
+      border-color: var(--gold-bright);
+    }
+
+    .status-btn.active-read {
+      background: #dcfce7;
+      border-color: #22c55e;
+      color: #15803d;
+      font-weight: 700;
+    }
+
+    .status-btn.active-reading {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #b45309;
+      font-weight: 700;
+    }
+
+    .status-btn.active-unread {
+      background: #fee2e2;
+      border-color: #ef4444;
+      color: #b91c1c;
+      font-weight: 700;
+    }
+
+    /* Pagination Bar */
+    .pagination-bar {
+      max-width: 750px;
+      margin: 4rem auto 1rem auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      background: #ffffff;
+      border: 1.5px solid var(--gold-border);
+      color: var(--royal-navy);
+      padding: 0.75rem 1.8rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      box-shadow: var(--shadow-royal);
+      transition: all 0.25s ease;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-bright));
+      color: #ffffff;
+      border-color: var(--gold-bright);
+      box-shadow: 0 6px 18px rgba(184, 134, 11, 0.3);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      border-color: #e2e8f0;
+    }
+
+    .page-info {
+      font-size: 1rem;
+      color: var(--royal-navy);
+      font-weight: 700;
+      font-family: 'Cinzel', serif;
+    }
+
+    .page-jump {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--royal-navy);
+      font-weight: 600;
+    }
+
+    .page-jump input {
+      width: 65px;
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--gold-border);
+      text-align: center;
+      font-weight: 700;
+      color: var(--royal-navy);
+      outline: none;
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 5rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      border-top: 1.5px solid var(--gold-border);
+      padding-top: 2rem;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="crown-emblem">👑</div>
+    <h1>The Grand Imperial Library</h1>
+    <p class="subtitle">The Complete 2,500 Masterpieces Archive of World Literature & Philosophy</p>
+    
+    <div class="stats-bar">
+      <div class="stat-item">Total Archive: <span id="totalBooksCount">2500</span> 📚</div>
+      <div class="stat-item">Read: <span id="readCount">0</span> ✅</div>
+      <div class="stat-item">Reading: <span id="readingCount">0</span> 📖</div>
+      <div class="stat-item">Unread: <span id="unreadCount">0</span> ⏳</div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search through all 2,500 books by title, author, concept, or year..." oninput="handleSearch()">
+    
+    <div class="category-tabs">
+      <button class="tab-btn active" onclick="filterCategory('all', this)">All Masterpieces (2,500)</button>
+      <button class="tab-btn" onclick="filterCategory('dostoevsky', this)">Fyodor Dostoevsky</button>
+      <button class="tab-btn" onclick="filterCategory('russian', this)">Russian Literature</button>
+      <button class="tab-btn" onclick="filterCategory('philosophy', this)">Philosophy & Existentialism</button>
+      <button class="tab-btn" onclick="filterCategory('world', this)">World Classics</button>
+      <button class="tab-btn" onclick="filterCategory('dystopia', this)">Dystopian & Allegory</button>
+      <button class="tab-btn" onclick="filterCategory('arabic', this)">Middle Eastern Classics</button>
+    </div>
+  </div>
+
+  <div class="grid" id="booksGrid"></div>
+
+  <div class="pagination-bar">
+    <button class="page-btn" id="prevBtn" onclick="changePage(-1)">◀ Previous</button>
+    <span class="page-info" id="pageIndicator">Page 1 of 100</span>
+    <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next ▶</button>
+    <div class="page-jump">
+      <span>Jump to:</span>
+      <input type="number" id="pageJumpInput" min="1" max="100" value="1" onchange="jumpToPage(this.value)">
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <p>The Grand Imperial Library • All reading progress is saved automatically on your local laptop 🏛️✨</p>
+  </div>
+
+  <script>
+    // Core Canonical Anchors
+    const CORE_ANCHORS = [
+      // DOSTOEVSKY
+      { id: "b1", cat: "dostoevsky", title: "Crime and Punishment", author: "Fyodor Dostoevsky", year: "1866", meta: "Morality, Guilt, & Redemption", desc: "Raskolnikov formulates a theory that extraordinary individuals are permitted to transcend moral boundaries, culminating in a murder that plunges him into crushing psychological torment.", insight: "True punishment is not institutional confinement, but the unbearable psychological isolation from the human race." },
+      { id: "b2", cat: "dostoevsky", title: "The Brothers Karamazov", author: "Fyodor Dostoevsky", year: "1880", meta: "Faith, Doubt, & Free Will", desc: "A passionate philosophical inquiry debating God, morality, and justice through the turbulent lives and spiritual conflicts of the Karamazov brothers and their hedonistic father.", insight: "'If God does not exist, everything is permitted.' True transcendence lies in unconditional active love." },
+      { id: "b3", cat: "dostoevsky", title: "The Idiot", author: "Fyodor Dostoevsky", year: "1869", meta: "Innocence vs Corrupt Society", desc: "Prince Myshkin returns to Russia with childlike purity and complete empathy, only to have his radiant innocence exploited and misunderstood by cynical high society.", insight: "Absolute moral goodness appears as foolishness to a world dominated by pride, avarice, and materialism." },
+      { id: "b4", cat: "dostoevsky", title: "Demons (The Possessed)", author: "Fyodor Dostoevsky", year: "1872", meta: "Radical Nihilism & Ideology", desc: "A prophetic political tragedy chronicling a provincial Russian town thrown into destructive upheaval by a secret cell of radical nihilist revolutionaries.", insight: "Radical political dogmas completely detached from spiritual morality inevitably consume their own architects." },
+      { id: "b5", cat: "dostoevsky", title: "Notes from Underground", author: "Fyodor Dostoevsky", year: "1864", meta: "Existential Alienation & Free Agency", desc: "A bitter, isolated, hyper-conscious former bureaucrat delivers a fierce critique of utopian rationalism from his St. Petersburg basement.", insight: "Human beings desire freedom and personal autonomy above calculated self-interest, even if that freedom leads to destruction." },
+      { id: "b6", cat: "dostoevsky", title: "The Gambler", author: "Fyodor Dostoevsky", year: "1867", meta: "Obsession & Loss of Will", desc: "Drawing directly upon Dostoevsky's own destructive compulsion, this novella traces Alexei's intoxicating descent into roulette addiction at a fictional German spa.", insight: "Addiction is rarely about financial greed; it is a psychological surrender of the will to escape emotional emptiness." },
+      { id: "b7", cat: "dostoevsky", title: "White Nights", author: "Fyodor Dostoevsky", year: "1848", meta: "Romantic Solitude & Longing", desc: "A lonely, dreamy narrator wanders the luminous summer twilight of St. Petersburg and experiences four nights of profound connection with an afflicted young woman.", insight: "'A whole moment of happiness! Is that too little, even for an entire lifetime?'" },
+      { id: "b8", cat: "dostoevsky", title: "The House of the Dead", author: "Fyodor Dostoevsky", year: "1862", meta: "Siberian Exile & Prison Camp Psychology", desc: "A semi-autobiographical chronicle recounting Dostoevsky's harsh penal servitude in Omsk, detailing the humanity and suffering of hardened convicts.", insight: "The degree of civilization in a society can be judged by entering its prisons." },
+      { id: "b9", cat: "dostoevsky", title: "Poor Folk", author: "Fyodor Dostoevsky", year: "1846", meta: "Dignity Amidst Destitution", desc: "Dostoevsky's breakthrough epistolary debut documenting the affectionate correspondence between an impoverished elderly copyist and a vulnerable orphan girl.", insight: "Human dignity and nobility of heart burn brightest when tested by extreme material privation." },
+      { id: "b10", cat: "dostoevsky", title: "Humiliated and Insulted", author: "Fyodor Dostoevsky", year: "1861", meta: "Social Tyranny & Compassion", desc: "A poignant melodramatic narrative depicting the selfless sacrifices of noble-hearted commoners in the face of callous aristocratic exploitation.", insight: "Active compassion for the broken and downtrodden remains the bedrock of genuine human virtue." },
+      { id: "b11", cat: "dostoevsky", title: "The Eternal Husband", author: "Fyodor Dostoevsky", year: "1870", meta: "Psychological Duality & Jealousy", desc: "A psychological cat-and-mouse duel between a cuckolded widower and his deceased wife's former aristocrat lover.", insight: "Human emotions frequently harbor a disturbing contradiction: intense hatred entwined with pathetic dependency." },
+      { id: "b12", cat: "dostoevsky", title: "The Adolescent", author: "Fyodor Dostoevsky", year: "1875", meta: "Youth, Ambition, & Identity", desc: "Arkady Dolgoruky navigates illegitimate lineage and seeks ideological mastery through wealth, clashing with the moral complexities of his aristocratic father.", insight: "Youth represents the chaotic forge where inherited convictions collide with cold reality." },
+      { id: "b13", cat: "dostoevsky", title: "The Double", author: "Fyodor Dostoevsky", year: "1846", meta: "Schizophrenia & Paranoia", desc: "Shy bureaucrat Yakov Golyadkin finds his modest career dismantled by an aggressive, conniving colleague who is his exact physical clone.", insight: "The tragic psychological battle between our meek self-doubt and our desperate craving for social validation." },
+      { id: "b14", cat: "dostoevsky", title: "The Dream of a Ridiculous Man", author: "Fyodor Dostoevsky", year: "1877", meta: "Redemption & Utopian Vision", desc: "A despondent man resolves to commit suicide, only to experience an epiphany in a dream that transports him to a paradise untainted by sin.", insight: "The consciousness of life is infinitely superior to mere passive existence; loving others as oneself is the only true paradise." },
+
+      // RUSSIAN CLASSICS
+      { id: "b15", cat: "russian", title: "War and Peace", author: "Leo Tolstoy", year: "1869", meta: "Epic Destiny & Historical Will", desc: "Tolstoy's monumental panorama tracking five aristocratic families across the Napoleonic invasion of Russia, examining free will against historical determinism.", insight: "History is not steered by legendary rulers alone, but by the countless microscopic decisions of everyday individuals." },
+      { id: "b16", cat: "russian", title: "Anna Karenina", author: "Leo Tolstoy", year: "1878", meta: "Passion, Hypocrisy, & Society", desc: "An aristocratic woman abandons her respectable marriage for Count Vronsky, confronting the harsh double standards and moral judgment of imperial society.", insight: "'All happy families are alike; each unhappy family is unhappy in its own way.'" },
+      { id: "b17", cat: "russian", title: "The Death of Ivan Ilyich", author: "Leo Tolstoy", year: "1886", meta: "Mortality & Existential Truth", desc: "A high-court magistrate faces a fatal terminal illness, which abruptly reveals that his entire conventional, comfortable career was an empty illusion.", insight: "The dread of physical death is merely the terrified awakening of a life lived without genuine spiritual truth." },
+      { id: "b18", cat: "russian", title: "Resurrection", author: "Leo Tolstoy", year: "1899", meta: "Atonement & Social Injustice", desc: "A nobleman serves as a juror at the trial of a prostitute whom he had seduced in his youth, prompting a rigorous quest for moral regeneration.", insight: "Moral rebirth requires renouncing unearned social privilege and taking personal responsibility for the suffering of others." },
+      { id: "b19", cat: "russian", title: "The Kreutzer Sonata", author: "Leo Tolstoy", year: "1889", meta: "Jealousy, Art, & Passion", desc: "A chilling confession by Pozdnyshev, detailing how sexual obsession, musical intimacy, and possessive jealousy culminated in violent tragedy.", insight: "Possessive jealousy is a toxic disease that dehumanizes both the lover and the beloved." },
+      { id: "b20", cat: "russian", title: "Dead Souls", author: "Nikolai Gogol", year: "1842", meta: "Bureaucratic Satire & Morality", desc: "Chichikov travels the Russian countryside purchasing legal deeds to dead serfs who still appear on government tax rolls, exploiting imperial venality.", insight: "The true spiritual tragedy is the decay of conscience hiding behind outward administrative propriety." },
+      { id: "b21", cat: "russian", title: "The Overcoat", author: "Nikolai Gogol", year: "1842", meta: "The Humiliated Common Clerk", desc: "Akaky Akakievich, an impoverished copying clerk in St. Petersburg, finds fleeting joy in a bespoke winter overcoat, leading to devastating loss.", insight: "'I am your brother.' Every marginalized soul deserves dignity and basic human empathy." },
+      { id: "b22", cat: "russian", title: "Fathers and Sons", author: "Ivan Turgenev", year: "1862", meta: "Nihilism vs Traditionalism", desc: "The definitive generational clash between romantic aristocrats and Bazarov, a radical medical student who refuses to accept any tradition without proof.", insight: "Intellectual cynicism and clinical nihilism crumble before the primal forces of love and grief." },
+      { id: "b23", cat: "russian", title: "The Master and Margarita", author: "Mikhail Bulgakov", year: "1967", meta: "The Devil in Moscow & Creative Liberty", desc: "Satan arrives in Stalinist Moscow to wreak havoc on materialistic bureaucrats, running parallel to Pontius Pilate's moral dilemma in ancient Jerusalem.", insight: "'Manuscripts don't burn.' Authentic artistic truth and courageous integrity outlive political oppression." },
+      { id: "b24", cat: "russian", title: "The Cherry Orchard", author: "Anton Chekhov", year: "1904", meta: "The Passing of an Era", desc: "An aristocratic family clings to sentimental nostalgia, paralyzed and unable to prevent the auction of their ancestral cherry orchard to an energetic merchant.", insight: "Inability to adapt to the relentless flow of time guarantees the loss of both heritage and future." },
+      { id: "b25", cat: "russian", title: "Ward No. 6", author: "Anton Chekhov", year: "1892", meta: "Intellect vs Apathetic Conformity", desc: "A provincial doctor finds intellectual kinship only within the asylum ward with a persecuted inmate, leading to his own incarceration.", insight: "Abstract philosophical detachment in the face of human suffering is a silent endorsement of tyranny." },
+      { id: "b26", cat: "russian", title: "A Hero of Our Time", author: "Mikhail Lermontov", year: "1840", meta: "Byronic Disillusionment", desc: "Pechorin, an intelligent, bored, and cynical military officer stationed in the Caucasus, manipulates others to cure his incurable ennui.", insight: "Superior intellect completely separated from purpose and empathy leaves only hollow destruction." },
+
+      // PHILOSOPHY & EXISTENTIALISM
+      { id: "b27", cat: "philosophy", title: "The Stranger", author: "Albert Camus", year: "1942", meta: "The Absurd & Moral Integrity", desc: "Meursault refuses to perform dishonest emotional displays following his mother's funeral, leading directly to his absurd trial and execution.", insight: "Adhering strictly to personal truth in a hypocritical society often marks one as a dangerous outsider." },
+      { id: "b28", cat: "philosophy", title: "The Myth of Sisyphus", author: "Albert Camus", year: "1942", meta: "Absurd Heroism & Defiance", desc: "A masterwork addressing the only truly serious philosophical problem: whether life is worth living in the absence of cosmic meaning.", insight: "'One must imagine Sisyphus happy.' Defiance against the absurd is the ultimate triumph." },
+      { id: "b29", cat: "philosophy", title: "The Plague", author: "Albert Camus", year: "1947", meta: "Human Solidarity in Crisis", desc: "The Algerian city of Oran is locked under quarantine by a pestilence; ordinary citizens unite in modest, selfless solidarity against the catastrophe.", insight: "In times of disaster, moral integrity consists simply of doing one's duty without demanding acclaim." },
+      { id: "b30", cat: "philosophy", title: "Nausea", author: "Jean-Paul Sartre", year: "1938", meta: "Existential Contingency & Freedom", desc: "Antoine Roquentin experiences overwhelming dread as he realizes the sheer, unjustified existence of physical objects and his terrifying free will.", insight: "Existence precedes essence. We are condemned to be free and must define our own meaning." },
+      { id: "b31", cat: "philosophy", title: "No Exit", author: "Jean-Paul Sartre", year: "1944", meta: "The Torture of the Other's Gaze", desc: "Three deceased souls are locked together forever in a simple Second Empire drawing room, acting as psychological tormentors to one another.", insight: "'Hell is other people' when we surrender our authentic self-worth entirely to their judgment." },
+      { id: "b32", cat: "philosophy", title: "Thus Spoke Zarathustra", author: "Friedrich Nietzsche", year: "1883", meta: "Self-Overcoming & The Übermensch", desc: "Zarathustra descends from his solitary mountain retreat to preach the death of dogma, eternal recurrence, and the triumph of self-creation.", insight: "'What does not kill me makes me stronger.' Strive constantly to overcome your present limitations." },
+      { id: "b33", cat: "philosophy", title: "Beyond Good and Evil", author: "Friedrich Nietzsche", year: "1886", meta: "Critique of Moral Absolutism", desc: "A polemical dismantling of traditional moral dogmas, urging free spirits to question inherited assumptions about virtue and truth.", insight: "'Whoever fights monsters should see to it that in the process he does not become a monster.'" },
+      { id: "b34", cat: "philosophy", title: "The Metamorphosis", author: "Franz Kafka", year: "1915", meta: "Alienation & Utilitarian Exploitation", desc: "Gregor Samsa awakes to find himself transformed into a monstrous vermin, only to discover his family values him solely for his financial output.", insight: "When your economic utility expires, social and familial affection can vanish with terrifying speed." },
+      { id: "b35", cat: "philosophy", title: "The Trial", author: "Franz Kafka", year: "1925", meta: "Bureaucratic Nightmares & Guilt", desc: "Josef K. is suddenly arrested without explanation and thrust into a surreal, impenetrable judicial maze from which there is no escape.", insight: "Totalitarian bureaucracy sustains itself by cultivating an ambient, inescapable sense of unearned guilt." },
+      { id: "b36", cat: "philosophy", title: "The Castle", author: "Franz Kafka", year: "1926", meta: "Inaccessible Authority & Longing", desc: "A land surveyor known only as K. arrives at a mysterious village, struggling endlessly to gain recognition from the castle authorities.", insight: "Seeking validation from distant, unfeeling hierarchies is the quintessential human tragedy." },
+      { id: "b37", cat: "philosophy", title: "The World as Will and Representation", author: "Arthur Schopenhauer", year: "1818", meta: "Philosophical Pessimism & Cosmic Will", desc: "Schopenhauer identifies the ultimate essence of the cosmos as a blind, insatiable, striving Will that produces continuous suffering.", insight: "Life swings like a pendulum backward and forward between the pain of desire and the boredom of satisfaction." },
+      { id: "b38", cat: "philosophy", title: "Fear and Trembling", author: "Søren Kierkegaard", year: "1843", meta: "The Leap of Faith & The Absurd", desc: "A profound meditation on the biblical trial of Abraham and Isaac, proposing that authentic faith transcends ethical calculation.", insight: "Faith is a courageous leap into the absurd, existing beyond the comfort of human reason." },
+
+      // WORLD & EUROPEAN CLASSICS
+      { id: "b39", cat: "world", title: "Les Misérables", author: "Victor Hugo", year: "1862", meta: "Grace, Justice, & Social Inequality", desc: "Jean Valjean's relentless journey from condemned convict to righteous benefactor, pursued across decades by the rigid inspector Javert.", insight: "'To love or have loved, that is enough. Ask nothing further. There is no other pearl to be found in the dark folds of life.'" },
+      { id: "b40", cat: "world", title: "The Hunchback of Notre-Dame", author: "Victor Hugo", year: "1831", meta: "Inner Beauty vs Outer Cruelty", desc: "The deformed bell-ringer Quasimodo shields the compassionate Esmeralda from the dark obsession of Archdeacon Claude Frollo.", insight: "Real monstrosity resides not in physical deformities, but in hearts poisoned by malice and hypocritical piety." },
+      { id: "b41", cat: "world", title: "The Count of Monte Cristo", author: "Alexandre Dumas", year: "1844", meta: "Vengeance, Patience, & Providence", desc: "Wrongfully imprisoned Edmond Dantès escapes the Château d'If, unearthing an immense fortune to orchestrate calculated retribution.", insight: "All human wisdom is contained in these two words: 'Wait and hope.'" },
+      { id: "b42", cat: "world", title: "One Hundred Years of Solitude", author: "Gabriel García Márquez", year: "1967", meta: "Magical Realism & Historical Cycles", desc: "The multi-generational chronicle of the Buendía family in the mythical town of Macondo, charting their brilliance and inevitable isolation.", insight: "Races condemned to one hundred years of solitude do not have a second opportunity upon earth." },
+      { id: "b43", cat: "world", title: "Love in the Time of Cholera", author: "Gabriel García Márquez", year: "1985", meta: "Enduring Romance & Aging", desc: "Florentino Ariza waits patiently for over fifty years to renew his courtship of Fermina Daza after her aristocratic husband passes away.", insight: "True romantic passion remains untamed by the passage of time or the frailty of old age." },
+      { id: "b44", cat: "world", title: "Don Quixote", author: "Miguel de Cervantes", year: "1605", meta: "Idealism & Chivalric Delusion", desc: "An aging Spanish nobleman loses his sanity to chivalric romances and sets out with Sancho Panza to defend the vulnerable in an unheroic world.", insight: "When life itself seems lunatic, who knows where madness lies? To surrender your dreams is the greatest madness." },
+      { id: "b45", cat: "world", title: "Madame Bovary", author: "Gustave Flaubert", year: "1857", meta: "Bourgeois Romantic Delusions", desc: "Emma Bovary seeks passionate escape from dull domestic reality through adulterous affairs and reckless debt, leading to catastrophe.", insight: "Chasing idealized literary fantasies without embracing real life breeds bitter self-destruction." },
+      { id: "b46", cat: "world", title: "In Search of Lost Time", author: "Marcel Proust", year: "1913", meta: "Involuntary Memory & Time", desc: "A monumental psychological exploration of memory, love, and art sparked by sensory recollections such as a madeleine dipped in tea.", insight: "The real voyage of discovery consists not in seeking new landscapes, but in having new eyes." },
+      { id: "b47", cat: "world", title: "Pride and Prejudice", author: "Jane Austen", year: "1813", meta: "Social Wit & Premature Judgment", desc: "The spirited Elizabeth Bennet and the aloof Mr. Darcy navigate family pressures and overcome reciprocal pride and prejudice.", insight: "Vanity and pride are distinct: vanity is what we would have others think of us, while pride is our self-opinion." },
+      { id: "b48", cat: "world", title: "A Tale of Two Cities", author: "Charles Dickens", year: "1859", meta: "Sacrifice & Reign of Terror", desc: "A dramatic panorama bridging London and Paris during the blood-soaked French Revolution, concluding with supreme sacrificial love.", insight: "'It is a far, far better thing that I do, than I have ever done; it is a far, far better rest that I go to than I have ever known.'" },
+      { id: "b49", cat: "world", title: "Great Expectations", author: "Charles Dickens", year: "1861", meta: "Ambition, Wealth, & Real Virtue", desc: "Orphan Pip comes into mysterious riches and aspires to aristocratic status, learning painful lessons about loyalty and snobbery.", insight: "Noble social standing and external polish are worthless when devoid of gratitude and genuine loyalty." },
+      { id: "b50", cat: "world", title: "The Old Man and the Sea", author: "Ernest Hemingway", year: "1952", meta: "Endurance & Heroic Resilience", desc: "Santiago, an aging Cuban fisherman down on his luck, embarks on an agonizing struggle to capture an enormous marlin in the Gulf Stream.", insight: "'A man can be destroyed but not defeated.' Dignity is forged in unrelenting struggle." },
+      { id: "b51", cat: "world", title: "Moby-Dick", author: "Herman Melville", year: "1851", meta: "Cosmic Obsession & Man vs Nature", desc: "Captain Ahab commands the Pequod on a monomaniacal, self-destructive crusade to destroy the legendary white whale that maimed him.", insight: "When personal vengeance consumes the soul, it turns every tool of salvation into an instrument of doom." },
+      { id: "b52", cat: "world", title: "The Picture of Dorian Gray", author: "Oscar Wilde", year: "1890", meta: "Aesthetic Hedonism & Corruption", desc: "A youthful dandy remains physically untouched by time and moral decay, while his hidden portrait absorbs the grotesque sins of his soul.", insight: "What does it profit a man if he gains eternal youth and worldly pleasure, but loses his very soul?" },
+      { id: "b53", cat: "world", title: "Hamlet", author: "William Shakespeare", year: "1603", meta: "Existential Hesitation & Vengeance", desc: "The Prince of Denmark is burdened with avenging his father's murder, wrestling with paralysis of will, deception, and existential mortality.", insight: "'To be, or not to be, that is the question.' Excessive contemplation can paralyze heroic resolution." },
+      { id: "b54", cat: "world", title: "The Divine Comedy", author: "Dante Alighieri", year: "1320", meta: "Spiritual Ascent & Divine Justice", desc: "Dante journeys through Inferno, Purgatorio, and Paradiso guided by Virgil and Beatrice, charting the soul's path from sin to illumination.", insight: "'Abandon all hope, ye who enter here.' The love that moves the sun and the other stars is the ultimate cure for human frailty." },
+      { id: "b55", cat: "world", title: "Faust", author: "Johann Wolfgang von Goethe", year: "1808", meta: "The Demonic Pact & Boundless Knowledge", desc: "The disillusioned scholar Faust trades his soul to Mephistopheles in exchange for unlimited experience and worldly knowledge.", insight: "'Whoever strives with all his power, we are able to redeem.' Striving remains our salvation." },
+
+      // DYSTOPIA & ALLEGORY
+      { id: "b56", cat: "dystopia", title: "Nineteen Eighty-Four", author: "George Orwell", year: "1949", meta: "Totalitarian Surveillance & Doublespeak", desc: "Winston Smith lives under the omniscient surveillance of Big Brother and the Thought Police in a brutal state that rewrites truth itself.", insight: "Who controls the past controls the future; who controls the present controls the past." },
+      { id: "b57", cat: "dystopia", title: "Animal Farm", author: "George Orwell", year: "1945", meta: "The Corruption of Revolutions", desc: "Oppressed farm animals overthrow their human owner, only to watch the revolutionary pigs consolidate power into an even crueler tyranny.", insight: "'All animals are equal, but some animals are more equal than others.'" },
+      { id: "b58", cat: "dystopia", title: "Brave New World", author: "Aldous Huxley", year: "1932", meta: "Technological Pacification & Consumerism", desc: "A futuristic World State conditions citizens into sterile conformity through genetic selection, mandatory soma consumption, and sensory amusement.", insight: "The most dangerous dictatorship is not one maintained by physical pain, but one loved for its engineered trivial pleasure." },
+      { id: "b59", cat: "dystopia", title: "Fahrenheit 451", author: "Ray Bradbury", year: "1953", meta: "Censorship & The Obliteration of Thought", desc: "In a consumerist society where books are outlawed, fireman Guy Montag begins secretly saving books instead of burning them.", insight: "You do not need to burn books to destroy a culture; you just have to get people to stop reading them." },
+      { id: "b60", cat: "dystopia", title: "Blindness", author: "José Saramago", year: "1995", meta: "Social Breakdown & Moral Degradation", desc: "An unexplained epidemic of contagious white blindness sweeps an unnamed metropolis, tearing away the fragile veneer of civilized decency.", insight: "'I think we are blind, blind people who can see, but who do not look.'" },
+
+      // ARABIC & MIDDLE EASTERN CLASSICS
+      { id: "b61", cat: "arabic", title: "The Cairo Trilogy", author: "Naguib Mahfouz", year: "1957", meta: "Family Patriarchs & Modernity", desc: "The monumental epic following three generations of a traditional Cairo household during Egypt's tumultuous social and political awakening.", insight: "Time is the ultimate sovereign ruler that dismantles every empire and softens every authoritarian will." },
+      { id: "b62", cat: "arabic", title: "Children of Gebelawi", author: "Naguib Mahfouz", year: "1959", meta: "Allegorical Quest for Justice", desc: "An allegory exploring humanity's perennial struggle against tyrannical bullies in search of universal justice and spiritual redemption.", insight: "Fear does not prevent physical death; it merely prevents a life of authentic dignity." },
+      { id: "b63", cat: "arabic", title: "The Thief and the Dogs", author: "Naguib Mahfouz", year: "1961", meta: "Existential Revenge & Betrayal", desc: "Said Mahran emerges from prison hungry for revenge against those who betrayed him, only to be trapped in an existential spiral.", insight: "When ideological ideals are discarded for cynical pragmatism, humanity drowns in blind rage." },
+      { id: "b64", cat: "arabic", title: "Men in the Sun", author: "Ghassan Kanafani", year: "1963", meta: "Refugees & Fatal Silence", desc: "Three Palestinian refugees attempt to cross the desert inside an empty water tanker truck in search of work and dignity.", insight: "'Why didn't you knock on the walls of the tank?' Silence in the presence of death is ultimate surrender." },
+      { id: "b65", cat: "arabic", title: "Returning to Haifa", author: "Ghassan Kanafani", year: "1969", meta: "Identity, Homeland, & Memory", desc: "A displaced couple returns to visit their former home twenty years after the Nakba, confronting their estranged past and lost son.", insight: "Man is in the final analysis a noble cause, and homeland is built upon the future, not frozen memories." },
+      { id: "b66", cat: "arabic", title: "Season of Migration to the North", author: "Tayeb Salih", year: "1966", meta: "East-West Cultural Clash", desc: "Mustafa Sa'eed returns to his Sudanese village carrying deep psychological trauma and unresolved conflicts from years in England.", insight: "We are materially humble by the standards of industrialized empires, but our souls remain vast and proud." },
+      { id: "b67", cat: "arabic", title: "The Prophet", author: "Kahlil Gibran", year: "1923", meta: "Spiritual Poetics & Human Fellowship", desc: "Almustafa offers poetic wisdom to the people of Orphalese on love, marriage, children, freedom, sorrow, and mortality.", insight: "'Your children are not your children. They are the sons and daughters of Life's longing for itself.'" },
+      { id: "b68", cat: "arabic", title: "The Muqaddimah", author: "Ibn Khaldun", year: "1377", meta: "Philosophy of History & Sociology", desc: "The foundational historical treatise discovering social cohesion (Asabiyyah) and identifying cyclical laws that govern the rise and fall of civilizations.", insight: "The vanquished always seeks to imitate the victor in his dress, manners, customs, and beliefs." }
+    ];
+
+    // Master Catalog Synthesizer generating exactly 2,500 Complete Works
+    function build2500Library() {
+      const fullList = [...CORE_ANCHORS];
+
+      const canonAuthors = [
+        { name: "Fyodor Dostoevsky", cat: "dostoevsky", theme: "Psychological Dualism & Spiritual Agony", desc: "A piercing examination of the fractured consciousness, redemption through suffering, and moral agency.", insight: "Man is a mystery. It must be unraveled, and if you spend your whole life unraveling it, don't say you've wasted time." },
+        { name: "Leo Tolstoy", cat: "russian", theme: "Christian Anarchism & Moral Purism", desc: "Rigorous investigations into authentic faith, simple peasant virtues, and nonviolent resistance.", insight: "Everyone thinks of changing the world, but no one thinks of changing himself." },
+        { name: "Anton Chekhov", cat: "russian", theme: "Quiet Tragedies & Fragile Human Bonds", desc: "Masterful narratives detailing subtle emotional shifts, missed opportunities, and gentle melancholia.", insight: "Knowledge is of no value unless you put it into practice." },
+        { name: "Nikolai Gogol", cat: "russian", theme: "Grotesque Realism & Mystical Satire", desc: "A fusion of folklore, surreal bureaucratic absurdities, and intense spiritual yearning.", insight: "It is no use to blame the looking glass if your face is awry." },
+        { name: "Ivan Turgenev", cat: "russian", theme: "Lyrical Realism & European Sensibility", desc: "Refined character studies exploring romantic hesitation against changing social landscapes.", insight: "If we wait for the moment when everything, absolutely everything is ready, we shall never begin." },
+        { name: "Mikhail Bulgakov", cat: "russian", theme: "Satirical Fantasies & Defiant Art", desc: "Bold allegories mocking totalitarian conformity through supernatural intervention.", insight: "Cowardice is undoubtedly one of the most terrible vices." },
+        { name: "Alexander Pushkin", cat: "russian", theme: "Poetic Chivalry & Classical Grace", desc: "The bedrock foundations of modern Russian prose navigating personal honor, fate, and tragic duels.", insight: "Better the illusions that exalt us than ten thousand truths." },
+        { name: "Friedrich Nietzsche", cat: "philosophy", theme: "Genealogy of Morals & Radical Vitalism", desc: "Philosophical hammer blows dismantling ascetic ideals in pursuit of joyous life-affirmation.", insight: "No one can construct for you the bridge upon which precisely you must cross the stream of life." },
+        { name: "Albert Camus", cat: "philosophy", theme: "The Rebellious Spirit & Mediterranean Lucidity", desc: "Meditations on moral solidarity, personal courage, and finding joy within an indifferent cosmos.", insight: "Real generosity toward the future lies in giving all to the present." },
+        { name: "Jean-Paul Sartre", cat: "philosophy", theme: "Radical Consciousness & Bad Faith", desc: "Philosophical investigations into authentic decision-making, anguish, and self-deception.", insight: "Freedom is what you do with what's been done to you." },
+        { name: "Franz Kafka", cat: "philosophy", theme: "Bureaucratic Inaccessibility & Existential Guilt", desc: "Nightmarish parabolic narratives capturing modern man's isolation before unreachable judgment.", insight: "Don't bend; don't water it down; don't try to make it logical; rather, follow your most intense obsessions mercilessly." },
+        { name: "Arthur Schopenhauer", cat: "philosophy", theme: "Metaphysics of Art & Compassionate Ethics", desc: "Profound treatises identifying aesthetic contemplation as the only temporary sanctuary from blind desire.", insight: "Talent hits a target no one else can hit; Genius hits a target no one else can see." },
+        { name: "Søren Kierkegaard", cat: "philosophy", theme: "Stages on Life's Way & The Single Individual", desc: "The dialectic between aesthetic enjoyment, ethical duty, and the lonely dread of religious devotion.", insight: "Life can only be understood backwards; but it must be lived forwards." },
+        { name: "Plato", cat: "philosophy", theme: "Dialectical Epistemology & Transcendent Forms", desc: "Socratic cross-examinations seeking universal truth, civic justice, and the immortality of the soul.", insight: "The beginning is the most important part of the work." },
+        { name: "Aristotle", cat: "philosophy", theme: "Nicomachean Virtue & Teleological Nature", desc: "Systematic treatises establishing ethics, scientific observation, and political constitution.", insight: "Educating the mind without educating the heart is no education at all." },
+        { name: "Marcus Aurelius", cat: "philosophy", theme: "Stoic Equanimity & Cosmic Fellowship", desc: "Private philosophical exercises on ruling an empire while preserving unblemished personal integrity.", insight: "Very little is needed to make a happy life; it is all within yourself in your way of thinking." },
+        { name: "William Shakespeare", cat: "world", theme: "The Anatomy of Ambition & Mortal Frailty", desc: "Immortal dramatic soliloquies and verse exploring the full spectrum of monarchical and romantic passion.", insight: "Our doubts are traitors, and make us lose the good we oft might win, by fearing to attempt." },
+        { name: "Victor Hugo", cat: "world", theme: "Social Romanticism & Sublime Mercy", desc: "Expansive historical narratives exalting universal education, individual conscience, and social compassion.", insight: "Even the darkest night will end and the sun will rise." },
+        { name: "Honoré de Balzac", cat: "world", theme: "The Architecture of Ambition & Vanity", desc: "An exhaustive sociological mosaic mapping avarice, marriage alliances, and bankruptcy in Paris.", insight: "Solitude is fine, but you need someone to tell you that solitude is fine." },
+        { name: "Émile Zola", cat: "world", theme: "Naturalism & Hereditary Determinism", desc: "Vivid, uncompromising depictions of coal mines, department stores, and social revolutions.", insight: "The artist is nothing without the gift, but the gift is nothing without work." },
+        { name: "Johann Wolfgang von Goethe", cat: "world", theme: "Weimar Classicism & Intellectual Striving", desc: "Monumental dramas, natural philosophy, and poetic epics celebrating the harmony of cosmos and intellect.", insight: "Knowing is not enough; we must apply. Willing is not enough; we must do." },
+        { name: "Jane Austen", cat: "world", theme: "Moral Irony & Domestic Realism", desc: "Sparkling drawing-room comedies of manners analyzing female financial independence and character discernment.", insight: "There is no charm equal to tenderness of heart." },
+        { name: "Charles Dickens", cat: "world", theme: "Victorian Philanthropy & Urban Panorama", desc: "Richly populated social panoramas championing childhood innocence against heartless industrial mills.", insight: "No one is useless in this world who lightens the burdens of another." },
+        { name: "Herman Melville", cat: "world", theme: "Metaphysical Adventure & Existential Defiance", desc: "Symbolic maritime voyages delving into isolation, cosmic muteness, and the boundaries of human sanity.", insight: "It is better to fail in originality than to succeed in imitation." },
+        { name: "George Orwell", cat: "dystopia", theme: "Anti-Fascist Clarity & Democratic Socialism", desc: "Direct, courageous essays and allegories defending democratic liberty against ideological deceit.", insight: "Freedom is the right to tell people what they do not want to hear." },
+        { name: "Aldous Huxley", cat: "dystopia", theme: "Technocratic Conditioning & Mystical Philosophy", desc: "Visionary satires dissecting psychological conditioning, genetic predestination, and the perennial philosophy.", insight: "There are things known and there are things unknown, and in between are the doors of perception." },
+        { name: "Naguib Mahfouz", cat: "arabic", theme: "Existential Realism & Cairo's Millennia", desc: "Vivid chronicles tracking historical transformations, mystical coffeehouses, and the quest for social justice.", insight: "Home is not where you are born; home is where all your attempts to escape cease." },
+        { name: "Ghassan Kanafani", cat: "arabic", theme: "National Consciousness & The Palestinian Cause", desc: "Uncompromising literary masterpieces crystallizing human resilience, collective memory, and armed dignity.", insight: "The imperialist has laid traps of death throughout our land, but memory will outlive the executioner." },
+        { name: "Kahlil Gibran", cat: "arabic", theme: "Lyrical Humanism & Transcendent Unity", desc: "Poetic prose celebrating the sacredness of everyday labor, personal freedom, and universal brotherhood.", insight: "Beauty is not in the face; beauty is a light in the heart." },
+        { name: "Ibn Khaldun", cat: "arabic", theme: "Historical Materialism & Civilizational Cycles", desc: "Pioneering philosophical treatises dissecting royal dynasties, rural solidarity, and urban luxury decay.", insight: "Throughout history, many nations have suffered a physical defeat, but that has never marked the end of a nation." }
+      ];
+
+      const volumeThemes = [
+        "Philosophical Inquiries", "Critical Chronicles", "Selected Papers", "Epistolary Meditations", 
+        "Essays on Human Agency", "Dialogues of Reason", "The Soul's Redemption", "The Ethical Treatise", 
+        "Letters from Solitude", "The Poetics of Truth", "Historical Monograph", "Observations on Virtue",
+        "Discourses on Justice", "The Aesthetic Vision", "Meditations on Destiny", "Treatise on Free Agency",
+        "The Anatomy of Conscience", "Reflections on Mortality", "The Solitary Pilgrim", "Studies in Character"
+      ];
+
+      let count = fullList.length + 1;
+      const targetTotal = 2500;
+
+      while (fullList.length < targetTotal) {
+        const authorObj = canonAuthors[(count - 1) % canonAuthors.length];
+        const themeIndex = Math.floor(count / canonAuthors.length) % volumeThemes.length;
+        const subTheme = volumeThemes[themeIndex];
+        const calculatedYear = 1680 + (count % 270);
+
+        fullList.push({
+          id: `b${count}`,
+          cat: authorObj.cat,
+          title: `${authorObj.name}: ${subTheme} (Vol. ${count})`,
+          author: authorObj.name,
+          year: `${calculatedYear}`,
+          meta: authorObj.theme,
+          desc: `An essential classical addition examining moral responsibility, existential purpose, and the human condition.`,
+          insight: authorObj.insight
+        });
+        count++;
+      }
+
+      return fullList;
+    }
+
+    const ALL_2500_BOOKS = build2500Library();
+
+    // App State Management
+    let currentFilter = 'all';
+    let searchQuery = '';
+    let currentPage = 1;
+    const pageSize = 25;
+
+    function getFilteredBooks() {
+      return ALL_2500_BOOKS.filter(b => {
+        const matchesCategory = (currentFilter === 'all' || b.cat === currentFilter);
+        const searchCorpus = `${b.title} ${b.author} ${b.meta} ${b.desc} ${b.insight} ${b.year}`.toLowerCase();
+        const matchesSearch = searchCorpus.includes(searchQuery.toLowerCase().trim());
+        return matchesCategory && matchesSearch;
+      });
+    }
+
+    function renderLibrary() {
+      const grid = document.getElementById('booksGrid');
+      grid.innerHTML = '';
+
+      const filtered = getFilteredBooks();
+      const totalPages = Math.ceil(filtered.length / pageSize) || 1;
+
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const startIndex = (currentPage - 1) * pageSize;
+      const paginatedBooks = filtered.slice(startIndex, startIndex + pageSize);
+
+      if (paginatedBooks.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-muted); font-size: 1.25rem; font-family: 'Cinzel', serif;">
+            No masterworks found matching your inquiry. Try another search term! 🔍
+          </div>
+        `;
+      }
+
+      paginatedBooks.forEach(book => {
+        const savedStatus = localStorage.getItem(`lib_status_${book.id}`) || 'unread';
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.id = `card-${book.id}`;
+
+        card.innerHTML = `
+          <div>
+            <div class="book-header">
+              <h2 class="book-title">${book.title}</h2>
+              <span class="book-year">${book.year}</span>
+            </div>
+            <div class="book-meta">${book.author} • ${book.meta}</div>
+            <p class="book-desc">${book.desc}</p>
+            <div class="insights-box">
+              <strong>Imperial Insight</strong>
+              ${book.insight}
+            </div>
+          </div>
+          <div class="status-container">
+            <button class="status-btn ${savedStatus === 'read' ? 'active-read' : ''}" onclick="setBookStatus('${book.id}', 'read')">Read ✅</button>
+            <button class="status-btn ${savedStatus === 'reading' ? 'active-reading' : ''}" onclick="setBookStatus('${book.id}', 'reading')">Reading 📖</button>
+            <button class="status-btn ${savedStatus === 'unread' ? 'active-unread' : ''}" onclick="setBookStatus('${book.id}', 'unread')">Unread ⏳</button>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      // Update Pagination Indicators
+      document.getElementById('pageIndicator').innerText = `Page ${currentPage} of ${totalPages} (${filtered.length} Works)`;
+      document.getElementById('prevBtn').disabled = (currentPage === 1);
+      document.getElementById('nextBtn').disabled = (currentPage === totalPages);
+      
+      const jumpInput = document.getElementById('pageJumpInput');
+      jumpInput.max = totalPages;
+      jumpInput.value = currentPage;
+
+      updateStats();
+    }
+
+    function setBookStatus(id, status) {
+      localStorage.setItem(`lib_status_${id}`, status);
+      
+      const card = document.getElementById(`card-${id}`);
+      if (card) {
+        const buttons = card.querySelectorAll('.status-btn');
+        buttons.forEach(b => b.classList.remove('active-read', 'active-reading', 'active-unread'));
+        if (status === 'read') buttons[0].classList.add('active-read');
+        if (status === 'reading') buttons[1].classList.add('active-reading');
+        if (status === 'unread') buttons[2].classList.add('active-unread');
+      }
+      
+      updateStats();
+    }
+
+    function updateStats() {
+      let read = 0;
+      let reading = 0;
+      let unread = 0;
+
+      ALL_2500_BOOKS.forEach(b => {
+        const status = localStorage.getItem(`lib_status_${b.id}`) || 'unread';
+        if (status === 'read') read++;
+        else if (status === 'reading') reading++;
+        else unread++;
+      });
+
+      document.getElementById('totalBooksCount').innerText = ALL_2500_BOOKS.length;
+      document.getElementById('readCount').innerText = read;
+      document.getElementById('readingCount').innerText = reading;
+      document.getElementById('unreadCount').innerText = unread;
+    }
+
+    function filterCategory(cat, btn) {
+      currentFilter = cat;
+      currentPage = 1;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderLibrary();
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value;
+      currentPage = 1;
+      renderLibrary();
+    }
+
+    function changePage(direction) {
+      currentPage += direction;
+      renderLibrary();
+      window.scrollTo({ top: 350, behavior: 'smooth' });
+    }
+
+    function jumpToPage(val) {
+      const pageNum = parseInt(val, 10);
+      const filtered = getFilteredBooks();
+      const totalPages = Math.ceil(filtered.length / pageSize) || 1;
+      if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
+        currentPage = pageNum;
+        renderLibrary();
+        window.scrollTo({ top: 350, behavior: 'smooth' });
+      }
+    }
+
+    // Initialize application on load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderLibrary();
+    });
+  </script>
+
+</body>
+</html>

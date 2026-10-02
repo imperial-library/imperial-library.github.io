@@ -411,7 +411,6 @@
       letter-spacing: 0.5px;
     }
 
-    /* Actions: Archive.org Download Buttons */
     .actions-container {
       display: flex;
       gap: 0.6rem;
@@ -574,15 +573,56 @@
       outline: none;
     }
 
-    .footer-note {
+    /* Footer & Creator Attribution Badge */
+    .footer-container {
       text-align: center;
       margin-top: 5rem;
+      border-top: 1.5px solid var(--gold-border);
+      padding-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .footer-note {
       color: var(--text-muted);
       font-size: 0.92rem;
-      border-top: 1.5px solid var(--gold-border);
-      padding-top: 2rem;
       font-family: 'Cinzel', 'Amiri', serif;
       letter-spacing: 1px;
+    }
+
+    .creator-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 0.85rem 2rem;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1.5px solid var(--gold-border);
+      border-radius: 50px;
+      color: var(--royal-navy);
+      font-size: 0.98rem;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(184, 134, 11, 0.12);
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+
+    .creator-badge:hover {
+      border-color: var(--gold-bright);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.22);
+      transform: translateY(-2px);
+    }
+
+    .creator-badge strong {
+      color: var(--gold-primary);
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .creator-badge .icon {
+      font-size: 1.25rem;
     }
   </style>
 </head>
@@ -649,12 +689,18 @@
     </div>
   </div>
 
-  <div class="footer-note">
-    <p id="uiFooterNote">The Grand Imperial Library • All works are preserved in the permanent public domain 🏛✨</p>
-  </div>
+  <!-- Footer with Royal Creator Attribution -->
+  <footer class="footer-container">
+    <p class="footer-note" id="uiFooterNote">The Grand Imperial Library • All works are preserved in the permanent public domain 🏛✨</p>
+    
+    <div class="creator-badge" id="uiCreatorBadge">
+      <span class="icon">🏛️</span>
+      <span id="creatorText">This website was crafted by <strong>Yazan Al-Shannaq</strong>, an AI & Data Science student at Philadelphia University</span>
+      <span class="icon">🎓</span>
+    </div>
+  </footer>
 
   <script>
-    // Canonical master anchors with complete metadata
     const CORE_ANCHORS = [
       {
         id: "b1", cat: "dostoevsky",
@@ -798,7 +844,6 @@
       }
     ];
 
-    // Master Catalog Builder for 2,500 Complete Works
     function build2500Library() {
       const fullList = [...CORE_ANCHORS];
 
@@ -910,7 +955,16 @@
       document.getElementById('prevBtn').innerText = isAr ? "التالي ◀" : "◀ Previous";
       document.getElementById('nextBtn').innerText = isAr ? "السابق ▶" : "Next ▶";
       document.getElementById('uiJumpTo').innerText = isAr ? "انتقال إلى صفحة:" : "Jump to:";
-      document.getElementById('uiFooterNote').innerText = isAr ? "المكتبة الإمبراطورية الكبرى • جميع الأعمال محفوظة في الملكية العامة العالمية 🏛✨" : "The Grand Imperial Library • All works are preserved in the permanent public domain 🏛✨";
+      
+      // Dynamic Footer Labels
+      document.getElementById('uiFooterNote').innerText = isAr 
+        ? "المكتبة الإمبراطورية الكبرى • جميع الأعمال محفوظة في الملكية العامة العالمية 🏛✨" 
+        : "The Grand Imperial Library • All works are preserved in the permanent public domain 🏛✨";
+
+      // Creator Attribution Translation
+      document.getElementById('creatorText').innerHTML = isAr
+        ? "تم تصميم وتطوير هذا الموقع بواسطة <strong>يزن الشناق</strong> • طالب الذكاء الاصطناعي وعلم البيانات في جامعة فيلادلفيا"
+        : "This website was crafted by <strong>Yazan Al-Shannaq</strong>, an AI & Data Science student at Philadelphia University";
     }
 
     function renderCategoryTabs() {

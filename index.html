@@ -13,12 +13,11 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Firebase Scripts -->
+  <!-- Firebase Scripts with your exact config -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-    // REPLACE THESE PLACEHOLDERS WITH YOUR ACTUAL FIREBASE CONFIG KEYS:
     const firebaseConfig = {
       apiKey: "AIzaSyCXxC4bp2C-R0aCcb5AX3B-2w_XZcYYauY",
       authDomain: "imperial-library-auth.firebaseapp.com",
@@ -765,7 +764,7 @@
   <!-- About Section -->
   <section class="about-section">
     <div class="about-card">
-      <h3 id="aboutLibraryTitle">🏛️️ About The Library</h3>
+      <h3 id="aboutLibraryTitle">🏛️ About The Library</h3>
       <p id="aboutLibraryText">
         The Grand Imperial Library is a personal digital sanctuary and monumental literary catalog housing 1,000,000 classical masterworks. Designed as an elite private bookshelf, it allows you to explore timeless works of philosophy and literature, track your personal reading progress (Read, Reading, Unread), and instantly access digital copies across global public domains.
       </p>
@@ -816,7 +815,7 @@
     <p class="footer-note" id="uiFooterNote">The Grand Imperial Library • All works are preserved in the permanent public domain 🏛✨</p>
     
     <div class="creator-badge" id="uiCreatorBadge">
-      <span class="icon">🏛️️</span>
+      <span class="icon">🏛️</span>
       <span id="creatorText">This website was crafted by <strong>Yazan Al-Shannaq</strong>, an AI & Data Science student at Philadelphia University</span>
       <span class="icon">🎓</span>
     </div>
@@ -1031,6 +1030,7 @@
     let searchQuery = '';
     let currentPage = 1;
     const pageSize = 25;
+    let currentUserEmail = null;
 
     const CATEGORIES = [
       { id: "all", en: "All Categories", ar: "كل التصنيفات" },
@@ -1079,7 +1079,7 @@
       document.getElementById('searchInput').placeholder = isAr ? "🔍 ابحث في 1,000,000 كتاب بالعنوان، المؤلف، الفكرة الفلسفية، أو سنة النشر..." : "🔍 Search through all 1,000,000 books by title, author, concept, or year...";
       document.getElementById('uiShelfTitle').innerText = isAr ? "فلاتر الرف الملكي الشخصي" : "My Royal Bookshelf Filters";
 
-      document.getElementById('tabAll').innerText = isAr ? "🏛️ كل الأعمال" : "🏛️ All Catalog";
+      document.getElementById('tabAll').innerText = isAr ? "🏛️️ كل الأعمال" : "🏛️ All Catalog";
       document.getElementById('tabRead').innerText = isAr ? "✅ أتممت قراءتها" : "✅ Finished Reading";
       document.getElementById('tabReading').innerText = isAr ? "📖 أقرأها حالياً" : "📖 Currently Reading";
       document.getElementById('tabUnread').innerText = isAr ? "⏳ أرغب بقراءتها" : "⏳ Want to Read / Unread";
@@ -1114,7 +1114,8 @@
       return ALL_MILLION_BOOKS.filter(b => {
         const matchesCategory = (currentCategory === 'all' || b.cat === currentCategory);
         
-        const savedStatus = localStorage.getItem(`lib_status_${b.id}`) || 'unread';
+        const key = currentUserEmail ? `lib_status_${currentUserEmail}_${b.id}` : `lib_status_guest_${b.id}`;
+        const savedStatus = localStorage.getItem(key) || 'unread';
         const matchesStatus = (currentStatus === 'all' || savedStatus === currentStatus);
 
         const titleText = (currentLang === 'ar') ? (b.titleAr || b.title) : b.title;
@@ -1155,7 +1156,8 @@
       }
 
       paginatedBooks.forEach(book => {
-        const savedStatus = localStorage.getItem(`lib_status_${book.id}`) || 'unread';
+        const key = currentUserEmail ? `lib_status_${currentUserEmail}_${book.id}` : `lib_status_guest_${book.id}`;
+        const savedStatus = localStorage.getItem(key) || 'unread';
 
         const displayTitle = isAr ? (book.titleAr || book.title) : book.title;
         const displayAuthor = isAr ? (book.authorAr || book.author) : book.author;
@@ -1249,17 +1251,13 @@
 
       updateStats();
     }
-// Global variable to track the currently logged-in user
-    let currentUserEmail = null;
 
     function setBookStatus(id, status) {
-      // THE GATEKEEPER: Check if the user is logged in before allowing changes
       if (!currentUserEmail) {
         alert("🔒 Please sign in with Google first to manage your personal royal bookshelf!");
-        return; // Stops the function from executing if logged out
+        return;
       }
 
-      // Save status tied uniquely to this user's email
       localStorage.setItem(`lib_status_${currentUserEmail}_${id}`, status);
       
       const card = document.getElementById(`card-${id}`);
@@ -1284,40 +1282,8 @@
       let unread = 0;
 
       ALL_MILLION_BOOKS.forEach(b => {
-        // Fetch status using the current user's unique key if logged in, else default to unread
         const key = currentUserEmail ? `lib_status_${currentUserEmail}_${b.id}` : `lib_status_guest_${b.id}`;
         const status = localStorage.getItem(key) || 'unread';
-        if (status === 'read') read++;
-        else if (status === 'reading') reading++;
-        else unread++;
-      });
-
-      document.getElementById('totalBooksCount').innerText = ALL_MILLION_BOOKS.length;
-      document.getElementById('readCount').innerText = read;
-      document.getElementById('readingCount').innerText = reading;
-      document.getElementById('unreadCount').innerText = unread;
-
-      document.getElementById('badgeAll').innerText = ALL_MILLION_BOOKS.length;
-      document.getElementById('badgeRead').innerText = read;
-      document.getElementById('badgeReading').innerText = reading;
-      document.getElementById('badgeUnread').innerText = unread;
-    }
-      }
-      
-      updateStats();
-
-      if (currentStatus !== 'all') {
-        renderLibrary();
-      }
-    }
-
-    function updateStats() {
-      let read = 0;
-      let reading = 0;
-      let unread = 0;
-
-      ALL_MILLION_BOOKS.forEach(b => {
-        const status = localStorage.getItem(`lib_status_${b.id}`) || 'unread';
         if (status === 'read') read++;
         else if (status === 'reading') reading++;
         else unread++;
@@ -1373,21 +1339,16 @@
       }
     }
 
-    // Google Auth Login / Logout Triggers
     function loginWithGoogle() {
       window.signInWithPopup(window.myAuth, window.googleProvider)
         .catch((error) => alert("Google Login Error: " + error.message));
     }
 
     function logoutUser() {
-      // Show confirmation popup message
       const confirmed = window.confirm("Are you sure you want to log out of the Grand Imperial Library? 🏛️");
-      
-      // If the user clicks "OK", proceed with signing out
       if (confirmed) {
         window.signOut(window.myAuth)
           .then(() => {
-            // Optional: reset or clear local storage if you want a clean slate on sign-out
             window.location.reload();
           })
           .catch((error) => {
@@ -1398,10 +1359,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       renderCategoryTabs();
-      renderLibrary();
 
-      // Firebase Auth State Listener for Welcome Greeting Anywhere, Everywhere
-     // Firebase Auth State Listener
       setTimeout(() => {
         window.onAuthStateChanged(window.myAuth, (user) => {
           const outArea = document.getElementById('loggedOutArea');
@@ -1409,20 +1367,20 @@
           const welcomeText = document.getElementById('welcomeText');
 
           if (user) {
-            currentUserEmail = user.email; // Save active user email
+            currentUserEmail = user.email;
             outArea.style.display = 'none';
             inArea.style.display = 'flex';
             const name = user.displayName || user.email.split('@')[0];
             welcomeText.innerText = `Welcome back, ${name}! 👑`;
           } else {
-            currentUserEmail = null; // Clear user session
+            currentUserEmail = null;
             outArea.style.display = 'block';
             inArea.style.display = 'none';
           }
-          // Refresh library view and stats for this specific state
           renderLibrary();
         });
       }, 1000);
+    });
   </script>
 
 </body>

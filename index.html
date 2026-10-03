@@ -561,7 +561,7 @@
     }
 
     .page-jump input {
-      width: 65px;
+      width: 75px;
       padding: 0.4rem 0.6rem;
       border-radius: 8px;
       border: 1.5px solid var(--gold-border);
@@ -635,7 +635,7 @@
   <header>
     <div class="crown-emblem">👑</div>
     <h1 id="uiMainTitle">The Grand Imperial Library</h1>
-    <p class="subtitle" id="uiSubtitle">The Complete 2,500 Masterpieces Archive of World Literature & Philosophy</p>
+    <p class="subtitle" id="uiSubtitle">The Complete 1,000,000 Masterpieces Archive of World Literature & Philosophy</p>
     
     <div class="poetic-motto">
       <span class="ornament">✦</span>
@@ -644,7 +644,7 @@
     </div>
 
     <div class="stats-bar">
-      <div class="stat-item"><span id="lblTotal">Total Archive</span>: <span id="totalBooksCount">2500</span> 📚</div>
+      <div class="stat-item"><span id="lblTotal">Total Archive</span>: <span id="totalBooksCount">1000000</span> 📚</div>
       <div class="stat-item"><span id="lblRead">Read</span>: <span id="readCount">0</span> ✅</div>
       <div class="stat-item"><span id="lblReading">Reading</span>: <span id="readingCount">0</span> 📖</div>
       <div class="stat-item"><span id="lblUnread">Unread</span>: <span id="unreadCount">0</span> ⏳</div>
@@ -652,12 +652,12 @@
   </header>
 
   <div class="controls">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search through all 2,500 books by title, author, concept, or year..." oninput="handleSearch()">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search through all 1,000,000 books by title, author, concept, or year..." oninput="handleSearch()">
     
     <div class="shelf-filter-title" id="uiShelfTitle">My Royal Bookshelf Filters</div>
     <div class="shelf-tabs">
       <button class="shelf-btn active" onclick="filterStatus('all', this)">
-        <span id="tabAll">🏛️ All Catalog</span> <span class="badge" id="badgeAll">2500</span>
+        <span id="tabAll">🏛️ All Catalog</span> <span class="badge" id="badgeAll">1000000</span>
       </button>
       <button class="shelf-btn" onclick="filterStatus('read', this)">
         <span id="tabRead">✅ Finished Reading</span> <span class="badge" id="badgeRead">0</span>
@@ -666,7 +666,7 @@
         <span id="tabReading">📖 Currently Reading</span> <span class="badge" id="badgeReading">0</span>
       </button>
       <button class="shelf-btn" onclick="filterStatus('unread', this)">
-        <span id="tabUnread">⏳ Want to Read / Unread</span> <span class="badge" id="badgeUnread">2500</span>
+        <span id="tabUnread">⏳ Want to Read / Unread</span> <span class="badge" id="badgeUnread">1000000</span>
       </button>
     </div>
 
@@ -677,11 +677,11 @@
 
   <div class="pagination-bar">
     <button class="page-btn" id="prevBtn" onclick="changePage(-1)">◀ Previous</button>
-    <span class="page-info" id="pageIndicator">Page 1 of 100</span>
+    <span class="page-info" id="pageIndicator">Page 1 of 40000</span>
     <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next ▶</button>
     <div class="page-jump">
       <span id="uiJumpTo">Jump to:</span>
-      <input type="number" id="pageJumpInput" min="1" max="100" value="1" onchange="jumpToPage(this.value)">
+      <input type="number" id="pageJumpInput" min="1" max="40000" value="1" onchange="jumpToPage(this.value)">
     </div>
   </div>
 
@@ -839,7 +839,7 @@
       }
     ];
 
-    function build2500Library() {
+    function buildMillionLibrary() {
       const fullList = [...CORE_ANCHORS];
 
       const canonAuthors = [
@@ -861,13 +861,13 @@
       ];
 
       let count = fullList.length + 1;
-      const targetTotal = 2500;
+      const targetTotal = 1000000;
 
       while (fullList.length < targetTotal) {
         const authorObj = canonAuthors[(count - 1) % canonAuthors.length];
         const themeIndex = Math.floor(count / canonAuthors.length) % volumeThemes.length;
         const subTheme = volumeThemes[themeIndex];
-        const calculatedYear = 1680 + (count % 270);
+        const calculatedYear = 1400 + (count % 600);
 
         fullList.push({
           id: `b${count}`,
@@ -896,7 +896,7 @@
       return fullList;
     }
 
-    const ALL_2500_BOOKS = build2500Library();
+    const ALL_MILLION_BOOKS = buildMillionLibrary();
 
     let currentLang = 'en';
     let currentCategory = 'all';
@@ -932,14 +932,14 @@
       document.getElementById('langText').innerText = isAr ? "Switch to English" : "تغيير إلى العربية";
 
       document.getElementById('uiMainTitle').innerText = isAr ? "المكتبة الإمبراطورية الكبرى" : "The Grand Imperial Library";
-      document.getElementById('uiSubtitle').innerText = isAr ? "الأرشيف الإمبراطوري الشامل لـ 2,500 عمل من عيون الأدب والفلسفة" : "The Complete 2,500 Masterpieces Archive of World Literature & Philosophy";
+      document.getElementById('uiSubtitle').innerText = isAr ? "الأرشيف الإمبراطوري الشامل لـ 1,000,000 عمل من عيون الأدب والفلسفة" : "The Complete 1,000,000 Masterpieces Archive of World Literature & Philosophy";
 
       document.getElementById('lblTotal').innerText = isAr ? "إجمالي الأرشيف" : "Total Archive";
       document.getElementById('lblRead').innerText = isAr ? "مقروء" : "Read";
       document.getElementById('lblReading').innerText = isAr ? "قيد القراءة" : "Reading";
       document.getElementById('lblUnread').innerText = isAr ? "لم يُقرأ" : "Unread";
 
-      document.getElementById('searchInput').placeholder = isAr ? "🔍 ابحث في 2,500 كتاب بالعنوان، المؤلف، الفكرة الفلسفية، أو سنة النشر..." : "🔍 Search through all 2,500 books by title, author, concept, or year...";
+      document.getElementById('searchInput').placeholder = isAr ? "🔍 ابحث في 1,000,000 كتاب بالعنوان، المؤلف، الفكرة الفلسفية، أو سنة النشر..." : "🔍 Search through all 1,000,000 books by title, author, concept, or year...";
       document.getElementById('uiShelfTitle').innerText = isAr ? "فلاتر الرف الملكي الشخصي" : "My Royal Bookshelf Filters";
 
       document.getElementById('tabAll').innerText = isAr ? "🏛️ كل الأعمال" : "🏛️ All Catalog";
@@ -974,7 +974,7 @@
     }
 
     function getFilteredBooks() {
-      return ALL_2500_BOOKS.filter(b => {
+      return ALL_MILLION_BOOKS.filter(b => {
         const matchesCategory = (currentCategory === 'all' || b.cat === currentCategory);
         
         const savedStatus = localStorage.getItem(`lib_status_${b.id}`) || 'unread';
@@ -1137,19 +1137,19 @@
       let reading = 0;
       let unread = 0;
 
-      ALL_2500_BOOKS.forEach(b => {
+      ALL_MILLION_BOOKS.forEach(b => {
         const status = localStorage.getItem(`lib_status_${b.id}`) || 'unread';
         if (status === 'read') read++;
         else if (status === 'reading') reading++;
         else unread++;
       });
 
-      document.getElementById('totalBooksCount').innerText = ALL_2500_BOOKS.length;
+      document.getElementById('totalBooksCount').innerText = ALL_MILLION_BOOKS.length;
       document.getElementById('readCount').innerText = read;
       document.getElementById('readingCount').innerText = reading;
       document.getElementById('unreadCount').innerText = unread;
 
-      document.getElementById('badgeAll').innerText = ALL_2500_BOOKS.length;
+      document.getElementById('badgeAll').innerText = ALL_MILLION_BOOKS.length;
       document.getElementById('badgeRead').innerText = read;
       document.getElementById('badgeReading').innerText = reading;
       document.getElementById('badgeUnread').innerText = unread;

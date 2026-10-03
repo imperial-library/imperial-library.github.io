@@ -13,6 +13,32 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Firebase Scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    // REPLACE THESE PLACEHOLDERS WITH YOUR ACTUAL FIREBASE CONFIG KEYS:
+    const firebaseConfig = {
+      apiKey: "AIzaSyCXxC4bp2C-R0aCcb5AX3B-2w_XZcYYauY",
+      authDomain: "imperial-library-auth.firebaseapp.com",
+      projectId: "imperial-library-auth",
+      storageBucket: "imperial-library-auth.firebasestorage.app",
+      messagingSenderId: "627538266728",
+      appId: "1:627538266728:web:454222b0986b7a211449dd"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    window.myAuth = auth;
+    window.googleProvider = provider;
+    window.signInWithPopup = signInWithPopup;
+    window.signOut = signOut;
+    window.onAuthStateChanged = onAuthStateChanged;
+  </script>
+
   <style>
     :root {
       --bg-cream: #faf7f0;
@@ -54,11 +80,51 @@
       filter: contrast(105%) brightness(102%);
     }
 
-    .lang-switcher-container {
+    .top-nav-container {
       max-width: 1150px;
       margin: 0 auto 1.5rem auto;
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .auth-box {
+      background: #ffffff;
+      border: 2px solid var(--gold-border);
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      box-shadow: var(--shadow-royal);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .google-login-btn {
+      background: #4285F4;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .google-login-btn:hover { background: #3367D6; }
+
+    .logout-btn {
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 0.35rem 0.8rem;
+      border-radius: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.85rem;
     }
 
     .lang-btn {
@@ -172,7 +238,6 @@
       font-weight: 800;
     }
 
-    /* About Sections */
     .about-section {
       max-width: 1150px;
       margin: 0 auto 3rem auto;
@@ -661,7 +726,17 @@
 </head>
 <body>
 
-  <div class="lang-switcher-container">
+  <div class="top-nav-container">
+    <div class="auth-box">
+      <div id="loggedOutArea">
+        <button class="google-login-btn" onclick="loginWithGoogle()">🌐 Sign in with Google</button>
+      </div>
+      <div id="loggedInArea" style="display: none; align-items: center; gap: 0.8rem;">
+        <span id="welcomeText" style="font-weight: 700; font-family: 'Cinzel', serif; color: var(--royal-navy); font-size: 0.95rem;"></span>
+        <button class="logout-btn" onclick="logoutUser()">Log Out</button>
+      </div>
+    </div>
+
     <button class="lang-btn" onclick="toggleLanguage()">
       <span id="langFlag">🇸🇦</span>
       <span id="langText">تغيير إلى العربية</span>
@@ -690,7 +765,7 @@
   <!-- About Section -->
   <section class="about-section">
     <div class="about-card">
-      <h3 id="aboutLibraryTitle">🏛️ About The Library</h3>
+      <h3 id="aboutLibraryTitle">🏛️️ About The Library</h3>
       <p id="aboutLibraryText">
         The Grand Imperial Library is a personal digital sanctuary and monumental literary catalog housing 1,000,000 classical masterworks. Designed as an elite private bookshelf, it allows you to explore timeless works of philosophy and literature, track your personal reading progress (Read, Reading, Unread), and instantly access digital copies across global public domains.
       </p>
@@ -709,7 +784,7 @@
     <div class="shelf-filter-title" id="uiShelfTitle">My Royal Bookshelf Filters</div>
     <div class="shelf-tabs">
       <button class="shelf-btn active" onclick="filterStatus('all', this)">
-        <span id="tabAll">🏛️️ All Catalog</span> <span class="badge" id="badgeAll">1000000</span>
+        <span id="tabAll">🏛️ All Catalog</span> <span class="badge" id="badgeAll">1000000</span>
       </button>
       <button class="shelf-btn" onclick="filterStatus('read', this)">
         <span id="tabRead">✅ Finished Reading</span> <span class="badge" id="badgeRead">0</span>
@@ -741,7 +816,7 @@
     <p class="footer-note" id="uiFooterNote">The Grand Imperial Library • All works are preserved in the permanent public domain 🏛✨</p>
     
     <div class="creator-badge" id="uiCreatorBadge">
-      <span class="icon">🏛️</span>
+      <span class="icon">🏛️️</span>
       <span id="creatorText">This website was crafted by <strong>Yazan Al-Shannaq</strong>, an AI & Data Science student at Philadelphia University</span>
       <span class="icon">🎓</span>
     </div>
@@ -1256,9 +1331,38 @@
       }
     }
 
+    // Google Auth Login / Logout Triggers
+    function loginWithGoogle() {
+      window.signInWithPopup(window.myAuth, window.googleProvider)
+        .catch((error) => alert("Google Login Error: " + error.message));
+    }
+
+    function logoutUser() {
+      window.signOut(window.myAuth);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       renderCategoryTabs();
       renderLibrary();
+
+      // Firebase Auth State Listener for Welcome Greeting Anywhere, Everywhere
+      setTimeout(() => {
+        window.onAuthStateChanged(window.myAuth, (user) => {
+          const outArea = document.getElementById('loggedOutArea');
+          const inArea = document.getElementById('loggedInArea');
+          const welcomeText = document.getElementById('welcomeText');
+
+          if (user) {
+            outArea.style.display = 'none';
+            inArea.style.display = 'flex';
+            const name = user.displayName || user.email.split('@')[0];
+            welcomeText.innerText = `Welcome back, ${name}! 👑`;
+          } else {
+            outArea.style.display = 'block';
+            inArea.style.display = 'none';
+          }
+        });
+      }, 1000);
     });
   </script>
 

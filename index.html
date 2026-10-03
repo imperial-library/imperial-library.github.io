@@ -13,10 +13,11 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Firebase Scripts with your exact config -->
+  <!-- Firebase & Firestore Cloud Scripts -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCXxC4bp2C-R0aCcb5AX3B-2w_XZcYYauY",
@@ -29,13 +30,18 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
     window.myAuth = auth;
+    window.db = db;
     window.googleProvider = provider;
     window.signInWithPopup = signInWithPopup;
     window.signOut = signOut;
     window.onAuthStateChanged = onAuthStateChanged;
+    window.doc = doc;
+    window.getDoc = getDoc;
+    window.setDoc = setDoc;
   </script>
 
   <style>
@@ -815,7 +821,7 @@
     <p class="footer-note" id="uiFooterNote">The Grand Imperial Library • All works are preserved in the permanent public domain 🏛✨</p>
     
     <div class="creator-badge" id="uiCreatorBadge">
-      <span class="icon">🏛️</span>
+      <span class="icon">🏛️️</span>
       <span id="creatorText">This website was crafted by <strong>Yazan Al-Shannaq</strong>, an AI & Data Science student at Philadelphia University</span>
       <span class="icon">🎓</span>
     </div>
@@ -972,7 +978,7 @@
         { name: "Fyodor Dostoevsky", nameAr: "فيودور دوستويفسكي", cat: "dostoevsky", lang: "Russian", langAr: "الروسية", genre: "Psychological Realism", genreAr: "الواقعية النفسية", setting: "Imperial Russia", settingAr: "روسيا القيصرية", theme: "Psychological Dualism & Conscience", themeAr: "الازدواجية النفسية والمخاض الروحي", insight: "Man is a mystery. It must be unraveled.", insightAr: "الإنسان لغز محير، والسعي لحله أسمى ما يُقضى فيه العمر." },
         { name: "Leo Tolstoy", nameAr: "ليو تولستوي", cat: "russian", lang: "Russian", langAr: "الروسية", genre: "Epic Realism", genreAr: "الواقعية الملحمية", setting: "19th Century Russia", settingAr: "روسيا في القرن التاسع عشر", theme: "Christian Anarchism & Moral Purism", themeAr: "النقاء الأخلاقي وفلسفة اللاعنف", insight: "Everyone thinks of changing the world, but no one thinks of changing himself.", insightAr: "الجميع يفكر في تغيير العالم، ولا أحد يفكر في تغيير نفسه." },
         { name: "Franz Kafka", nameAr: "فرانز كافكا", cat: "philosophy", lang: "German", langAr: "الألمانية", genre: "Absurdist Parable", genreAr: "الرمزية والكابوس البيروقراطي", setting: "Central Europe", settingAr: "أوروبا الوسطى", theme: "Bureaucratic Inaccessibility & Guilt", themeAr: "الكابوس البيروقراطي والاغتراب", insight: "Follow your most intense obsessions mercilessly.", insightAr: "اتبع شغفك وهواجسك الصادقة دون تردد." },
-        { name: "Victor Hugo", nameAr: "فيكتور هوغو", cat: "world", lang: "French", langAr: "الفرنسية", genre: "Social Romanticism", genreAr: "الرومانسية الإنسانية", setting: "19th Century France", settingAr: "فرنسا في القرن التاسع عشر", theme: "Social Romanticism & Sublime Mercy", themeAr: "الرومانسية الإنسانية والرحمة", insight: "Even the darkest night will end and the sun will rise.", insightAr: "أحلك الليالي ظلمة ستنتهي، وشمس النهار لابد أن تشرق." },
+        { name: "Victor Hugo", nameAr: "فيكتور هوغو", cat: "world", lang: "French", langAr: "الفرنسية", genre: "Social Romanticism", genreAr: "الرومانسية الإنسانية", setting: "19th Century France", settingAr: "فرنسا في القرن التاسع عشر", theme: "Social Romanticism & Sublime Mercy", genreAr: "الرومانسية الإنسانية والرحمة", insight: "Even the darkest night will end and the sun will rise.", insightAr: "أحلك الليالي ظلمة ستنتهي، وشمس النهار لابد أن تشرق." },
         { name: "George Orwell", nameAr: "جورج أورويل", cat: "dystopia", lang: "English", langAr: "الإنجليزية", genre: "Political Satire", genreAr: "الديستوبيا والرمزية السياسية", setting: "London, England", settingAr: "لندن، إنجلترا", theme: "Anti-Fascist Clarity & Democratic Liberty", themeAr: "فضح الاستبداد وحرية التعبير", insight: "Freedom is the right to tell people what they do not want to hear.", insightAr: "الحرية هي الحق في إخبار الناس بما لا يرغبون في سماعه." },
         { name: "Naguib Mahfouz", nameAr: "نجيب محفوظ", cat: "arabic", lang: "Arabic", langAr: "العربية", genre: "Social Realism", genreAr: "الواقعية والرمزية الوجودية", setting: "Historic Cairo, Egypt", settingAr: "القاهرة التاريخية، مصر", theme: "Existential Realism & Human Destiny", themeAr: "فلسفة الحارة والتاريخ والبحث عن الخلاص", insight: "Home is where all your attempts to escape cease.", insightAr: "الوطن هو المكان الذي تتوقف فيه كل محاولاتك للهروب." }
       ];
@@ -1030,7 +1036,8 @@
     let searchQuery = '';
     let currentPage = 1;
     const pageSize = 25;
-    let currentUserEmail = null;
+    let currentUser = null;
+    let userCloudStatuses = {};
 
     const CATEGORIES = [
       { id: "all", en: "All Categories", ar: "كل التصنيفات" },
@@ -1079,7 +1086,7 @@
       document.getElementById('searchInput').placeholder = isAr ? "🔍 ابحث في 1,000,000 كتاب بالعنوان، المؤلف، الفكرة الفلسفية، أو سنة النشر..." : "🔍 Search through all 1,000,000 books by title, author, concept, or year...";
       document.getElementById('uiShelfTitle').innerText = isAr ? "فلاتر الرف الملكي الشخصي" : "My Royal Bookshelf Filters";
 
-      document.getElementById('tabAll').innerText = isAr ? "🏛️️ كل الأعمال" : "🏛️ All Catalog";
+      document.getElementById('tabAll').innerText = isAr ? "🏛️ كل الأعمال" : "🏛️ All Catalog";
       document.getElementById('tabRead').innerText = isAr ? "✅ أتممت قراءتها" : "✅ Finished Reading";
       document.getElementById('tabReading').innerText = isAr ? "📖 أقرأها حالياً" : "📖 Currently Reading";
       document.getElementById('tabUnread').innerText = isAr ? "⏳ أرغب بقراءتها" : "⏳ Want to Read / Unread";
@@ -1114,8 +1121,7 @@
       return ALL_MILLION_BOOKS.filter(b => {
         const matchesCategory = (currentCategory === 'all' || b.cat === currentCategory);
         
-        const key = currentUserEmail ? `lib_status_${currentUserEmail}_${b.id}` : `lib_status_guest_${b.id}`;
-        const savedStatus = localStorage.getItem(key) || 'unread';
+        const savedStatus = userCloudStatuses[b.id] || 'unread';
         const matchesStatus = (currentStatus === 'all' || savedStatus === currentStatus);
 
         const titleText = (currentLang === 'ar') ? (b.titleAr || b.title) : b.title;
@@ -1156,8 +1162,7 @@
       }
 
       paginatedBooks.forEach(book => {
-        const key = currentUserEmail ? `lib_status_${currentUserEmail}_${book.id}` : `lib_status_guest_${book.id}`;
-        const savedStatus = localStorage.getItem(key) || 'unread';
+        const savedStatus = userCloudStatuses[book.id] || 'unread';
 
         const displayTitle = isAr ? (book.titleAr || book.title) : book.title;
         const displayAuthor = isAr ? (book.authorAr || book.author) : book.author;
@@ -1252,13 +1257,21 @@
       updateStats();
     }
 
-    function setBookStatus(id, status) {
-      if (!currentUserEmail) {
+    async function setBookStatus(id, status) {
+      if (!currentUser) {
         alert("🔒 Please sign in with Google first to manage your personal royal bookshelf!");
         return;
       }
 
-      localStorage.setItem(`lib_status_${currentUserEmail}_${id}`, status);
+      userCloudStatuses[id] = status;
+
+      // Save directly to Firebase Firestore cloud database!
+      try {
+        const userRef = window.doc(window.db, "userLibraries", currentUser.uid);
+        await window.setDoc(userRef, { statuses: userCloudStatuses }, { merge: true });
+      } catch (e) {
+        console.error("Cloud sync error:", e);
+      }
       
       const card = document.getElementById(`card-${id}`);
       if (card) {
@@ -1282,8 +1295,7 @@
       let unread = 0;
 
       ALL_MILLION_BOOKS.forEach(b => {
-        const key = currentUserEmail ? `lib_status_${currentUserEmail}_${b.id}` : `lib_status_guest_${b.id}`;
-        const status = localStorage.getItem(key) || 'unread';
+        const status = userCloudStatuses[b.id] || 'unread';
         if (status === 'read') read++;
         else if (status === 'reading') reading++;
         else unread++;
@@ -1361,19 +1373,34 @@
       renderCategoryTabs();
 
       setTimeout(() => {
-        window.onAuthStateChanged(window.myAuth, (user) => {
+        window.onAuthStateChanged(window.myAuth, async (user) => {
           const outArea = document.getElementById('loggedOutArea');
           const inArea = document.getElementById('loggedInArea');
           const welcomeText = document.getElementById('welcomeText');
 
           if (user) {
-            currentUserEmail = user.email;
+            currentUser = user;
             outArea.style.display = 'none';
             inArea.style.display = 'flex';
             const name = user.displayName || user.email.split('@')[0];
             welcomeText.innerText = `Welcome back, ${name}! 👑`;
+
+            // Fetch user's saved library data from Firebase Cloud Database
+            try {
+              const docRef = window.doc(window.db, "userLibraries", user.uid);
+              const docSnap = await window.getDoc(docRef);
+              if (docSnap.exists()) {
+                userCloudStatuses = docSnap.data().statuses || {};
+              } else {
+                userCloudStatuses = {};
+              }
+            } catch (e) {
+              console.error("Error loading cloud data:", e);
+              userCloudStatuses = {};
+            }
           } else {
-            currentUserEmail = null;
+            currentUser = null;
+            userCloudStatuses = {};
             outArea.style.display = 'block';
             inArea.style.display = 'none';
           }

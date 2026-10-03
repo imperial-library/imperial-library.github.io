@@ -1338,7 +1338,20 @@
     }
 
     function logoutUser() {
-      window.signOut(window.myAuth);
+      // Show confirmation popup message
+      const confirmed = window.confirm("Are you sure you want to log out of the Grand Imperial Library? 🏛️");
+      
+      // If the user clicks "OK", proceed with signing out
+      if (confirmed) {
+        window.signOut(window.myAuth)
+          .then(() => {
+            // Optional: reset or clear local storage if you want a clean slate on sign-out
+            window.location.reload();
+          })
+          .catch((error) => {
+            alert("Logout Error: " + error.message);
+          });
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {

@@ -172,6 +172,42 @@
       font-weight: 800;
     }
 
+    /* About Sections */
+    .about-section {
+      max-width: 1150px;
+      margin: 0 auto 3rem auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .about-card {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1.5px solid var(--gold-border);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow-royal);
+      backdrop-filter: blur(8px);
+    }
+
+    .about-card h3 {
+      font-family: 'Cinzel', 'Amiri', serif;
+      color: var(--royal-navy);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border-bottom: 2px solid var(--gold-soft);
+      padding-bottom: 0.5rem;
+    }
+
+    .about-card p {
+      font-size: 0.97rem;
+      line-height: 1.7;
+      color: var(--text-main);
+    }
+
     .controls {
       max-width: 1150px;
       margin: 0 auto 3rem auto;
@@ -651,13 +687,29 @@
     </div>
   </header>
 
+  <!-- About Section -->
+  <section class="about-section">
+    <div class="about-card">
+      <h3 id="aboutLibraryTitle">🏛️ About The Library</h3>
+      <p id="aboutLibraryText">
+        The Grand Imperial Library is a personal digital sanctuary and monumental literary catalog housing 1,000,000 classical masterworks. Designed as an elite private bookshelf, it allows you to explore timeless works of philosophy and literature, track your personal reading progress (Read, Reading, Unread), and instantly access digital copies across global public domains.
+      </p>
+    </div>
+    <div class="about-card">
+      <h3 id="aboutCreatorTitle">🎓 About The Creator</h3>
+      <p id="aboutCreatorText">
+        Crafted by <strong>Yazan Al-Shannaq</strong>, a Data Science and Artificial Intelligence student at Philadelphia University. Combining a passion for classical world literature with modern algorithmic web architecture, this personal digital library represents the intersection of humanistic tradition and intelligent data structuring.
+      </p>
+    </div>
+  </section>
+
   <div class="controls">
     <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search through all 1,000,000 books by title, author, concept, or year..." oninput="handleSearch()">
     
     <div class="shelf-filter-title" id="uiShelfTitle">My Royal Bookshelf Filters</div>
     <div class="shelf-tabs">
       <button class="shelf-btn active" onclick="filterStatus('all', this)">
-        <span id="tabAll">🏛️ All Catalog</span> <span class="badge" id="badgeAll">1000000</span>
+        <span id="tabAll">🏛️️ All Catalog</span> <span class="badge" id="badgeAll">1000000</span>
       </button>
       <button class="shelf-btn" onclick="filterStatus('read', this)">
         <span id="tabRead">✅ Finished Reading</span> <span class="badge" id="badgeRead">0</span>
@@ -933,6 +985,16 @@
 
       document.getElementById('uiMainTitle').innerText = isAr ? "المكتبة الإمبراطورية الكبرى" : "The Grand Imperial Library";
       document.getElementById('uiSubtitle').innerText = isAr ? "الأرشيف الإمبراطوري الشامل لـ 1,000,000 عمل من عيون الأدب والفلسفة" : "The Complete 1,000,000 Masterpieces Archive of World Literature & Philosophy";
+
+      document.getElementById('aboutLibraryTitle').innerText = isAr ? "🏛️ حول المكتبة" : "🏛️ About The Library";
+      document.getElementById('aboutLibraryText').innerText = isAr 
+        ? "المكتبة الإمبراطورية الكبرى هي ملاذك الرقمي الشخصي وفهرس أدبي ضخم يضم مليون عمل كلاسيكي. صُممت كرف كتب خاص وفاخر لتستكشف أمهات الكتب في الفلسفة والأدب، وتتابع تقدمك القرائي شخصياً (مقروء، قيد القراءة، لم يُقرأ)، مع الوصول الفوري للنسخ الرقمية في الملكية العامة العالمية."
+        : "The Grand Imperial Library is a personal digital sanctuary and monumental literary catalog housing 1,000,000 classical masterworks. Designed as an elite private bookshelf, it allows you to explore timeless works of philosophy and literature, track your personal reading progress (Read, Reading, Unread), and instantly access digital copies across global public domains.";
+
+      document.getElementById('aboutCreatorTitle').innerText = isAr ? "🎓 حول المنشئ" : "🎓 About The Creator";
+      document.getElementById('aboutCreatorText').innerHTML = isAr 
+        ? "تم تصميم هذا الموقع بواسطة <strong>يزن الشناق</strong>، طالب علم البيانات والذكاء الاصطناعي في جامعة فيلادلفيا. يجمع هذا المشروع بين شغف الأدب الإنساني وهندسة البيانات والبرمجة الحديثة."
+        : "Crafted by <strong>Yazan Al-Shannaq</strong>, a Data Science and Artificial Intelligence student at Philadelphia University. Combining a passion for classical world literature with modern algorithmic web architecture, this personal digital library represents the intersection of humanistic tradition and intelligent data structuring.";
 
       document.getElementById('lblTotal').innerText = isAr ? "إجمالي الأرشيف" : "Total Archive";
       document.getElementById('lblRead').innerText = isAr ? "مقروء" : "Read";

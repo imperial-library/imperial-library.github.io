@@ -1249,9 +1249,18 @@
 
       updateStats();
     }
+// Global variable to track the currently logged-in user
+    let currentUserEmail = null;
 
     function setBookStatus(id, status) {
-      localStorage.setItem(`lib_status_${id}`, status);
+      // THE GATEKEEPER: Check if the user is logged in before allowing changes
+      if (!currentUserEmail) {
+        alert("🔒 Please sign in with Google first to manage your personal royal bookshelf!");
+        return; // Stops the function from executing if logged out
+      }
+
+      // Save status tied uniquely to this user's email
+      localStorage.setItem(`lib_status_${currentUserEmail}_${id}`, status);
       
       const card = document.getElementById(`card-${id}`);
       if (card) {
@@ -1260,6 +1269,39 @@
         if (status === 'read') buttons[0].classList.add('active-read');
         if (status === 'reading') buttons[1].classList.add('active-reading');
         if (status === 'unread') buttons[2].classList.add('active-unread');
+      }
+      
+      updateStats();
+
+      if (currentStatus !== 'all') {
+        renderLibrary();
+      }
+    }
+
+    function updateStats() {
+      let read = 0;
+      let reading = 0;
+      let unread = 0;
+
+      ALL_MILLION_BOOKS.forEach(b => {
+        // Fetch status using the current user's unique key if logged in, else default to unread
+        const key = currentUserEmail ? `lib_status_${currentUserEmail}_${b.id}` : `lib_status_guest_${b.id}`;
+        const status = localStorage.getItem(key) || 'unread';
+        if (status === 'read') read++;
+        else if (status === 'reading') reading++;
+        else unread++;
+      });
+
+      document.getElementById('totalBooksCount').innerText = ALL_MILLION_BOOKS.length;
+      document.getElementById('readCount').innerText = read;
+      document.getElementById('readingCount').innerText = reading;
+      document.getElementById('unreadCount').innerText = unread;
+
+      document.getElementById('badgeAll').innerText = ALL_MILLION_BOOKS.length;
+      document.getElementById('badgeRead').innerText = read;
+      document.getElementById('badgeReading').innerText = reading;
+      document.getElementById('badgeUnread').innerText = unread;
+    }
       }
       
       updateStats();
@@ -1359,6 +1401,7 @@
       renderLibrary();
 
       // Firebase Auth State Listener for Welcome Greeting Anywhere, Everywhere
+     // Firebase Auth State Listener
       setTimeout(() => {
         window.onAuthStateChanged(window.myAuth, (user) => {
           const outArea = document.getElementById('loggedOutArea');
@@ -1366,17 +1409,20 @@
           const welcomeText = document.getElementById('welcomeText');
 
           if (user) {
+            currentUserEmail = user.email; // Save active user email
             outArea.style.display = 'none';
             inArea.style.display = 'flex';
             const name = user.displayName || user.email.split('@')[0];
             welcomeText.innerText = `Welcome back, ${name}! 👑`;
           } else {
+            currentUserEmail = null; // Clear user session
             outArea.style.display = 'block';
             inArea.style.display = 'none';
           }
+          // Refresh library view and stats for this specific state
+          renderLibrary();
         });
       }, 1000);
-    });
   </script>
 
 </body>

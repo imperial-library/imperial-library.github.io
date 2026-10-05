@@ -1114,8 +1114,9 @@
         const displayDesc = isAr ? (book.descAr || book.desc) : book.desc;
         const displayInsight = isAr ? (book.insightAr || book.insight) : book.insight;
 
-        const archiveEnUrl = `https://archive.org/search.php?query=${encodeURIComponent(book.title + ' ' + book.author)}&and[]=mediatype%3A%22texts%22`;
-        const archiveArUrl = `https://archive.org/search.php?query=${encodeURIComponent((book.titleAr || book.title) + ' ' + (book.authorAr || book.author))}&and[]=mediatype%3A%22texts%22`;
+        // UPDATED: Archive search query uses the book title ONLY (no author name)
+        const archiveEnUrl = `https://archive.org/search.php?query=${encodeURIComponent(book.title)}&and[]=mediatype%3A%22texts%22`;
+        const archiveArUrl = `https://archive.org/search.php?query=${encodeURIComponent(book.titleAr || book.title)}&and[]=mediatype%3A%22texts%22`;
 
         const card = document.createElement('div');
         card.className = 'card';
@@ -1170,13 +1171,13 @@
 
           <div class="status-container">
             <button class="status-btn ${savedStatus === 'read' ? 'active-read' : ''}" onclick="setBookStatus('${book.id}', 'read')">
-              ${isAr ? "مقروء ✅" : "Read ✅"}
+              ${isAr ? "قرأته ✅" : "Read ✅"}
             </button>
             <button class="status-btn ${savedStatus === 'reading' ? 'active-reading' : ''}" onclick="setBookStatus('${book.id}', 'reading')">
               ${isAr ? "أقرأه 📖" : "Reading 📖"}
             </button>
             <button class="status-btn ${savedStatus === 'unread' ? 'active-unread' : ''}" onclick="setBookStatus('${book.id}', 'unread')">
-              ${isAr ? "لم يُقرأ ⏳" : "Unread ⏳"}
+              ${isAr ? "لم أقرأه ⏳" : "Unread ⏳"}
             </button>
           </div>
         `;

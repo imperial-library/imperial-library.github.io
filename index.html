@@ -46,8 +46,8 @@
 
   <style>
     :root {
-      --parchment-base: #f4ecdf;
-      --parchment-dark: #e3d3bd;
+      --parchment-base: rgba(244, 236, 223, 0.93);
+      --parchment-dark: rgba(227, 211, 189, 0.95);
       --parchment-border: #b8976a;
       --ink-black: #1f1814;
       --antique-brown: #4a3325;
@@ -59,16 +59,38 @@
     * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
 
     body {
-      background-color: var(--parchment-base);
+      background-color: #e3d3bd;
       color: var(--ink-black);
       font-family: 'EB Garamond', 'Amiri', serif;
       min-height: 100vh;
       position: relative;
       padding: 2.5rem 1rem;
-      background-image: 
-        radial-gradient(circle at 50% 50%, rgba(244, 236, 223, 0.6) 0%, rgba(214, 196, 170, 0.85) 100%),
-        url('https://upload.wikimedia.org/wikipedia/commons/2/22/Paper_texture.jpg');
-      background-blend-mode: multiply;
+      overflow-x: hidden;
+    }
+
+    /* --- Moving Vintage Background Animation --- */
+    .vintage-moving-bg {
+      position: fixed;
+      top: 0; left: 0; width: 200%; height: 100%;
+      background: linear-gradient(120deg, rgba(140, 109, 54, 0.12), rgba(74, 51, 37, 0.22)),
+                  url('https://upload.wikimedia.org/wikipedia/commons/2/22/Paper_texture.jpg');
+      background-repeat: repeat;
+      z-index: -2;
+      animation: driftBackground 60s linear infinite;
+    }
+
+    @keyframes driftBackground {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Subtle wave/desert dust particle overlay effect */
+    .vintage-overlay-waves {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 30%, transparent 20%, rgba(31, 24, 20, 0.15) 90%);
+      z-index: -1;
+      pointer-events: none;
     }
 
     .top-nav-container {
@@ -144,11 +166,11 @@
       text-align: center;
       margin: 0 auto 2rem auto;
       padding: 3rem 1.5rem;
-      background: var(--parchment-dark);
+      background: var(--parchment-base);
       border: 4px double var(--parchment-border);
       border-radius: 3px;
       max-width: 1100px;
-      box-shadow: 0 6px 20px rgba(31, 24, 20, 0.12), inset 0 0 40px rgba(184, 151, 106, 0.2);
+      box-shadow: 0 6px 20px rgba(31, 24, 20, 0.15), inset 0 0 40px rgba(184, 151, 106, 0.25);
     }
 
     .crown-emblem {
@@ -199,7 +221,7 @@
     }
 
     .stat-item {
-      background: var(--parchment-base);
+      background: rgba(255, 255, 255, 0.6);
       border: 1px solid var(--parchment-border);
       padding: 0.35rem 0.9rem;
       border-radius: 2px;
@@ -216,7 +238,7 @@
     .hero-transition-banner {
       max-width: 1100px;
       margin: 0 auto 2.5rem auto;
-      background: linear-gradient(135deg, #e9dcce, #d9c7b0);
+      background: linear-gradient(135deg, rgba(233, 220, 206, 0.95), rgba(217, 199, 176, 0.95));
       border: 2px solid var(--faded-gold);
       border-radius: 4px;
       padding: 2.2rem 2.8rem;
@@ -229,14 +251,8 @@
     }
 
     @keyframes antiqueFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(25px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      0% { opacity: 0; transform: translateY(25px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     .hero-transition-banner::before, .hero-transition-banner::after {
@@ -274,7 +290,7 @@
     }
 
     .about-card {
-      background: var(--parchment-dark);
+      background: var(--parchment-base);
       border: 1px solid var(--parchment-border);
       border-radius: 2px;
       padding: 1.8rem;
@@ -308,7 +324,7 @@
     .search-input {
       width: 100%;
       padding: 0.9rem 1.4rem;
-      background: var(--parchment-dark);
+      background: var(--parchment-base);
       border: 1px solid var(--parchment-border);
       border-radius: 2px;
       color: var(--ink-black);
@@ -341,7 +357,7 @@
     }
 
     .shelf-btn {
-      background: var(--parchment-dark);
+      background: var(--parchment-base);
       border: 1px solid var(--parchment-border);
       color: var(--ink-black);
       padding: 0.45rem 1.1rem;
@@ -357,7 +373,7 @@
     }
 
     .shelf-btn .badge {
-      background: var(--parchment-base);
+      background: #fff;
       color: var(--ink-black);
       padding: 0.05rem 0.35rem;
       border-radius: 2px;
@@ -373,7 +389,7 @@
     }
 
     .shelf-btn.active .badge {
-      background: var(--parchment-base);
+      background: #fff;
       color: var(--ink-black);
     }
 
@@ -387,7 +403,7 @@
     }
 
     .tab-btn {
-      background: var(--parchment-dark);
+      background: var(--parchment-base);
       border: 1px solid var(--parchment-border);
       color: var(--ink-black);
       padding: 0.35rem 0.9rem;
@@ -413,14 +429,14 @@
     }
 
     .card {
-      background: var(--parchment-dark);
+      background: var(--parchment-base);
       border: 1px solid var(--parchment-border);
       border-radius: 2px;
       padding: 1.8rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 4px 12px rgba(31, 24, 20, 0.08), inset 0 0 15px rgba(184, 151, 106, 0.1);
+      box-shadow: 0 4px 12px rgba(31, 24, 20, 0.1), inset 0 0 15px rgba(184, 151, 106, 0.15);
     }
 
     .book-header {
@@ -444,7 +460,7 @@
       color: var(--vintage-red);
       font-family: monospace;
       font-weight: bold;
-      background: var(--parchment-base);
+      background: #fff;
       padding: 0.1rem 0.4rem;
       border-radius: 2px;
       border: 1px solid var(--parchment-border);
@@ -455,7 +471,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 0.4rem 0.8rem;
-      background: var(--parchment-base);
+      background: rgba(255, 255, 255, 0.5);
       border: 1px solid var(--parchment-border);
       border-radius: 2px;
       padding: 0.75rem;
@@ -491,7 +507,7 @@
     }
 
     .insights-box {
-      background: var(--parchment-base);
+      background: rgba(255, 255, 255, 0.6);
       border-left: 3px solid var(--faded-gold);
       padding: 0.75rem;
       border-radius: 0 2px 2px 0;
@@ -566,7 +582,7 @@
 
     .status-btn {
       flex: 1;
-      background: var(--parchment-base);
+      background: #fff;
       border: 1px solid var(--parchment-border);
       color: var(--ink-black);
       padding: 0.45rem;
@@ -611,7 +627,7 @@
     }
 
     .page-btn {
-      background: var(--parchment-dark);
+      background: var(--parchment-base);
       border: 1px solid var(--parchment-border);
       color: var(--ink-black);
       padding: 0.55rem 1.3rem;
@@ -654,7 +670,7 @@
       border: 1px solid var(--parchment-border);
       text-align: center;
       font-weight: bold;
-      background: var(--parchment-dark);
+      background: var(--parchment-base);
     }
 
     .footer-container {
@@ -680,7 +696,7 @@
       justify-content: center;
       gap: 0.6rem;
       padding: 0.5rem 1.4rem;
-      background: var(--parchment-dark);
+      background: var(--parchment-base);
       border: 1px solid var(--parchment-border);
       border-radius: 2px;
       color: var(--ink-black);
@@ -694,6 +710,10 @@
   </style>
 </head>
 <body>
+
+  <!-- Moving Vintage Background Layers -->
+  <div class="vintage-moving-bg"></div>
+  <div class="vintage-overlay-waves"></div>
 
   <div class="top-nav-container">
     <div class="auth-box">

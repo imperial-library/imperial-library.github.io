@@ -42,10 +42,9 @@ body{background:#2a1f18;color:var(--ink);font-family:'EB Garamond','Amiri',serif
 button,input{font-family:inherit}button{cursor:pointer}
 .sc{font-family:'IM Fell English SC','Amiri',serif}
 
-/* Background video */
-.bg{position:fixed;inset:0;z-index:-2;overflow:hidden}
-.bg video{position:absolute;top:50%;left:50%;min-width:100%;min-height:100%;transform:translate(-50%,-50%);object-fit:cover}
-.tint{position:fixed;inset:0;background:rgba(31,24,20,.5);z-index:-1}
+/* Vintage Clean Background replacing video */
+.bg{position:fixed;inset:0;z-index:-2;background:radial-gradient(circle at 50% 50%, #3d2c22 0%, #1a120e 100%);}
+.tint{position:fixed;inset:0;background:rgba(31,24,20,.3);z-index:-1}
 
 /* Shared parchment panel */
 .panel,header,.card,.about div{background:var(--parch);border:1px solid var(--bd);border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.28)}
@@ -120,7 +119,7 @@ footer{text-align:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px sol
 </head>
 <body>
 
-<div class="bg" id="bg"><video id="vid" autoplay muted loop playsinline preload="metadata" aria-hidden="true"><source src="background.mp4" type="video/mp4"></video></div>
+<div class="bg"></div>
 <div class="tint"></div>
 
 <div class="topbar">
@@ -223,13 +222,12 @@ const CORE=[
 {cat:'arabic',title:'The Cairo Trilogy',titleAr:'ثلاثية القاهرة',author:'Naguib Mahfouz',authorAr:'نجيب محفوظ',year:'1957',lang:'Arabic',langAr:'العربية',genre:'Social Realism',genreAr:'الواقعية الاجتماعية',setting:'Cairo, Egypt',settingAr:'القاهرة، مصر',theme:'Tradition vs Modernity',themeAr:'التقاليد والتحولات الاجتماعية',desc:"Three generations of a traditional Cairo household during Egypt's political awakening.",descAr:'ملحمة أجيال عائلة قاهرية عبر عقود، ترصد تحولات المجتمع وصراع الأبناء بين التقاليد والحرية.',insight:'Time is the ruler that eventually changes every fixed order.',insightAr:'الزمن هو الحاكم الفعلي الذي يغيّر كل الثوابت.'}];
 const AUTH=[
 {name:'Robert Kiyosaki',nameAr:'روبرت كيوساكي',cat:'modern',lang:'English',langAr:'الإنجليزية',genre:'Financial Mastery',genreAr:'المال والأعمال',setting:'Global',settingAr:'عالمي',theme:'Wealth Building',themeAr:'صناعة الثروة',insight:'Assets put money in your pocket.',insightAr:'الأصول تضع المال في جيبك.'},
-{name:'Fahd Al-Ahmadi',nameAr:'فهد الأحمدي',cat:'modern',lang:'Arabic',langAr:'العربية',genre:'Mindset & Growth',genreAr:'تطوير العقلية',setting:'Middle East',settingAr:'الشرق الأوسط',theme:'Cognitive Expansion',themeAr:'توسيع الإدراك',insight:'Small habits compound into large life changes.',insightAr:'العادات الصغيرة تصنع فارقاً هائلاً عبر الزمن.'},
-{name:'Fyodor Dostoevsky',nameAr:'فيودور دوستويفسكي',cat:'dostoevsky',lang:'Russian',langAr:'الروسية',genre:'Psychological Realism',genreAr:'الواقعية النفسية',setting:'St. Petersburg',settingAr:'سانت بطرسبرغ',theme:'Conscience & Faith',themeAr:'الضمير والإيمان',insight:'To love someone is to see them as God intended them.',insightAr:'أن تحب شخصاً يعني أن تراه كما أراده الله.'},
-{name:'Leo Tolstoy',nameAr:'ليو تولستوي',cat:'russian',lang:'Russian',langAr:'الروسية',genre:'Epic Realism',genreAr:'الواقعية الملحمية',setting:'Russia',settingAr:'روسيا',theme:'Moral Purity',themeAr:'النقاء الأخلاقي',insight:'The two most powerful warriors are patience and time.',insightAr:'أقوى المحاربين هما الصبر والزمن.'}];
+{name:'Fahd Al-Ahmadi',nameAr:'فهد الأحمدي',cat:'modern',lang:'Arabic',langAr:'العربية',genre:'Mindset & Growth',genreAr:'تطوير العقلية',setting:'Middle East',settingAr:'الشرق الأوسط',theme:'Cognitive Expansion',settingAr:'توسيع الإدراك',insight:'Small habits compound into large life changes.',insightAr:'العادات الصغيرة تصنع فارقاً هائلاً عبر الزمن.'},
+{name:'Fyodor Dostoevsky',nameAr:'فيودور دوستويفسكي',cat:'dostoevsky',lang:'Russian',langAr:'الروسية',genre:'Psychological Realism',genreAr:'الواقعية النفسية',setting:'St. Petersburg',settingAr:'سانت بطرسبرغ',theme:'Conscience & Faith',settingAr:'الضمير والإيمان',insight:'To love someone is to see them as God intended them.',insightAr:'أن تحب شخصاً يعني أن تراه كما أراده الله.'},
+{name:'Leo Tolstoy',nameAr:'ليو تولستوي',cat:'russian',lang:'Russian',langAr:'الروسية',genre:'Epic Realism',genreAr:'الواقعية الملحمية',setting:'Russia',settingAr:'روسيا',theme:'Moral Purity',settingAr:'النقاء الأخلاقي',insight:'The two most powerful warriors are patience and time.',insightAr:'أقوى المحاربين هما الصبر والزمن.'}];
 const VOL=[{en:'Masterclass Edition',ar:'طبعة الخبراء'},{en:'Expanded Codex',ar:'المجلد الموسع'},{en:'Philosophical Treatise',ar:'دراسة فلسفية'},{en:'Private Archives',ar:'الأرشيف الخاص'}];
 const TOTAL=500000,PAGE=25,CATS=['all','modern','dostoevsky','russian','philosophy','arabic'];
 
-/* Books are generated on demand (index -> book) instead of building 500,000 objects in memory. */
 function bookAt(i){
   if(i<CORE.length)return{id:'b'+(i+1),...CORE[i]};
   const n=i+1,a=AUTH[i%4],v=VOL[Math.floor(n/4)%4];
@@ -245,7 +243,7 @@ const $=id=>document.getElementById(id),t=()=>T[lang],nf=n=>n.toLocaleString(lan
 const L=(b,k)=>lang==='ar'?(b[k+'Ar']||b[k]):b[k];
 let tt;function toast(m){const e=$('toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2800)}
 
-/* ===== FILTER (recomputed only when a filter/search/language changes) ===== */
+/* ===== FILTER ===== */
 function refilter(){
   const q=query.trim().toLowerCase(),out=[];
   for(let i=0;i<TOTAL;i++){
@@ -267,8 +265,8 @@ function render(){
   const slice=filtered.slice((page-1)*PAGE,page*PAGE),g=$('grid');
   g.innerHTML=slice.length?slice.map(i=>{
     const b=bookAt(i),s=st[b.id]||'unread';
-    /* generated entries search by author, because their volume titles are not real book titles */
-    const qEn=b.generated?b.author:b.title,qAr=b.generated?(b.authorAr||b.author):(b.titleAr||b.title);
+    /* Archive search query using book title ONLY (no author name) */
+    const qEn=b.title,qAr=b.titleAr||b.title;
     const btn=(k,label)=>`<button class="sb ${k}" aria-pressed="${s===k}" data-b="${b.id}" data-k="${k}">${label}</button>`;
     return`<article class="card" id="c-${b.id}"><div>
      <div class="bh"><h3>${L(b,'title')}</h3>${b.year?`<span class="yr">${b.year}</span>`:''}</div>
@@ -282,9 +280,8 @@ function render(){
      <div class="ins"><strong>${tr.f.ins}</strong>${L(b,'insight')}</div>
      <div class="acts"><a class="act" href="${archiveUrl(qEn)}" target="_blank" rel="noopener noreferrer">${tr.aEn}</a><a class="act ar" href="${archiveUrl(qAr)}" target="_blank" rel="noopener noreferrer">${tr.aAr}</a></div></div>
      <div class="stat-row">${btn('read',tr.bRead)}${btn('reading',tr.bReading)}${btn('unread',tr.bUnread)}</div></article>`}).join('')
-   :`<div class="empty">${tr.none}</div>`;
-  $('count').textContent=tr.works(filtered.length);
-  $('pageInfo').textContent=tr.page(page,pages);
+    :`<div class="empty">${tr.none}</div>`;
+  $('count').textContent=tr.works(filtered.length);$('pageInfo').textContent=tr.page(page,pages);
   $('first').disabled=$('prev').disabled=page===1;$('next').disabled=$('last').disabled=page===pages;
   $('jumpIn').max=pages;$('jumpIn').value=page;
   stats();
@@ -302,24 +299,19 @@ function applyLang(){
   const tr=t(),h=document.documentElement;h.lang=lang;h.dir=lang==='ar'?'rtl':'ltr';
   document.querySelectorAll('[data-i]').forEach(e=>{e.innerHTML=tr[e.dataset.i]});
   $('q').placeholder=tr.search;$('prev').textContent=(lang==='ar'?'':'◀ ')+tr.prev+(lang==='ar'?' ▶':'');
-  $('next').textContent=(lang==='ar'?'◀ ':'')+tr.next+(lang==='ar'?'':' ▶');
-  $('langBtn').textContent=tr.langBtn;$('langBtn').lang=lang==='ar'?'ar':'en';
-  $('langBtn').setAttribute('aria-label',lang==='ar'?'Switch to English':'التبديل إلى العربية');
+  $('next').textContent=(lang==='ar'?'◀ ':'')+tr.next+(lang==='ar'?'':' ▶');$('langBtn').textContent=tr.langBtn;$('langBtn').lang=lang==='ar'?'ar':'en';$('langBtn').setAttribute('aria-label',lang==='ar'?'Switch to English':'التبديل إلى العربية');
   if(user)$('welcome').textContent=tr.welcome(user.displayName||user.email.split('@')[0]);
   cats();refilter();render();
 }
 
 /* ===== EVENTS ===== */
 $('langBtn').onclick=()=>{lang=lang==='en'?'ar':'en';try{localStorage.setItem('lib_lang',lang)}catch(e){}applyLang()};
-let deb;$('q').oninput=e=>{clearTimeout(deb);deb=setTimeout(()=>{query=e.target.value;page=1;refilter();render()},250)};
-$('statusRow').onclick=e=>{const b=e.target.closest('[data-s]');if(!b)return;status=b.dataset.s;page=1;
+let deb;$('q').oninput=e=>{clearTimeout(deb);deb=setTimeout(()=>{query=e.target.value;page=1;refilter();render()},250)};$('statusRow').onclick=e=>{const b=e.target.closest('[data-s]');if(!b)return;status=b.dataset.s;page=1;
   document.querySelectorAll('#statusRow .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));refilter();render()};
 $('catRow').onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;cat=b.dataset.c;page=1;cats();refilter();render()};
 const go=p=>{page=p;render();scrollTop()};
-$('first').onclick=()=>go(1);$('prev').onclick=()=>go(page-1);$('next').onclick=()=>go(page+1);
-$('last').onclick=()=>go(Math.ceil(filtered.length/PAGE)||1);
-$('jumpIn').onchange=e=>{const p=parseInt(e.target.value,10);if(p>=1)go(p)};
-$('grid').onclick=async e=>{
+$('first').onclick=()=>go(1);$('prev').onclick=()=>go(page-1);$('next').onclick=()=>go(page+1);$('last').onclick=()=>go(Math.ceil(filtered.length/PAGE)||1);
+$('jumpIn').onchange=e=>{const p=parseInt(e.target.value,10);if(p>=1)go(p)};$('grid').onclick=async e=>{
   const b=e.target.closest('.sb');if(!b)return;
   if(!user)return toast(t().need);
   st[b.dataset.b]=b.dataset.k;
@@ -341,10 +333,6 @@ function initAuth(){
     refilter();render()})}
 if(window.myAuth)initAuth();else window.addEventListener('firebase-ready',initAuth,{once:true});
 
-/* ===== VIDEO: skip on phones, reduced motion, or data saver ===== */
-if(matchMedia('(prefers-reduced-motion:reduce)').matches||innerWidth<700||(navigator.connection&&navigator.connection.saveData))$('bg').remove();
-
-/* ===== INIT (renders immediately; no timers) ===== */
 applyLang();
 </script>
 </body>

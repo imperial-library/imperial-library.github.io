@@ -5,20 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   
   <title>The Grand Imperial Library | المكتبة الإمبراطورية الكبرى</title>
   
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Authentic Antique Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
 
   <!-- Firebase & Firestore Cloud Scripts -->
   <script type="module">
@@ -53,26 +46,30 @@
 
   <style>
     :root {
-      --vintage-parchment: #f4ecdf;
-      --vintage-aged: #e6d7c3;
-      --vintage-dark: #2c221e;
-      --vintage-brown: #5c4033;
-      --vintage-gold: #8c6d36;
-      --vintage-border: #b5a082;
-      --vintage-red: #7b2d26;
-      --vintage-green: #3b5336;
+      --parchment-base: #f4ecdf;
+      --parchment-dark: #e3d3bd;
+      --parchment-border: #b8976a;
+      --ink-black: #1f1814;
+      --antique-brown: #4a3325;
+      --faded-gold: #967438;
+      --vintage-red: #73261f;
+      --vintage-green: #354a32;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
 
     body {
-      background-color: var(--vintage-parchment);
-      color: var(--vintage-dark);
-      font-family: 'Libre Baskerville', 'Amiri', serif;
+      background-color: var(--parchment-base);
+      color: var(--ink-black);
+      font-family: 'EB Garamond', 'Amiri', serif;
       min-height: 100vh;
       position: relative;
       padding: 2.5rem 1rem;
-      background-image: radial-gradient(circle, #f9f5ed 0%, #e6d7c3 100%);
+      /* Simulated aged paper texture gradient */
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(244, 236, 223, 0.6) 0%, rgba(214, 196, 170, 0.85) 100%),
+        url('https://upload.wikimedia.org/wikipedia/commons/2/22/Paper_texture.jpg');
+      background-blend-mode: multiply;
     }
 
     .top-nav-container {
@@ -86,26 +83,26 @@
     }
 
     .auth-box {
-      background: var(--vintage-aged);
-      border: 1px solid var(--vintage-gold);
-      padding: 0.4rem 1rem;
-      border-radius: 4px;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+      background: var(--parchment-dark);
+      border: 1px solid var(--parchment-border);
+      padding: 0.35rem 1rem;
+      border-radius: 2px;
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.15);
       display: flex;
       align-items: center;
       gap: 0.8rem;
     }
 
     .google-login-btn {
-      background: #3b302a;
-      color: #f4ecdf;
-      border: 1px solid var(--vintage-gold);
-      padding: 0.4rem 1rem;
+      background: var(--antique-brown);
+      color: var(--parchment-base);
+      border: 1px solid var(--faded-gold);
+      padding: 0.35rem 0.9rem;
       border-radius: 2px;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
-      font-family: 'IM Fell English', serif;
-      font-size: 0.95rem;
+      font-family: 'IM Fell English SC', serif;
+      font-size: 0.85rem;
       letter-spacing: 0.5px;
     }
 
@@ -115,31 +112,32 @@
       background: var(--vintage-red);
       color: #fff;
       border: none;
-      padding: 0.3rem 0.6rem;
+      padding: 0.25rem 0.6rem;
       border-radius: 2px;
       font-weight: 600;
       cursor: pointer;
       font-size: 0.8rem;
-      font-family: 'Libre Baskerville', serif;
+      font-family: 'EB Garamond', serif;
     }
 
     .lang-btn {
-      background: var(--vintage-aged);
-      border: 1px solid var(--vintage-gold);
-      color: var(--vintage-dark);
-      padding: 0.5rem 1.2rem;
-      border-radius: 4px;
+      background: var(--parchment-dark);
+      border: 1px solid var(--parchment-border);
+      color: var(--ink-black);
+      padding: 0.45rem 1.2rem;
+      border-radius: 2px;
       font-size: 0.9rem;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-family: 'IM Fell English', serif;
+      font-family: 'IM Fell English SC', serif;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
     }
 
     .lang-btn:hover {
-      background: var(--vintage-gold);
+      background: var(--faded-gold);
       color: #fff;
     }
 
@@ -147,46 +145,48 @@
       text-align: center;
       margin: 0 auto 2.5rem auto;
       padding: 3rem 1.5rem;
-      background: var(--vintage-aged);
-      border: 3px double var(--vintage-gold);
-      border-radius: 6px;
+      background: var(--parchment-dark);
+      /* Antique double-line border styling */
+      border: 4px double var(--parchment-border);
+      border-radius: 3px;
       max-width: 1100px;
-      box-shadow: 0 4px 15px rgba(44, 34, 30, 0.08);
+      box-shadow: 0 6px 20px rgba(31, 24, 20, 0.12), inset 0 0 40px rgba(184, 151, 106, 0.2);
     }
 
     .crown-emblem {
-      font-size: 2.2rem;
-      margin-bottom: 0.4rem;
-      color: var(--vintage-gold);
+      font-size: 2rem;
+      margin-bottom: 0.3rem;
+      color: var(--faded-gold);
     }
 
     h1 {
-      font-family: 'IM Fell English', 'Amiri', serif;
-      font-size: 2.6rem;
-      color: var(--vintage-brown);
-      letter-spacing: 1px;
-      font-weight: 700;
+      font-family: 'IM Fell English SC', 'Amiri', serif;
+      font-size: 2.4rem;
+      color: var(--antique-brown);
+      letter-spacing: 1.5px;
+      font-weight: normal;
       margin-bottom: 0.4rem;
     }
 
     p.subtitle {
-      color: var(--vintage-gold);
-      font-size: 1.05rem;
+      color: var(--faded-gold);
+      font-size: 1rem;
       font-weight: 600;
       letter-spacing: 0.5px;
-      font-family: 'IM Fell English', 'Amiri', serif;
+      font-family: 'IM Fell English SC', serif;
+      text-transform: uppercase;
     }
 
     .poetic-motto {
       font-family: 'Amiri', serif;
-      font-size: 1.5rem;
+      font-size: 1.45rem;
       font-weight: 700;
-      color: var(--vintage-dark);
+      color: var(--ink-black);
       margin: 1rem auto 0 auto;
       display: inline-block;
-      padding: 0.3rem 1.8rem;
-      border-top: 1px solid var(--vintage-gold);
-      border-bottom: 1px solid var(--vintage-gold);
+      padding: 0.2rem 2rem;
+      border-top: 1px solid var(--parchment-border);
+      border-bottom: 1px solid var(--parchment-border);
     }
 
     .stats-bar {
@@ -196,17 +196,17 @@
       flex-wrap: wrap;
       margin-top: 1.5rem;
       padding-top: 1.2rem;
-      border-top: 1px dashed var(--vintage-border);
-      font-size: 0.9rem;
+      border-top: 1px dashed var(--parchment-border);
+      font-size: 0.88rem;
     }
 
     .stat-item {
-      background: var(--vintage-parchment);
-      border: 1px solid var(--vintage-border);
-      padding: 0.4rem 1rem;
-      border-radius: 3px;
+      background: var(--parchment-base);
+      border: 1px solid var(--parchment-border);
+      padding: 0.35rem 0.9rem;
+      border-radius: 2px;
       font-weight: 700;
-      color: var(--vintage-dark);
+      color: var(--ink-black);
     }
 
     .stat-item span {
@@ -223,26 +223,27 @@
     }
 
     .about-card {
-      background: var(--vintage-aged);
-      border: 1px solid var(--vintage-border);
-      border-radius: 4px;
+      background: var(--parchment-dark);
+      border: 1px solid var(--parchment-border);
+      border-radius: 2px;
       padding: 1.8rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.08);
     }
 
     .about-card h3 {
-      font-family: 'IM Fell English', 'Amiri', serif;
-      color: var(--vintage-brown);
-      font-size: 1.25rem;
+      font-family: 'IM Fell English SC', 'Amiri', serif;
+      color: var(--antique-brown);
+      font-size: 1.15rem;
       margin-bottom: 0.8rem;
-      border-bottom: 1px solid var(--vintage-border);
+      border-bottom: 1px solid var(--parchment-border);
       padding-bottom: 0.4rem;
+      letter-spacing: 0.5px;
     }
 
     .about-card p {
-      font-size: 0.93rem;
-      line-height: 1.6;
-      color: var(--vintage-dark);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--ink-black);
     }
 
     .controls {
@@ -255,49 +256,49 @@
 
     .search-input {
       width: 100%;
-      padding: 1rem 1.5rem;
-      background: var(--vintage-aged);
-      border: 1px solid var(--vintage-gold);
-      border-radius: 4px;
-      color: var(--vintage-dark);
+      padding: 0.9rem 1.4rem;
+      background: var(--parchment-dark);
+      border: 1px solid var(--parchment-border);
+      border-radius: 2px;
+      color: var(--ink-black);
       font-size: 1rem;
       outline: none;
       font-family: inherit;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .search-input:focus {
-      border-color: var(--vintage-brown);
+      border-color: var(--antique-brown);
     }
 
     .shelf-filter-title {
-      font-family: 'IM Fell English', 'Amiri', serif;
-      font-size: 0.95rem;
-      color: var(--vintage-brown);
+      font-family: 'IM Fell English SC', 'Amiri', serif;
+      font-size: 0.9rem;
+      color: var(--antique-brown);
       text-align: center;
-      font-weight: 700;
-      letter-spacing: 0.5px;
+      font-weight: bold;
+      letter-spacing: 1px;
       text-transform: uppercase;
       margin-bottom: -0.4rem;
     }
 
     .shelf-tabs {
       display: flex;
-      gap: 0.6rem;
+      gap: 0.5rem;
       flex-wrap: wrap;
       justify-content: center;
     }
 
     .shelf-btn {
-      background: var(--vintage-aged);
-      border: 1px solid var(--vintage-border);
-      color: var(--vintage-dark);
-      padding: 0.5rem 1.2rem;
-      border-radius: 3px;
+      background: var(--parchment-dark);
+      border: 1px solid var(--parchment-border);
+      color: var(--ink-black);
+      padding: 0.45rem 1.1rem;
+      border-radius: 2px;
       cursor: pointer;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      font-family: 'IM Fell English', 'Amiri', serif;
+      font-family: 'IM Fell English SC', 'Amiri', serif;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
@@ -305,51 +306,51 @@
     }
 
     .shelf-btn .badge {
-      background: var(--vintage-parchment);
-      color: var(--vintage-dark);
-      padding: 0.1rem 0.4rem;
+      background: var(--parchment-base);
+      color: var(--ink-black);
+      padding: 0.05rem 0.35rem;
       border-radius: 2px;
       font-size: 0.75rem;
       font-family: monospace;
-      border: 1px solid var(--vintage-border);
+      border: 1px solid var(--parchment-border);
     }
 
     .shelf-btn:hover, .shelf-btn.active {
-      background: var(--vintage-brown);
-      color: #fff;
-      border-color: var(--vintage-brown);
+      background: var(--antique-brown);
+      color: var(--parchment-base);
+      border-color: var(--antique-brown);
     }
 
     .shelf-btn.active .badge {
-      background: #fff;
-      color: var(--vintage-dark);
+      background: var(--parchment-base);
+      color: var(--ink-black);
     }
 
     .category-tabs {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.4rem;
       flex-wrap: wrap;
       justify-content: center;
-      border-top: 1px dotted var(--vintage-border);
+      border-top: 1px dotted var(--parchment-border);
       padding-top: 1rem;
     }
 
     .tab-btn {
-      background: var(--vintage-aged);
-      border: 1px solid var(--vintage-border);
-      color: var(--vintage-dark);
-      padding: 0.4rem 1rem;
-      border-radius: 3px;
+      background: var(--parchment-dark);
+      border: 1px solid var(--parchment-border);
+      color: var(--ink-black);
+      padding: 0.35rem 0.9rem;
+      border-radius: 2px;
       cursor: pointer;
       font-size: 0.8rem;
       font-weight: 600;
-      font-family: 'IM Fell English', 'Amiri', serif;
+      font-family: 'IM Fell English SC', 'Amiri', serif;
     }
 
     .tab-btn:hover, .tab-btn.active {
-      background: var(--vintage-gold);
+      background: var(--faded-gold);
       color: #fff;
-      border-color: var(--vintage-gold);
+      border-color: var(--faded-gold);
     }
 
     .grid {
@@ -361,14 +362,15 @@
     }
 
     .card {
-      background: var(--vintage-aged);
-      border: 1px solid var(--vintage-border);
-      border-radius: 4px;
+      background: var(--parchment-dark);
+      /* Antique thin outer border with solid inner impression */
+      border: 1px solid var(--parchment-border);
+      border-radius: 2px;
       padding: 1.8rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 3px 10px rgba(44, 34, 30, 0.04);
+      box-shadow: 0 4px 12px rgba(31, 24, 20, 0.08), inset 0 0 15px rgba(184, 151, 106, 0.1);
     }
 
     .book-header {
@@ -379,22 +381,23 @@
     }
 
     .book-title {
-      font-family: 'IM Fell English', 'Amiri', serif;
-      font-size: 1.3rem;
-      color: var(--vintage-brown);
-      font-weight: 700;
+      font-family: 'IM Fell English SC', 'Amiri', serif;
+      font-size: 1.25rem;
+      color: var(--antique-brown);
+      font-weight: normal;
       line-height: 1.25;
+      letter-spacing: 0.5px;
     }
 
     .book-year {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--vintage-red);
       font-family: monospace;
-      font-weight: 700;
-      background: var(--vintage-parchment);
-      padding: 0.15rem 0.5rem;
+      font-weight: bold;
+      background: var(--parchment-base);
+      padding: 0.1rem 0.4rem;
       border-radius: 2px;
-      border: 1px solid var(--vintage-border);
+      border: 1px solid var(--parchment-border);
       white-space: nowrap;
     }
 
@@ -402,10 +405,10 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 0.4rem 0.8rem;
-      background: var(--vintage-parchment);
-      border: 1px solid var(--vintage-border);
-      border-radius: 3px;
-      padding: 0.8rem;
+      background: var(--parchment-base);
+      border: 1px solid var(--parchment-border);
+      border-radius: 2px;
+      padding: 0.75rem;
       margin: 0.8rem 0 1rem 0;
       font-size: 0.82rem;
     }
@@ -417,49 +420,49 @@
     }
 
     .spec-label {
-      font-family: 'IM Fell English', 'Amiri', serif;
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--vintage-gold);
+      font-family: 'IM Fell English SC', 'Amiri', serif;
+      font-size: 0.68rem;
+      font-weight: bold;
+      color: var(--faded-gold);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .spec-value {
       font-weight: 600;
-      color: var(--vintage-dark);
+      color: var(--ink-black);
     }
 
     .book-desc {
       font-size: 0.92rem;
-      color: var(--vintage-dark);
+      color: var(--ink-black);
       line-height: 1.6;
       margin-bottom: 1rem;
     }
 
     .insights-box {
-      background: var(--vintage-parchment);
-      border-left: 3px solid var(--vintage-gold);
-      padding: 0.8rem;
-      border-radius: 0 3px 3px 0;
-      font-size: 0.88rem;
-      color: var(--vintage-dark);
+      background: var(--parchment-base);
+      border-left: 3px solid var(--faded-gold);
+      padding: 0.75rem;
+      border-radius: 0 2px 2px 0;
+      font-size: 0.86rem;
+      color: var(--ink-black);
       margin-bottom: 1.2rem;
       line-height: 1.5;
     }
 
     html[dir="rtl"] .insights-box {
       border-left: none;
-      border-right: 3px solid var(--vintage-gold);
-      border-radius: 3px 0 0 3px;
+      border-right: 3px solid var(--faded-gold);
+      border-radius: 2px 0 0 2px;
     }
 
     .insights-box strong {
-      color: var(--vintage-brown);
+      color: var(--antique-brown);
       display: block;
       margin-bottom: 0.2rem;
-      font-family: 'IM Fell English', 'Amiri', serif;
-      font-size: 0.82rem;
+      font-family: 'IM Fell English SC', 'Amiri', serif;
+      font-size: 0.8rem;
     }
 
     .actions-container {
@@ -472,52 +475,52 @@
     .action-btn {
       flex: 1;
       min-width: 130px;
-      padding: 0.6rem;
-      border-radius: 3px;
+      padding: 0.55rem;
+      border-radius: 2px;
       font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
       text-align: center;
-      border: 1px solid var(--vintage-border);
+      border: 1px solid var(--parchment-border);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 0.3rem;
-      font-family: 'Libre Baskerville', 'Amiri', serif;
+      font-family: 'EB Garamond', 'Amiri', serif;
       text-decoration: none;
     }
 
     .btn-archive-en {
-      background: var(--vintage-brown);
-      color: #fff;
-      border-color: var(--vintage-brown);
+      background: var(--antique-brown);
+      color: var(--parchment-base);
+      border-color: var(--antique-brown);
     }
 
-    .btn-archive-en:hover { background: var(--vintage-dark); }
+    .btn-archive-en:hover { background: var(--ink-black); }
 
     .btn-archive-ar {
-      background: var(--vintage-gold);
+      background: var(--faded-gold);
       color: #fff;
-      border-color: var(--vintage-gold);
+      border-color: var(--faded-gold);
     }
 
-    .btn-archive-ar:hover { background: #6e5328; }
+    .btn-archive-ar:hover { background: #755928; }
 
     .status-container {
       display: flex;
       gap: 0.4rem;
       margin-top: auto;
       padding-top: 1rem;
-      border-top: 1px solid var(--vintage-border);
+      border-top: 1px solid var(--parchment-border);
     }
 
     .status-btn {
       flex: 1;
-      background: var(--vintage-parchment);
-      border: 1px solid var(--vintage-border);
-      color: var(--vintage-dark);
-      padding: 0.5rem;
-      border-radius: 3px;
+      background: var(--parchment-base);
+      border: 1px solid var(--parchment-border);
+      color: var(--ink-black);
+      padding: 0.45rem;
+      border-radius: 2px;
       font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
@@ -525,7 +528,7 @@
     }
 
     .status-btn:hover {
-      background: var(--vintage-gold);
+      background: var(--faded-gold);
       color: #fff;
     }
 
@@ -536,9 +539,9 @@
     }
 
     .status-btn.active-reading {
-      background: var(--vintage-gold) !important;
+      background: var(--faded-gold) !important;
       color: #fff !important;
-      border-color: var(--vintage-gold) !important;
+      border-color: var(--faded-gold) !important;
     }
 
     .status-btn.active-unread {
@@ -558,20 +561,20 @@
     }
 
     .page-btn {
-      background: var(--vintage-aged);
-      border: 1px solid var(--vintage-gold);
-      color: var(--vintage-dark);
-      padding: 0.6rem 1.4rem;
-      border-radius: 3px;
-      font-size: 0.88rem;
+      background: var(--parchment-dark);
+      border: 1px solid var(--parchment-border);
+      color: var(--ink-black);
+      padding: 0.55rem 1.3rem;
+      border-radius: 2px;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      font-family: 'IM Fell English', 'Amiri', serif;
+      font-family: 'IM Fell English SC', 'Amiri', serif;
     }
 
     .page-btn:hover:not(:disabled) {
-      background: var(--vintage-brown);
-      color: #fff;
+      background: var(--antique-brown);
+      color: var(--parchment-base);
     }
 
     .page-btn:disabled {
@@ -580,34 +583,34 @@
     }
 
     .page-info {
-      font-size: 0.9rem;
-      color: var(--vintage-brown);
-      font-weight: 700;
-      font-family: 'IM Fell English', 'Amiri', serif;
+      font-size: 0.88rem;
+      color: var(--antique-brown);
+      font-weight: bold;
+      font-family: 'IM Fell English SC', 'Amiri', serif;
     }
 
     .page-jump {
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
     }
 
     .page-jump input {
-      width: 65px;
-      padding: 0.3rem;
-      border-radius: 3px;
-      border: 1px solid var(--vintage-gold);
+      width: 60px;
+      padding: 0.25rem;
+      border-radius: 2px;
+      border: 1px solid var(--parchment-border);
       text-align: center;
-      font-weight: 700;
-      background: var(--vintage-aged);
+      font-weight: bold;
+      background: var(--parchment-dark);
     }
 
     .footer-container {
       text-align: center;
       margin-top: 4rem;
-      border-top: 1px solid var(--vintage-gold);
+      border-top: 1px solid var(--parchment-border);
       padding-top: 2rem;
       display: flex;
       flex-direction: column;
@@ -616,9 +619,9 @@
     }
 
     .footer-note {
-      color: var(--vintage-dark);
-      font-size: 0.88rem;
-      font-family: 'IM Fell English', 'Amiri', serif;
+      color: var(--ink-black);
+      font-size: 0.85rem;
+      font-family: 'IM Fell English SC', 'Amiri', serif;
     }
 
     .creator-badge {
@@ -626,12 +629,12 @@
       align-items: center;
       justify-content: center;
       gap: 0.6rem;
-      padding: 0.6rem 1.5rem;
-      background: var(--vintage-aged);
-      border: 1px solid var(--vintage-gold);
-      border-radius: 3px;
-      color: var(--vintage-dark);
-      font-size: 0.9rem;
+      padding: 0.5rem 1.4rem;
+      background: var(--parchment-dark);
+      border: 1px solid var(--parchment-border);
+      border-radius: 2px;
+      color: var(--ink-black);
+      font-size: 0.88rem;
       font-weight: 600;
     }
 
@@ -648,7 +651,7 @@
         <button class="google-login-btn" onclick="loginWithGoogle()">Sign in with Google</button>
       </div>
       <div id="loggedInArea" style="display: none; align-items: center; gap: 0.8rem;">
-        <span id="welcomeText" style="font-weight: 700; font-family: 'IM Fell English', serif; color: var(--vintage-brown); font-size: 0.95rem;"></span>
+        <span id="welcomeText" style="font-weight: bold; font-family: 'IM Fell English SC', serif; color: var(--antique-brown); font-size: 0.9rem;"></span>
         <button class="logout-btn" onclick="logoutUser()">Log Out</button>
       </div>
     </div>
@@ -839,7 +842,7 @@
       ];
 
       let count = fullList.length + 1;
-      const targetTotal = 500000; // Optimized to 500,000 for zero lag
+      const targetTotal = 500000;
 
       while (fullList.length < targetTotal) {
         const authorObj = canonAuthors[(count - 1) % canonAuthors.length];
@@ -864,7 +867,7 @@
           theme: authorObj.theme,
           themeAr: authorObj.themeAr,
           desc: `An essential publication by ${authorObj.name} focusing on human intellect, strategy, and timeless principles.`,
-          descAr: `مؤلف أصيل للمفكر ${authorObj.nameAr} يستقصي المبادئ الخالدة والوعي المعرفي.` ,
+          descAr: `مؤلف أصيل للمفكر ${authorObj.nameAr} يستقصي المبادئ الخالدة والوعي المعرفي.`,
           insight: authorObj.insight,
           insightAr: authorObj.insightAr
         });
@@ -998,7 +1001,7 @@
 
       if (paginatedBooks.length === 0) {
         grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--vintage-brown); font-size: 1.1rem; font-family: 'IM Fell English', serif;">
+          <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--antique-brown); font-size: 1.1rem; font-family: 'IM Fell English SC', serif;">
             ${isAr ? "لم يُعثر على أعمال تطابق بحثك في الأرشيف. ❦" : "No volumes found matching your active filter. ❦"}
           </div>
         `;
@@ -1231,1412 +1234,6 @@
               }
             } catch (e) {
               console.error("Cloud data load error:", e);
-              userCloudStatuses = {};
-            }
-          } else {
-            currentUser = null;
-            userCloudStatuses = {};
-            outArea.style.display = 'block';
-            inArea.style.display = 'none';
-          }
-          renderLibrary();
-        });
-      }, 1000);
-    });
-  </script>
-
-</body>
-</html>="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  
-  <title>The Grand Imperial Library | المكتبة الإمبراطورية الكبرى</title>
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Firebase & Firestore Cloud Scripts -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCXxC4bp2C-R0aCcb5AX3B-2w_XZcYYauY",
-      authDomain: "imperial-library-auth.firebaseapp.com",
-      projectId: "imperial-library-auth",
-      storageBucket: "imperial-library-auth.firebasestorage.app",
-      messagingSenderId: "627538266728",
-      appId: "1:627538266728:web:454222b0986b7a211449dd"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
-
-    window.myAuth = auth;
-    window.db = db;
-    window.googleProvider = provider;
-    window.signInWithPopup = signInWithPopup;
-    window.signOut = signOut;
-    window.onAuthStateChanged = onAuthStateChanged;
-    window.doc = doc;
-    window.getDoc = getDoc;
-    window.setDoc = setDoc;
-  </script>
-
-  <style>
-    :root {
-      --bg-cream: #faf7f0;
-      --bg-parchment: #f3ede2;
-      --card-bg: #ffffff;
-      --royal-navy: #0d1b2a;
-      --royal-blue: #1b4965;
-      --gold-primary: #b8860b;
-      --gold-bright: #d4af37;
-      --gold-soft: #fef3c7;
-      --gold-border: rgba(184, 134, 11, 0.35);
-      --gold-border-hover: rgba(212, 175, 55, 0.9);
-      --text-main: #1e293b;
-      --text-muted: #64748b;
-      --shadow-royal: 0 12px 30px rgba(13, 27, 42, 0.08);
-      --shadow-card-hover: 0 18px 36px rgba(184, 134, 11, 0.18);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
-
-    body {
-      background-color: var(--bg-cream);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', 'Amiri', serif;
-      min-height: 100vh;
-      position: relative;
-      padding: 3rem 1.5rem;
-      transition: direction 0.3s ease;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: 
-        linear-gradient(135deg, rgba(250, 247, 240, 0.92), rgba(243, 237, 226, 0.96)),
-        url('https://upload.wikimedia.org/wikipedia/commons/7/77/Vasily_Perov_-_%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82_%D0%A4.%D0%9C.%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_%D0%BD%D0%B0_%D1%91%D1%82%D0%B5%D1%80_%D1%81%D0%B5%D0%B1%D1%8F_1872_%D0%B3%D0%BE%D0%B4%D0%B0.jpg') no-repeat center center/cover fixed;
-      z-index: -1;
-      filter: contrast(105%) brightness(102%);
-    }
-
-    .top-nav-container {
-      max-width: 1150px;
-      margin: 0 auto 1.5rem auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .auth-box {
-      background: #ffffff;
-      border: 2px solid var(--gold-border);
-      padding: 0.5rem 1.2rem;
-      border-radius: 30px;
-      box-shadow: var(--shadow-royal);
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .google-login-btn {
-      background: #4285F4;
-      color: #fff;
-      border: none;
-      padding: 0.5rem 1.2rem;
-      border-radius: 20px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 0.9rem;
-      transition: all 0.2s ease;
-    }
-
-    .google-login-btn:hover { background: #3367D6; }
-
-    .logout-btn {
-      background: #ef4444;
-      color: #fff;
-      border: none;
-      padding: 0.35rem 0.8rem;
-      border-radius: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.85rem;
-    }
-
-    .lang-btn {
-      background: #ffffff;
-      border: 2px solid var(--gold-border);
-      color: var(--royal-navy);
-      padding: 0.6rem 1.4rem;
-      border-radius: 30px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      box-shadow: var(--shadow-royal);
-      transition: all 0.25s ease;
-      font-family: 'Cinzel', 'Amiri', serif;
-    }
-
-    .lang-btn:hover {
-      background: var(--gold-soft);
-      border-color: var(--gold-bright);
-      transform: translateY(-2px);
-    }
-
-    header {
-      text-align: center;
-      margin: 0 auto 3rem auto;
-      padding: 3.5rem 2rem;
-      background: rgba(255, 255, 255, 0.94);
-      border: 2px solid var(--gold-border);
-      border-radius: 24px;
-      max-width: 1150px;
-      backdrop-filter: blur(10px);
-      box-shadow: var(--shadow-royal), 0 0 25px rgba(212, 175, 55, 0.15);
-    }
-
-    .crown-emblem {
-      font-size: 2.6rem;
-      margin-bottom: 0.5rem;
-      color: var(--gold-primary);
-    }
-
-    h1 {
-      font-family: 'Cinzel', 'Amiri', serif;
-      font-size: 2.8rem;
-      color: var(--royal-navy);
-      letter-spacing: 1.5px;
-      font-weight: 900;
-      margin-bottom: 0.5rem;
-    }
-
-    p.subtitle {
-      color: var(--gold-primary);
-      font-size: 1.15rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-family: 'Cinzel', 'Amiri', serif;
-    }
-
-    .poetic-motto {
-      font-family: 'Amiri', serif;
-      font-size: 1.65rem;
-      font-weight: 700;
-      color: var(--royal-navy);
-      margin: 1.2rem auto 0 auto;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.8rem;
-      padding: 0.45rem 2.2rem;
-      background: var(--gold-soft);
-      border: 1px solid var(--gold-border);
-      border-radius: 50px;
-      box-shadow: 0 4px 15px rgba(184, 134, 11, 0.12);
-    }
-
-    .poetic-motto span.ornament {
-      color: var(--gold-bright);
-      font-size: 1.2rem;
-    }
-
-    .stats-bar {
-      display: flex;
-      justify-content: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-      margin-top: 2rem;
-      padding-top: 1.8rem;
-      border-top: 1px solid rgba(184, 134, 11, 0.25);
-    }
-
-    .stat-item {
-      background: var(--gold-soft);
-      border: 1px solid var(--gold-border);
-      padding: 0.65rem 1.4rem;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--royal-navy);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .stat-item span {
-      color: var(--gold-primary);
-      font-size: 1.3rem;
-      font-family: monospace;
-      font-weight: 800;
-    }
-
-    .about-section {
-      max-width: 1150px;
-      margin: 0 auto 3rem auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 2rem;
-    }
-
-    .about-card {
-      background: rgba(255, 255, 255, 0.94);
-      border: 1.5px solid var(--gold-border);
-      border-radius: 20px;
-      padding: 2rem;
-      box-shadow: var(--shadow-royal);
-      backdrop-filter: blur(8px);
-    }
-
-    .about-card h3 {
-      font-family: 'Cinzel', 'Amiri', serif;
-      color: var(--royal-navy);
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      border-bottom: 2px solid var(--gold-soft);
-      padding-bottom: 0.5rem;
-    }
-
-    .about-card p {
-      font-size: 0.97rem;
-      line-height: 1.7;
-      color: var(--text-main);
-    }
-
-    .controls {
-      max-width: 1150px;
-      margin: 0 auto 3rem auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 1.25rem 2rem;
-      background: #ffffff;
-      border: 2px solid var(--gold-border);
-      border-radius: 50px;
-      color: var(--royal-navy);
-      font-size: 1.1rem;
-      outline: none;
-      box-shadow: 0 6px 20px rgba(13, 27, 42, 0.05);
-      transition: all 0.3s ease;
-      font-family: inherit;
-    }
-
-    .search-input:focus {
-      border-color: var(--gold-bright);
-      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
-    }
-
-    .shelf-filter-title {
-      font-family: 'Cinzel', 'Amiri', serif;
-      font-size: 1rem;
-      color: var(--royal-navy);
-      text-align: center;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: -0.5rem;
-    }
-
-    .shelf-tabs {
-      display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .shelf-btn {
-      background: #ffffff;
-      border: 1.5px solid var(--gold-border);
-      color: var(--royal-navy);
-      padding: 0.7rem 1.6rem;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 700;
-      font-family: 'Cinzel', 'Amiri', serif;
-      letter-spacing: 0.5px;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 12px rgba(13, 27, 42, 0.04);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .shelf-btn .badge {
-      background: var(--gold-soft);
-      color: var(--royal-navy);
-      padding: 0.15rem 0.55rem;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-family: monospace;
-      font-weight: 800;
-      border: 1px solid var(--gold-border);
-    }
-
-    .shelf-btn:hover, .shelf-btn.active {
-      background: linear-gradient(135deg, var(--gold-primary), var(--gold-bright));
-      color: #ffffff;
-      border-color: var(--gold-bright);
-      box-shadow: 0 6px 18px rgba(184, 134, 11, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .shelf-btn.active .badge {
-      background: #ffffff;
-      color: var(--royal-navy);
-    }
-
-    .category-tabs {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      border-top: 1px dashed rgba(184, 134, 11, 0.3);
-      padding-top: 1.2rem;
-    }
-
-    .tab-btn {
-      background: rgba(255, 255, 255, 0.85);
-      border: 1.5px solid var(--gold-border);
-      color: var(--royal-navy);
-      padding: 0.55rem 1.2rem;
-      border-radius: 30px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
-      font-family: 'Cinzel', 'Amiri', serif;
-      letter-spacing: 0.5px;
-      transition: all 0.25s ease;
-    }
-
-    .tab-btn:hover, .tab-btn.active {
-      background: var(--royal-navy);
-      color: var(--gold-bright);
-      border-color: var(--royal-navy);
-      box-shadow: 0 4px 12px rgba(13, 27, 42, 0.2);
-    }
-
-    .grid {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
-      gap: 2rem;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1.5px solid var(--gold-border);
-      border-radius: 20px;
-      padding: 2.2rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: var(--shadow-royal);
-      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      border-color: var(--gold-border-hover);
-      box-shadow: var(--shadow-card-hover);
-    }
-
-    .book-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 0.6rem;
-    }
-
-    .book-title {
-      font-family: 'Cinzel', 'Amiri', serif;
-      font-size: 1.4rem;
-      color: var(--royal-navy);
-      font-weight: 800;
-      line-height: 1.3;
-    }
-
-    .book-year {
-      font-size: 0.88rem;
-      color: var(--gold-primary);
-      font-family: monospace;
-      font-weight: 800;
-      background: var(--gold-soft);
-      padding: 0.25rem 0.65rem;
-      border-radius: 6px;
-      border: 1px solid var(--gold-border);
-      white-space: nowrap;
-    }
-
-    .book-specs-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.55rem 0.9rem;
-      background: rgba(243, 237, 226, 0.65);
-      border: 1px solid var(--gold-border);
-      border-radius: 12px;
-      padding: 0.9rem 1.1rem;
-      margin: 0.9rem 0 1.2rem 0;
-      font-size: 0.86rem;
-    }
-
-    .spec-item {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.35;
-    }
-
-    .spec-label {
-      font-family: 'Cinzel', 'Amiri', serif;
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: var(--gold-primary);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 0.15rem;
-    }
-
-    .spec-value {
-      font-weight: 600;
-      color: var(--royal-navy);
-      font-size: 0.86rem;
-    }
-
-    .book-desc {
-      font-size: 0.98rem;
-      color: var(--text-main);
-      line-height: 1.7;
-      margin-bottom: 1.2rem;
-    }
-
-    .insights-box {
-      background: #faf7f0;
-      border-left: 4px solid var(--gold-bright);
-      padding: 0.9rem 1rem;
-      border-radius: 0 10px 10px 0;
-      font-size: 0.92rem;
-      color: #334155;
-      margin-bottom: 1.4rem;
-      line-height: 1.6;
-    }
-
-    html[dir="rtl"] .insights-box {
-      border-left: none;
-      border-right: 4px solid var(--gold-bright);
-      border-radius: 10px 0 0 10px;
-    }
-
-    .insights-box strong {
-      color: var(--gold-primary);
-      display: block;
-      margin-bottom: 0.25rem;
-      font-family: 'Cinzel', 'Amiri', serif;
-      font-size: 0.85rem;
-      letter-spacing: 0.5px;
-    }
-
-    .actions-container {
-      display: flex;
-      gap: 0.6rem;
-      margin-bottom: 1.2rem;
-      flex-wrap: wrap;
-    }
-
-    .action-btn {
-      flex: 1;
-      min-width: 140px;
-      padding: 0.75rem 0.8rem;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-align: center;
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      transition: all 0.2s ease;
-      font-family: inherit;
-      text-decoration: none;
-    }
-
-    .btn-archive-en {
-      background: linear-gradient(135deg, #0d1b2a, #1b4965);
-      color: #ffffff;
-      box-shadow: 0 3px 10px rgba(13, 27, 42, 0.2);
-    }
-
-    .btn-archive-en:hover {
-      box-shadow: 0 6px 16px rgba(13, 27, 42, 0.35);
-      transform: translateY(-2px);
-      color: var(--gold-bright);
-    }
-
-    .btn-archive-ar {
-      background: linear-gradient(135deg, #b8860b, #d4af37);
-      color: #ffffff;
-      box-shadow: 0 3px 10px rgba(184, 134, 11, 0.25);
-    }
-
-    .btn-archive-ar:hover {
-      box-shadow: 0 6px 16px rgba(184, 134, 11, 0.4);
-      transform: translateY(-2px);
-    }
-
-    .status-container {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: auto;
-      padding-top: 1.2rem;
-      border-top: 1px solid rgba(184, 134, 11, 0.2);
-    }
-
-    .status-btn {
-      flex: 1;
-      background: #f8fafc;
-      border: 1px solid rgba(184, 134, 11, 0.25);
-      color: var(--text-muted);
-      padding: 0.6rem;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-family: inherit;
-    }
-
-    .status-btn:hover {
-      background: var(--gold-soft);
-      color: var(--royal-navy);
-      border-color: var(--gold-bright);
-    }
-
-    .status-btn.active-read {
-      background: #dcfce7 !important;
-      border-color: #22c55e !important;
-      color: #15803d !important;
-      font-weight: 700;
-    }
-
-    .status-btn.active-reading {
-      background: #fef3c7 !important;
-      border-color: #f59e0b !important;
-      color: #b45309 !important;
-      font-weight: 700;
-    }
-
-    .status-btn.active-unread {
-      background: #fee2e2 !important;
-      border-color: #ef4444 !important;
-      color: #b91c1c !important;
-      font-weight: 700;
-    }
-
-    .pagination-bar {
-      max-width: 750px;
-      margin: 4rem auto 1rem auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1.2rem;
-      flex-wrap: wrap;
-    }
-
-    .page-btn {
-      background: #ffffff;
-      border: 1.5px solid var(--gold-border);
-      color: var(--royal-navy);
-      padding: 0.75rem 1.8rem;
-      border-radius: 50px;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: 'Cinzel', 'Amiri', serif;
-      box-shadow: var(--shadow-royal);
-      transition: all 0.25s ease;
-    }
-
-    .page-btn:hover:not(:disabled) {
-      background: linear-gradient(135deg, var(--gold-primary), var(--gold-bright));
-      color: #ffffff;
-      border-color: var(--gold-bright);
-      box-shadow: 0 6px 18px rgba(184, 134, 11, 0.3);
-    }
-
-    .page-btn:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      border-color: #e2e8f0;
-    }
-
-    .page-info {
-      font-size: 1rem;
-      color: var(--royal-navy);
-      font-weight: 700;
-      font-family: 'Cinzel', 'Amiri', serif;
-    }
-
-    .page-jump {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-      color: var(--royal-navy);
-      font-weight: 600;
-    }
-
-    .page-jump input {
-      width: 75px;
-      padding: 0.4rem 0.6rem;
-      border-radius: 8px;
-      border: 1.5px solid var(--gold-border);
-      text-align: center;
-      font-weight: 700;
-      color: var(--royal-navy);
-      outline: none;
-    }
-
-    .footer-container {
-      text-align: center;
-      margin-top: 5rem;
-      border-top: 1.5px solid var(--gold-border);
-      padding-top: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.2rem;
-    }
-
-    .footer-note {
-      color: var(--text-muted);
-      font-size: 0.92rem;
-      font-family: 'Cinzel', 'Amiri', serif;
-      letter-spacing: 1px;
-    }
-
-    .creator-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      padding: 0.85rem 2rem;
-      background: rgba(255, 255, 255, 0.92);
-      border: 1.5px solid var(--gold-border);
-      border-radius: 50px;
-      color: var(--royal-navy);
-      font-size: 0.98rem;
-      font-weight: 600;
-      box-shadow: 0 6px 20px rgba(184, 134, 11, 0.12);
-      backdrop-filter: blur(8px);
-      transition: all 0.3s ease;
-    }
-
-    .creator-badge:hover {
-      border-color: var(--gold-bright);
-      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.22);
-      transform: translateY(-2px);
-    }
-
-    .creator-badge strong {
-      color: var(--gold-primary);
-      font-weight: 800;
-      letter-spacing: 0.5px;
-    }
-
-    .creator-badge .icon {
-      font-size: 1.25rem;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="top-nav-container">
-    <div class="auth-box">
-      <div id="loggedOutArea">
-        <button class="google-login-btn" onclick="loginWithGoogle()">🌐 Sign in with Google</button>
-      </div>
-      <div id="loggedInArea" style="display: none; align-items: center; gap: 0.8rem;">
-        <span id="welcomeText" style="font-weight: 700; font-family: 'Cinzel', serif; color: var(--royal-navy); font-size: 0.95rem;"></span>
-        <button class="logout-btn" onclick="logoutUser()">Log Out</button>
-      </div>
-    </div>
-
-    <button class="lang-btn" onclick="toggleLanguage()">
-      <span id="langFlag">🇸🇦</span>
-      <span id="langText">تغيير إلى العربية</span>
-    </button>
-  </div>
-
-  <header>
-    <div class="crown-emblem">👑</div>
-    <h1 id="uiMainTitle">The Grand Imperial Library</h1>
-    <p class="subtitle" id="uiSubtitle">The Complete 1,000,000 Masterpieces Archive of World Literature & Philosophy</p>
-    
-    <div class="poetic-motto">
-      <span class="ornament">✦</span>
-      <span>وَخَيْرُ جَلِيسٍ بِالزَّمَانِ كِتَابُ</span>
-      <span class="ornament">✦</span>
-    </div>
-
-    <div class="stats-bar">
-      <div class="stat-item"><span id="lblTotal">Total Archive</span>: <span id="totalBooksCount">1000000</span> 📚</div>
-      <div class="stat-item"><span id="lblRead">Read</span>: <span id="readCount">0</span> ✅</div>
-      <div class="stat-item"><span id="lblReading">Reading</span>: <span id="readingCount">0</span> 📖</div>
-      <div class="stat-item"><span id="lblUnread">Unread</span>: <span id="unreadCount">0</span> ⏳</div>
-    </div>
-  </header>
-
-  <!-- About Section -->
-  <section class="about-section">
-    <div class="about-card">
-      <h3 id="aboutLibraryTitle">🏛️ About The Library</h3>
-      <p id="aboutLibraryText">
-        The Grand Imperial Library is a personal digital sanctuary and monumental literary catalog housing 1,000,000 classical masterworks. Designed as an elite private bookshelf, it allows you to explore timeless works of philosophy and literature, track your personal reading progress (Read, Reading, Unread), and instantly access digital copies across global public domains.
-      </p>
-    </div>
-    <div class="about-card">
-      <h3 id="aboutCreatorTitle">🎓 About The Creator</h3>
-      <p id="aboutCreatorText">
-        Crafted by <strong>Yazan Al-Shannaq</strong>, a Data Science and Artificial Intelligence student at Philadelphia University. Combining a passion for classical world literature with modern algorithmic web architecture, this personal digital library represents the intersection of humanistic tradition and intelligent data structuring.
-      </p>
-    </div>
-  </section>
-
-  <div class="controls">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search through all 1,000,000 books by title, author, concept, or year..." oninput="handleSearch()">
-    
-    <div class="shelf-filter-title" id="uiShelfTitle">My Royal Bookshelf Filters</div>
-    <div class="shelf-tabs">
-      <button class="shelf-btn active" onclick="filterStatus('all', this)">
-        <span id="tabAll">🏛️ All Catalog</span> <span class="badge" id="badgeAll">1000000</span>
-      </button>
-      <button class="shelf-btn" onclick="filterStatus('read', this)">
-        <span id="tabRead">✅ Finished Reading</span> <span class="badge" id="badgeRead">0</span>
-      </button>
-      <button class="shelf-btn" onclick="filterStatus('reading', this)">
-        <span id="tabReading">📖 Currently Reading</span> <span class="badge" id="badgeReading">0</span>
-      </button>
-      <button class="shelf-btn" onclick="filterStatus('unread', this)">
-        <span id="tabUnread">⏳ Want to Read / Unread</span> <span class="badge" id="badgeUnread">1000000</span>
-      </button>
-    </div>
-
-    <div class="category-tabs" id="categoryTabsContainer"></div>
-  </div>
-
-  <div class="grid" id="booksGrid"></div>
-
-  <div class="pagination-bar">
-    <button class="page-btn" id="prevBtn" onclick="changePage(-1)">◀ Previous</button>
-    <span class="page-info" id="pageIndicator">Page 1 of 40000</span>
-    <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next ▶</button>
-    <div class="page-jump">
-      <span id="uiJumpTo">Jump to:</span>
-      <input type="number" id="pageJumpInput" min="1" max="40000" value="1" onchange="jumpToPage(this.value)">
-    </div>
-  </div>
-
-  <footer class="footer-container">
-    <p class="footer-note" id="uiFooterNote">The Grand Imperial Library • All works are preserved in the permanent public domain 🏛✨</p>
-    
-    <div class="creator-badge" id="uiCreatorBadge">
-      <span class="icon">🏛️️</span>
-      <span id="creatorText">This website was crafted by <strong>Yazan Al-Shannaq</strong>, an AI & Data Science student at Philadelphia University</span>
-      <span class="icon">🎓</span>
-    </div>
-  </footer>
-
-  <script>
-    const CORE_ANCHORS = [
-      {
-        id: "b1", cat: "dostoevsky",
-        title: "Crime and Punishment", titleAr: "الجريمة والعقاب",
-        author: "Fyodor Dostoevsky", authorAr: "فيودور دوستويفسكي",
-        year: "1866",
-        lang: "Russian", langAr: "الروسية",
-        genre: "Psychological Realism", genreAr: "الواقعية النفسية",
-        setting: "St. Petersburg, Russia", settingAr: "سانت بطرسبرغ، روسيا",
-        theme: "Morality, Guilt & Redemption", themeAr: "الأخلاق، الذنب، والخلاص الروحي",
-        desc: "Raskolnikov formulates a theory that extraordinary individuals are permitted to transcend moral boundaries, culminating in a murder that plunges him into crushing psychological torment.",
-        descAr: "راسبولينيكوف يرتكب جريمة قتل بناءً على نظريته الفوقية بأن العباقرة فوق القانون، ليدخل في عذاب ضمير مدمر يقوده إلى رحلة الاعتراف والتوبة في سيبيريا.",
-        insight: "True punishment is not institutional confinement, but the unbearable psychological isolation from the human race.",
-        insightAr: "العقاب الحقيقي ليس قيود السجن وقوانينه، بل العزلة النفسية المرعبة والانفصال القاتل عن البشرية."
-      },
-      {
-        id: "b2", cat: "dostoevsky",
-        title: "The Brothers Karamazov", titleAr: "الإخوة كارامازوف",
-        author: "Fyodor Dostoevsky", authorAr: "فيودور دوستويفسكي",
-        year: "1880",
-        lang: "Russian", langAr: "الروسية",
-        genre: "Philosophical Novel", genreAr: "الرواية الفلسفية",
-        setting: "Skotoprigonyevsk, Russia", settingAr: "بلدة ريفية، روسيا القيصرية",
-        theme: "Faith, Doubt & Free Will", themeAr: "الإيمان، الشك، وحرية الإرادة",
-        desc: "A passionate philosophical inquiry debating God, morality, and justice through the turbulent lives and spiritual conflicts of the Karamazov brothers and their hedonistic father.",
-        descAr: "رواية فلسفية ملحمية تتناول الصراع الأخلاقي بين الشك والإيمان، والمسؤولية الجماعية عن الشر من خلال مصائر الإخوة ديمتري، إيفان، وأليوشا.",
-        insight: "'If God does not exist, everything is permitted.' True transcendence lies in unconditional active love.",
-        insightAr: "إن لم يكن الله موجوداً فكل شيء مباح. الخلاص البشري الحقيقي يكمن في المحبة الفعالة غير المشروطة."
-      },
-      {
-        id: "b3", cat: "dostoevsky",
-        title: "The Idiot", titleAr: "الأبله",
-        author: "Fyodor Dostoevsky", authorAr: "فيودور دوستويفسكي",
-        year: "1869",
-        lang: "Russian", langAr: "الروسية",
-        genre: "Psychological Tragedy", genreAr: "تراجيديا نفسية واقعية",
-        setting: "St. Petersburg, Russia", settingAr: "سانت بطرسبرغ وبافلوفسك",
-        theme: "Innocence vs Hypocrisy", themeAr: "البراءة الطاهرة والنفاق الاجتماعي",
-        desc: "Prince Myshkin returns to Russia with childlike purity and complete empathy, only to have his radiant innocence exploited and misunderstood by cynical high society.",
-        descAr: "الأمير ميشكين الطاهر العائد إلى بطرسبرغ يتعامل مع العالم ببراءة مطلقة وخير خالص، فيعتبره المجتمع الراقي معتوهاً ويقود صفاء روحه إلى مأساة.",
-        insight: "Absolute moral goodness appears as foolishness to a world dominated by pride, avarice, and materialism.",
-        insightAr: "الخير المطلق والنقاء الروحي يبدوان كحماقة في عالم يحكمه الجشع والمادة والمظاهر الزائفة."
-      },
-      {
-        id: "b4", cat: "dostoevsky",
-        title: "Notes from Underground", titleAr: "مذكرات قبو",
-        author: "Fyodor Dostoevsky", authorAr: "فيودور دوستويفسكي",
-        year: "1864",
-        lang: "Russian", langAr: "الروسية",
-        genre: "Existential Fiction", genreAr: "الأدب الوجودي والفلسفي",
-        setting: "Underground St. Petersburg", settingAr: "بطرسبرغ، روسيا",
-        theme: "Free Agency & Alienation", themeAr: "الوجودية، الاغتراب، وحرية الإنسان",
-        desc: "A bitter, isolated, hyper-conscious former bureaucrat delivers a fierce critique of utopian rationalism from his St. Petersburg basement.",
-        descAr: "اعترافات رجل القبو المعقد المنعزل الذي يتحدى النفعية والعقلانية الصارمة، مؤكداً أن الإنسان مستعد لتدمير كل رفاهية لحماية إرادته الحرة.",
-        insight: "Human beings desire freedom and personal autonomy above calculated self-interest, even if that freedom leads to destruction.",
-        insightAr: "الإنسان يفضل ممارسة إرادته الفردية الحرة على أي سعادة مادية مفروضة عليه حسابياً."
-      },
-      {
-        id: "b5", cat: "russian",
-        title: "War and Peace", titleAr: "الحرب والسلام",
-        author: "Leo Tolstoy", authorAr: "ليو تولستوي",
-        year: "1869",
-        lang: "Russian & French", langAr: "الروسية والفرنسية",
-        genre: "Historical Epic Realism", genreAr: "الملحمة التاريخية والواقعية",
-        setting: "Imperial Russia (1805–1812)", settingAr: "روسيا القيصرية (1805–1812)",
-        theme: "Epic Destiny & Free Will", themeAr: "الملحمة التاريخية والقدر الإنساني",
-        desc: "Tolstoy's monumental panorama tracking five aristocratic families across the Napoleonic invasion of Russia, examining free will against historical determinism.",
-        descAr: "ملحمة الأدب الروسي الكبرى التي تسرد مصائر خمس عائلات نبيلة إبان حروب نابليون وتناقش فلسفة الإرادة والتاريخ.",
-        insight: "History is not steered by legendary rulers alone, but by the countless microscopic decisions of everyday individuals.",
-        insightAr: "التاريخ لا يصنعه القادة العظام وحدهم، بل هو محصلة ملايين الأفعال البشرية الصغيرة الصامتة."
-      },
-      {
-        id: "b6", cat: "russian",
-        title: "Anna Karenina", titleAr: "آنا كارنينا",
-        author: "Leo Tolstoy", authorAr: "ليو تولستوي",
-        year: "1878",
-        lang: "Russian", langAr: "الروسية",
-        genre: "Realist Social Drama", genreAr: "الواقعية والدراما الاجتماعية",
-        setting: "Moscow & St. Petersburg", settingAr: "موسكو وسانت بطرسبرغ",
-        theme: "Passion, Hypocrisy & Marriage", themeAr: "العاطفة، الرياء، والقيود الاجتماعية",
-        desc: "An aristocratic woman abandons her respectable marriage for Count Vronsky, confronting the harsh double standards and moral judgment of imperial society.",
-        descAr: "مأساة امرأة نبيلة تتحدى تقاليد مجتمعها الأرستقراطي من أجل حب جارف، لتصطدم بازدواجية المعايير ونبذ المجتمع القاسي.",
-        insight: "'All happy families are alike; each unhappy family is unhappy in its own way.'",
-        insightAr: "كل العائلات السعيدة تتشابه في سعادتها، أما كل عائلة تعيسة فتعيسة بطريقتها الفريدة."
-      },
-      {
-        id: "b7", cat: "philosophy",
-        title: "The Metamorphosis", titleAr: "المسخ (التحول)",
-        author: "Franz Kafka", authorAr: "فرانز كافكا",
-        year: "1915",
-        lang: "German", langAr: "الألمانية",
-        genre: "Absurdist Modernism", genreAr: "أدب العبث والرمزية الحديثة",
-        setting: "Prague, Bohemia", settingAr: "براغ، أوروبا الوسطى",
-        theme: "Alienation & Utilitarianism", themeAr: "الانسلاخ، العبث، والاغتراب العائلي",
-        desc: "Gregor Samsa awakes to find himself transformed into a monstrous vermin, only to discover his family values him solely for his financial output.",
-        descAr: "يستيقظ غريغور سامسا ليجد نفسه قد تحول إلى حشرة مقززة، لتتكشف له قسوة عائلته التي كانت تتظاهر بحبه فقط لأنه مصدر رزقها.",
-        insight: "When your economic utility expires, social and familial affection can vanish with terrifying speed.",
-        insightAr: "حين تسقط قدرتك على الإنتاج المادي، يتلاشى تقدير أقرب الناس إليك بسرعة مرعبة."
-      },
-      {
-        id: "b8", cat: "world",
-        title: "Les Misérables", titleAr: "البؤساء",
-        author: "Victor Hugo", authorAr: "فيكتور هوغو",
-        year: "1862",
-        lang: "French", langAr: "الفرنسية",
-        genre: "Social Romantic Epic", genreAr: "الرومانسية الإنسانية والملحمة الاجتماعية",
-        setting: "Paris & Montreuil, France", settingAr: "باريس ومونتريل، فرنسا",
-        theme: "Justice, Grace & Mercy", themeAr: "العدالة، الرحمة، وبؤس المهمشين",
-        desc: "Jean Valjean's relentless journey from condemned convict to righteous benefactor, pursued across decades by the rigid inspector Javert.",
-        descAr: "الملحمة الإنسانية لجان فالجان وسعيه للتكفير عن ماضيه وفعل الخير وسط قسوة القوانين وظلم المجتمع الفرنسي للفقراء.",
-        insight: "'To love or have loved, that is enough. Ask nothing further. There is no other pearl to be found in the dark folds of life.'",
-        insightAr: "أن تُحب أو تكون محبوباً، ذلك وحده يكفي. لا تطلب شيئاً بعد ذلك من الحياة."
-      },
-      {
-        id: "b9", cat: "dystopia",
-        title: "Nineteen Eighty-Four", titleAr: "1984",
-        author: "George Orwell", authorAr: "جورج أورويل",
-        year: "1949",
-        lang: "English", langAr: "الإنجليزية",
-        genre: "Dystopian Political Fiction", genreAr: "الديستوبيا والرمزية السياسية",
-        setting: "Airstrip One (London), Oceania", settingAr: "لندن، أوقيانوسيا الشمولية",
-        theme: "Totalitarianism & Truth Control", themeAr: "الشمولية ورقابة الفكر واللغة",
-        desc: "Winston Smith lives under the omniscient surveillance of Big Brother and the Thought Police in a brutal state that rewrites truth itself.",
-        descAr: "وينستون سميث يحاول التمرد على نظام الأخ الأكبر الشمولي الذي يراقب الأنفاس ويزور التاريخ ويجرم التفكير الحر.",
-        insight: "Who controls the past controls the future; who controls the present controls the past.",
-        insightAr: "من يتحكم في الماضي يتحكم في المستقبل، ومن يتحكم في الحاضر يتحكم في الماضي."
-      },
-      {
-        id: "b10", cat: "arabic",
-        title: "The Cairo Trilogy", titleAr: "ثلاثية القاهرة",
-        author: "Naguib Mahfouz", authorAr: "نجيب محفوظ",
-        year: "1957",
-        lang: "Arabic", langAr: "العربية",
-        genre: "Generational Social Realism", genreAr: "الواقعية الاجتماعية وأدب الأجيال",
-        setting: "Old Cairo, Egypt (1917–1944)", settingAr: "القاهرة التاريخية، مصر (1917–1944)",
-        theme: "Tradition vs Modernity", themeAr: "التحولات الاجتماعية والأسرة المصرية",
-        desc: "The monumental epic following three generations of a traditional Cairo household during Egypt's tumultuous social and political awakening.",
-        descAr: "ملحمة أجيال عائلة السيد أحمد عبد الجواد عبر ثلاثة عقود، ترصد تحولات المجتمع المصري وصراع الأبناء بين التقاليد والحرية.",
-        insight: "Time is the ultimate sovereign ruler that dismantles every empire and softens every authoritarian will.",
-        insightAr: "الزمن هو الحاكم الفعلي الذي يغير كل الثوابت ويذيب جبروت السلاطين والأرباب."
-      }
-    ];
-
-    function buildMillionLibrary() {
-      const fullList = [...CORE_ANCHORS];
-
-      const canonAuthors = [
-        { name: "Fyodor Dostoevsky", nameAr: "فيودور دوستويفسكي", cat: "dostoevsky", lang: "Russian", langAr: "الروسية", genre: "Psychological Realism", genreAr: "الواقعية النفسية", setting: "Imperial Russia", settingAr: "روسيا القيصرية", theme: "Psychological Dualism & Conscience", themeAr: "الازدواجية النفسية والمخاض الروحي", insight: "Man is a mystery. It must be unraveled.", insightAr: "الإنسان لغز محير، والسعي لحله أسمى ما يُقضى فيه العمر." },
-        { name: "Leo Tolstoy", nameAr: "ليو تولستوي", cat: "russian", lang: "Russian", langAr: "الروسية", genre: "Epic Realism", genreAr: "الواقعية الملحمية", setting: "19th Century Russia", settingAr: "روسيا في القرن التاسع عشر", theme: "Christian Anarchism & Moral Purism", themeAr: "النقاء الأخلاقي وفلسفة اللاعنف", insight: "Everyone thinks of changing the world, but no one thinks of changing himself.", insightAr: "الجميع يفكر في تغيير العالم، ولا أحد يفكر في تغيير نفسه." },
-        { name: "Franz Kafka", nameAr: "فرانز كافكا", cat: "philosophy", lang: "German", langAr: "الألمانية", genre: "Absurdist Parable", genreAr: "الرمزية والكابوس البيروقراطي", setting: "Central Europe", settingAr: "أوروبا الوسطى", theme: "Bureaucratic Inaccessibility & Guilt", themeAr: "الكابوس البيروقراطي والاغتراب", insight: "Follow your most intense obsessions mercilessly.", insightAr: "اتبع شغفك وهواجسك الصادقة دون تردد." },
-        { name: "Victor Hugo", nameAr: "فيكتور هوغو", cat: "world", lang: "French", langAr: "الفرنسية", genre: "Social Romanticism", genreAr: "الرومانسية الإنسانية", setting: "19th Century France", settingAr: "فرنسا في القرن التاسع عشر", theme: "Social Romanticism & Sublime Mercy", genreAr: "الرومانسية الإنسانية والرحمة", insight: "Even the darkest night will end and the sun will rise.", insightAr: "أحلك الليالي ظلمة ستنتهي، وشمس النهار لابد أن تشرق." },
-        { name: "George Orwell", nameAr: "جورج أورويل", cat: "dystopia", lang: "English", langAr: "الإنجليزية", genre: "Political Satire", genreAr: "الديستوبيا والرمزية السياسية", setting: "London, England", settingAr: "لندن، إنجلترا", theme: "Anti-Fascist Clarity & Democratic Liberty", themeAr: "فضح الاستبداد وحرية التعبير", insight: "Freedom is the right to tell people what they do not want to hear.", insightAr: "الحرية هي الحق في إخبار الناس بما لا يرغبون في سماعه." },
-        { name: "Naguib Mahfouz", nameAr: "نجيب محفوظ", cat: "arabic", lang: "Arabic", langAr: "العربية", genre: "Social Realism", genreAr: "الواقعية والرمزية الوجودية", setting: "Historic Cairo, Egypt", settingAr: "القاهرة التاريخية، مصر", theme: "Existential Realism & Human Destiny", themeAr: "فلسفة الحارة والتاريخ والبحث عن الخلاص", insight: "Home is where all your attempts to escape cease.", insightAr: "الوطن هو المكان الذي تتوقف فيه كل محاولاتك للهروب." }
-      ];
-
-      const volumeThemes = [
-        { en: "Philosophical Inquiries", ar: "أبحاث فلسفية" },
-        { en: "Critical Chronicles", ar: "سجلات نقدية" },
-        { en: "Selected Papers", ar: "أوراق مختارة" },
-        { en: "Epistolary Meditations", ar: "رسائل وتأملات" },
-        { en: "Dialogues of Reason", ar: "حوارات العقل" },
-        { en: "The Soul's Redemption", ar: "خلاص الروح" }
-      ];
-
-      let count = fullList.length + 1;
-      const targetTotal = 1000000;
-
-      while (fullList.length < targetTotal) {
-        const authorObj = canonAuthors[(count - 1) % canonAuthors.length];
-        const themeIndex = Math.floor(count / canonAuthors.length) % volumeThemes.length;
-        const subTheme = volumeThemes[themeIndex];
-        const calculatedYear = 1400 + (count % 600);
-
-        fullList.push({
-          id: `b${count}`,
-          cat: authorObj.cat,
-          title: `${authorObj.name}: ${subTheme.en} (Vol. ${count})`,
-          titleAr: `${authorObj.nameAr}: ${subTheme.ar} (المجلد ${count})`,
-          author: authorObj.name,
-          authorAr: authorObj.nameAr,
-          year: `${calculatedYear}`,
-          lang: authorObj.lang,
-          langAr: authorObj.langAr,
-          genre: authorObj.genre,
-          genreAr: authorObj.genreAr,
-          setting: authorObj.setting,
-          settingAr: authorObj.settingAr,
-          theme: authorObj.theme,
-          themeAr: authorObj.themeAr,
-          desc: `An essential classical addition by ${authorObj.name} examining moral agency, purpose, and human destiny.`,
-          descAr: `عمل كلاسيكي أصيل للمؤلف ${authorObj.nameAr} يستقصي أسرار التجربة الإنسانية والمسؤولية الأخلاقية والوجودية.`,
-          insight: authorObj.insight,
-          insightAr: authorObj.insightAr
-        });
-        count++;
-      }
-
-      return fullList;
-    }
-
-    const ALL_MILLION_BOOKS = buildMillionLibrary();
-
-    let currentLang = 'en';
-    let currentCategory = 'all';
-    let currentStatus = 'all';
-    let searchQuery = '';
-    let currentPage = 1;
-    const pageSize = 25;
-    let currentUser = null;
-    let userCloudStatuses = {};
-
-    const CATEGORIES = [
-      { id: "all", en: "All Categories", ar: "كل التصنيفات" },
-      { id: "dostoevsky", en: "Fyodor Dostoevsky", ar: "فيودور دوستويفسكي" },
-      { id: "russian", en: "Russian Literature", ar: "الأدب الروسي" },
-      { id: "philosophy", en: "Philosophy & Existentialism", ar: "الفلسفة والوجودية" },
-      { id: "world", en: "World Classics", ar: "الكلاسيكيات العالمية" },
-      { id: "dystopia", en: "Dystopian & Allegory", ar: "الديستوبيا والرمزية" },
-      { id: "arabic", en: "Middle Eastern Classics", ar: "الأدب العربي والشرقي" }
-    ];
-
-    function toggleLanguage() {
-      currentLang = (currentLang === 'en') ? 'ar' : 'en';
-      document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-      document.documentElement.setAttribute('lang', currentLang);
-      
-      updateUILabels();
-      renderCategoryTabs();
-      renderLibrary();
-    }
-
-    function updateUILabels() {
-      const isAr = (currentLang === 'ar');
-      
-      document.getElementById('langFlag').innerText = isAr ? "🇬🇧" : "🇸🇦";
-      document.getElementById('langText').innerText = isAr ? "Switch to English" : "تغيير إلى العربية";
-
-      document.getElementById('uiMainTitle').innerText = isAr ? "المكتبة الإمبراطورية الكبرى" : "The Grand Imperial Library";
-      document.getElementById('uiSubtitle').innerText = isAr ? "الأرشيف الإمبراطوري الشامل لـ 1,000,000 عمل من عيون الأدب والفلسفة" : "The Complete 1,000,000 Masterpieces Archive of World Literature & Philosophy";
-
-      document.getElementById('aboutLibraryTitle').innerText = isAr ? "🏛️ حول المكتبة" : "🏛️ About The Library";
-      document.getElementById('aboutLibraryText').innerText = isAr 
-        ? "المكتبة الإمبراطورية الكبرى هي ملاذك الرقمي الشخصي وفهرس أدبي ضخم يضم مليون عمل كلاسيكي. صُممت كرف كتب خاص وفاخر لتستكشف أمهات الكتب في الفلسفة والأدب، وتتابع تقدمك القرائي شخصياً (مقروء، قيد القراءة، لم يُقرأ)، مع الوصول الفوري للنسخ الرقمية في الملكية العامة العالمية."
-        : "The Grand Imperial Library is a personal digital sanctuary and monumental literary catalog housing 1,000,000 classical masterworks. Designed as an elite private bookshelf, it allows you to explore timeless works of philosophy and literature, track your personal reading progress (Read, Reading, Unread), and instantly access digital copies across global public domains.";
-
-      document.getElementById('aboutCreatorTitle').innerText = isAr ? "🎓 حول المنشئ" : "🎓 About The Creator";
-      document.getElementById('aboutCreatorText').innerHTML = isAr 
-        ? "تم تصميم هذا الموقع بواسطة <strong>يزن الشناق</strong>، طالب علم البيانات والذكاء الاصطناعي في جامعة فيلادلفيا. يجمع هذا المشروع بين شغف الأدب الإنساني وهندسة البيانات والبرمجة الحديثة."
-        : "Crafted by <strong>Yazan Al-Shannaq</strong>, a Data Science and Artificial Intelligence student at Philadelphia University. Combining a passion for classical world literature with modern algorithmic web architecture, this personal digital library represents the intersection of humanistic tradition and intelligent data structuring.";
-
-      document.getElementById('lblTotal').innerText = isAr ? "إجمالي الأرشيف" : "Total Archive";
-      document.getElementById('lblRead').innerText = isAr ? "مقروء" : "Read";
-      document.getElementById('lblReading').innerText = isAr ? "قيد القراءة" : "Reading";
-      document.getElementById('lblUnread').innerText = isAr ? "لم يُقرأ" : "Unread";
-
-      document.getElementById('searchInput').placeholder = isAr ? "🔍 ابحث في 1,000,000 كتاب بالعنوان، المؤلف، الفكرة الفلسفية، أو سنة النشر..." : "🔍 Search through all 1,000,000 books by title, author, concept, or year...";
-      document.getElementById('uiShelfTitle').innerText = isAr ? "فلاتر الرف الملكي الشخصي" : "My Royal Bookshelf Filters";
-
-      document.getElementById('tabAll').innerText = isAr ? "🏛️ كل الأعمال" : "🏛️ All Catalog";
-      document.getElementById('tabRead').innerText = isAr ? "✅ أتممت قراءتها" : "✅ Finished Reading";
-      document.getElementById('tabReading').innerText = isAr ? "📖 أقرأها حالياً" : "📖 Currently Reading";
-      document.getElementById('tabUnread').innerText = isAr ? "⏳ أرغب بقراءتها" : "⏳ Want to Read / Unread";
-
-      document.getElementById('prevBtn').innerText = isAr ? "التالي ◀" : "◀ Previous";
-      document.getElementById('nextBtn').innerText = isAr ? "السابق ▶" : "Next ▶";
-      document.getElementById('uiJumpTo').innerText = isAr ? "انتقال إلى صفحة:" : "Jump to:";
-      
-      document.getElementById('uiFooterNote').innerText = isAr 
-        ? "المكتبة الإمبراطورية الكبرى • جميع الأعمال محفوظة في الملكية العامة العالمية 🏛✨" 
-        : "The Grand Imperial Library • All works are preserved in the permanent public domain 🏛✨";
-
-      document.getElementById('creatorText').innerHTML = isAr
-        ? "تم تصميم وتطوير هذا الموقع بواسطة <strong>يزن الشناق</strong> • طالب الذكاء الاصطناعي وعلم البيانات في جامعة فيلادلفيا"
-        : "This website was crafted by <strong>Yazan Al-Shannaq</strong>, an AI & Data Science student at Philadelphia University";
-    }
-
-    function renderCategoryTabs() {
-      const container = document.getElementById('categoryTabsContainer');
-      container.innerHTML = '';
-      
-      CATEGORIES.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = `tab-btn ${currentCategory === cat.id ? 'active' : ''}`;
-        btn.innerText = (currentLang === 'ar') ? cat.ar : cat.en;
-        btn.onclick = () => filterCategory(cat.id, btn);
-        container.appendChild(btn);
-      });
-    }
-
-    function getFilteredBooks() {
-      return ALL_MILLION_BOOKS.filter(b => {
-        const matchesCategory = (currentCategory === 'all' || b.cat === currentCategory);
-        
-        const savedStatus = userCloudStatuses[b.id] || 'unread';
-        const matchesStatus = (currentStatus === 'all' || savedStatus === currentStatus);
-
-        const titleText = (currentLang === 'ar') ? (b.titleAr || b.title) : b.title;
-        const authorText = (currentLang === 'ar') ? (b.authorAr || b.author) : b.author;
-        const themeText = (currentLang === 'ar') ? (b.themeAr || b.theme) : b.theme;
-        const genreText = (currentLang === 'ar') ? (b.genreAr || b.genre) : b.genre;
-        const settingText = (currentLang === 'ar') ? (b.settingAr || b.setting) : b.setting;
-        const descText = (currentLang === 'ar') ? (b.descAr || b.desc) : b.desc;
-        const insightText = (currentLang === 'ar') ? (b.insightAr || b.insight) : b.insight;
-
-        const searchCorpus = `${titleText} ${authorText} ${themeText} ${genreText} ${settingText} ${descText} ${insightText} ${b.year}`.toLowerCase();
-        const matchesSearch = searchCorpus.includes(searchQuery.toLowerCase().trim());
-
-        return matchesCategory && matchesStatus && matchesSearch;
-      });
-    }
-
-    function renderLibrary() {
-      const grid = document.getElementById('booksGrid');
-      grid.innerHTML = '';
-
-      const isAr = (currentLang === 'ar');
-      const filtered = getFilteredBooks();
-      const totalPages = Math.ceil(filtered.length / pageSize) || 1;
-
-      if (currentPage > totalPages) currentPage = totalPages;
-      if (currentPage < 1) currentPage = 1;
-
-      const startIndex = (currentPage - 1) * pageSize;
-      const paginatedBooks = filtered.slice(startIndex, startIndex + pageSize);
-
-      if (paginatedBooks.length === 0) {
-        grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; color: var(--text-muted); font-size: 1.25rem; font-family: 'Cinzel', 'Amiri', serif;">
-            ${isAr ? "لم يُعثر على أي عمل يطابق بحثك الحالي في الفهرس. 🔍" : "No masterworks found matching your active shelf or category filters. 🔍"}
-          </div>
-        `;
-      }
-
-      paginatedBooks.forEach(book => {
-        const savedStatus = userCloudStatuses[book.id] || 'unread';
-
-        const displayTitle = isAr ? (book.titleAr || book.title) : book.title;
-        const displayAuthor = isAr ? (book.authorAr || book.author) : book.author;
-        const displayLang = isAr ? (book.langAr || book.lang) : book.lang;
-        const displayGenre = isAr ? (book.genreAr || book.genre) : book.genre;
-        const displaySetting = isAr ? (book.settingAr || book.setting) : book.setting;
-        const displayTheme = isAr ? (book.themeAr || book.theme) : book.theme;
-        const displayDesc = isAr ? (book.descAr || book.desc) : book.desc;
-        const displayInsight = isAr ? (book.insightAr || book.insight) : book.insight;
-
-        const archiveEnUrl = `https://archive.org/search.php?query=${encodeURIComponent(book.title + ' ' + book.author)}&and[]=mediatype%3A%22texts%22`;
-        const archiveArUrl = `https://archive.org/search.php?query=${encodeURIComponent((book.titleAr || book.title) + ' ' + (book.authorAr || book.author))}&and[]=mediatype%3A%22texts%22`;
-
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.id = `card-${book.id}`;
-
-        card.innerHTML = `
-          <div>
-            <div class="book-header">
-              <h2 class="book-title">${displayTitle}</h2>
-              <span class="book-year">${book.year}</span>
-            </div>
-
-            <div class="book-specs-grid">
-              <div class="spec-item">
-                <span class="spec-label">${isAr ? "المؤلف" : "Author"}</span>
-                <span class="spec-value">${displayAuthor}</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">${isAr ? "اللغة الأصلية" : "Original Language"}</span>
-                <span class="spec-value">${displayLang}</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">${isAr ? "التيار الأدبي" : "Genre & Movement"}</span>
-                <span class="spec-value">${displayGenre}</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">${isAr ? "المكان والحقبة" : "Setting & Era"}</span>
-                <span class="spec-value">${displaySetting}</span>
-              </div>
-              <div class="spec-item" style="grid-column: 1 / -1;">
-                <span class="spec-label">${isAr ? "المحور والرمزية" : "Thematic Core"}</span>
-                <span class="spec-value">${displayTheme}</span>
-              </div>
-            </div>
-
-            <p class="book-desc">${displayDesc}</p>
-
-            <div class="insights-box">
-              <strong>${isAr ? "الرؤية الفلسفية الإمبراطورية" : "Imperial Insight"}</strong>
-              ${displayInsight}
-            </div>
-
-            <div class="actions-container">
-              <a class="action-btn btn-archive-en" href="${archiveEnUrl}" target="_blank" rel="noopener noreferrer">
-                🏛️ Download English (Archive)
-              </a>
-              <a class="action-btn btn-archive-ar" href="${archiveArUrl}" target="_blank" rel="noopener noreferrer">
-                🏛️ تحميل من الأرشيف (عربي)
-              </a>
-            </div>
-          </div>
-
-          <div class="status-container">
-            <button class="status-btn ${savedStatus === 'read' ? 'active-read' : ''}" onclick="setBookStatus('${book.id}', 'read')">
-              ${isAr ? "قرأته ✅" : "Read ✅"}
-            </button>
-            <button class="status-btn ${savedStatus === 'reading' ? 'active-reading' : ''}" onclick="setBookStatus('${book.id}', 'reading')">
-              ${isAr ? "أقرأه 📖" : "Reading 📖"}
-            </button>
-            <button class="status-btn ${savedStatus === 'unread' ? 'active-unread' : ''}" onclick="setBookStatus('${book.id}', 'unread')">
-              ${isAr ? "لم أقرأه ⏳" : "Unread ⏳"}
-            </button>
-          </div>
-        `;
-
-        grid.appendChild(card);
-      });
-
-      document.getElementById('pageIndicator').innerText = isAr 
-        ? `الصفحة ${currentPage} من ${totalPages} (${filtered.length} عمل معروض)` 
-        : `Page ${currentPage} of ${totalPages} (${filtered.length} Works)`;
-
-      document.getElementById('prevBtn').disabled = (currentPage === 1);
-      document.getElementById('nextBtn').disabled = (currentPage === totalPages);
-      
-      const jumpInput = document.getElementById('pageJumpInput');
-      jumpInput.max = totalPages;
-      jumpInput.value = currentPage;
-
-      updateStats();
-    }
-
-    async function setBookStatus(id, status) {
-      if (!currentUser) {
-        alert("🔒 Please sign in with Google first to manage your personal royal bookshelf!");
-        return;
-      }
-
-      userCloudStatuses[id] = status;
-
-      // Save directly to Firebase Firestore cloud database!
-      try {
-        const userRef = window.doc(window.db, "userLibraries", currentUser.uid);
-        await window.setDoc(userRef, { statuses: userCloudStatuses }, { merge: true });
-      } catch (e) {
-        console.error("Cloud sync error:", e);
-      }
-      
-      const card = document.getElementById(`card-${id}`);
-      if (card) {
-        const buttons = card.querySelectorAll('.status-btn');
-        buttons.forEach(b => b.classList.remove('active-read', 'active-reading', 'active-unread'));
-        if (status === 'read') buttons[0].classList.add('active-read');
-        if (status === 'reading') buttons[1].classList.add('active-reading');
-        if (status === 'unread') buttons[2].classList.add('active-unread');
-      }
-      
-      updateStats();
-
-      if (currentStatus !== 'all') {
-        renderLibrary();
-      }
-    }
-
-    function updateStats() {
-      let read = 0;
-      let reading = 0;
-      let unread = 0;
-
-      ALL_MILLION_BOOKS.forEach(b => {
-        const status = userCloudStatuses[b.id] || 'unread';
-        if (status === 'read') read++;
-        else if (status === 'reading') reading++;
-        else unread++;
-      });
-
-      document.getElementById('totalBooksCount').innerText = ALL_MILLION_BOOKS.length;
-      document.getElementById('readCount').innerText = read;
-      document.getElementById('readingCount').innerText = reading;
-      document.getElementById('unreadCount').innerText = unread;
-
-      document.getElementById('badgeAll').innerText = ALL_MILLION_BOOKS.length;
-      document.getElementById('badgeRead').innerText = read;
-      document.getElementById('badgeReading').innerText = reading;
-      document.getElementById('badgeUnread').innerText = unread;
-    }
-
-    function filterStatus(status, btn) {
-      currentStatus = status;
-      currentPage = 1;
-      document.querySelectorAll('.shelf-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderLibrary();
-    }
-
-    function filterCategory(cat, btn) {
-      currentCategory = cat;
-      currentPage = 1;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderLibrary();
-    }
-
-    function handleSearch() {
-      searchQuery = document.getElementById('searchInput').value;
-      currentPage = 1;
-      renderLibrary();
-    }
-
-    function changePage(direction) {
-      currentPage += direction;
-      renderLibrary();
-      window.scrollTo({ top: 350, behavior: 'smooth' });
-    }
-
-    function jumpToPage(val) {
-      const pageNum = parseInt(val, 10);
-      const filtered = getFilteredBooks();
-      const totalPages = Math.ceil(filtered.length / pageSize) || 1;
-      if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
-        currentPage = pageNum;
-        renderLibrary();
-        window.scrollTo({ top: 350, behavior: 'smooth' });
-      }
-    }
-
-    function loginWithGoogle() {
-      window.signInWithPopup(window.myAuth, window.googleProvider)
-        .catch((error) => alert("Google Login Error: " + error.message));
-    }
-
-    function logoutUser() {
-      const confirmed = window.confirm("Are you sure you want to log out of the Grand Imperial Library? 🏛️");
-      if (confirmed) {
-        window.signOut(window.myAuth)
-          .then(() => {
-            window.location.reload();
-          })
-          .catch((error) => {
-            alert("Logout Error: " + error.message);
-          });
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      renderCategoryTabs();
-
-      setTimeout(() => {
-        window.onAuthStateChanged(window.myAuth, async (user) => {
-          const outArea = document.getElementById('loggedOutArea');
-          const inArea = document.getElementById('loggedInArea');
-          const welcomeText = document.getElementById('welcomeText');
-
-          if (user) {
-            currentUser = user;
-            outArea.style.display = 'none';
-            inArea.style.display = 'flex';
-            const name = user.displayName || user.email.split('@')[0];
-            welcomeText.innerText = `Welcome back, ${name}! 👑`;
-
-            // Fetch user's saved library data from Firebase Cloud Database
-            try {
-              const docRef = window.doc(window.db, "userLibraries", user.uid);
-              const docSnap = await window.getDoc(docRef);
-              if (docSnap.exists()) {
-                userCloudStatuses = docSnap.data().statuses || {};
-              } else {
-                userCloudStatuses = {};
-              }
-            } catch (e) {
-              console.error("Error loading cloud data:", e);
               userCloudStatuses = {};
             }
           } else {

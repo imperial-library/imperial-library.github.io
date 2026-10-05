@@ -1,1348 +1,351 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  
-  <title>The Grand Imperial Library | المكتبة الإمبراطورية الكبرى</title>
-  
-  <!-- Authentic Antique Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
-
-  <!-- Firebase & Firestore Cloud Scripts -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCXxC4bp2C-R0aCcb5AX3B-2w_XZcYYauY",
-      authDomain: "imperial-library-auth.firebaseapp.com",
-      projectId: "imperial-library-auth",
-      storageBucket: "imperial-library-auth.firebasestorage.app",
-      messagingSenderId: "627538266728",
-      appId: "1:627538266728:web:454222b0986b7a211449dd"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
-
-    window.myAuth = auth;
-    window.db = db;
-    window.googleProvider = provider;
-    window.signInWithPopup = signInWithPopup;
-    window.signOut = signOut;
-    window.onAuthStateChanged = onAuthStateChanged;
-    window.doc = doc;
-    window.getDoc = getDoc;
-    window.setDoc = setDoc;
-  </script>
-
-  <style>
-    :root {
-      --parchment-base: rgba(244, 236, 223, 0.94);
-      --parchment-dark: rgba(227, 211, 189, 0.96);
-      --parchment-border: #b8976a;
-      --ink-black: #1f1814;
-      --antique-brown: #4a3325;
-      --faded-gold: #967438;
-      --vintage-red: #73261f;
-      --vintage-green: #354a32;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
-
-    body {
-      color: var(--ink-black);
-      font-family: 'EB Garamond', 'Amiri', serif;
-      min-height: 100vh;
-      position: relative;
-      padding: 2.5rem 1rem;
-      overflow-x: hidden;
-    }
-
-    /* --- Moving Video Background Container --- */
-    .bg-video-container {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      overflow: hidden;
-      z-index: -3;
-    }
-
-    .bg-video {
-      position: absolute;
-      top: 50%; left: 50%;
-      min-width: 100%; min-height: 100%;
-      width: auto; height: auto;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-    }
-
-    .bg-tint {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(31, 24, 20, 0.48);
-      z-index: -2;
-    }
-
-    .top-nav-container {
-      max-width: 1100px;
-      margin: 0 auto 1.5rem auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .auth-box {
-      background: var(--parchment-dark);
-      border: 1px solid var(--parchment-border);
-      padding: 0.35rem 1rem;
-      border-radius: 2px;
-      box-shadow: inset 0 1px 4px rgba(0,0,0,0.15);
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-
-    .google-login-btn {
-      background: var(--antique-brown);
-      color: var(--parchment-base);
-      border: 1px solid var(--faded-gold);
-      padding: 0.35rem 0.9rem;
-      border-radius: 2px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'IM Fell English SC', serif;
-      font-size: 0.85rem;
-      letter-spacing: 0.5px;
-    }
-
-    .google-login-btn:hover { background: var(--vintage-red); }
-
-    .logout-btn {
-      background: var(--vintage-red);
-      color: #fff;
-      border: none;
-      padding: 0.25rem 0.6rem;
-      border-radius: 2px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-family: 'EB Garamond', serif;
-    }
-
-    .lang-btn {
-      background: var(--parchment-dark);
-      border: 1px solid var(--parchment-border);
-      color: var(--ink-black);
-      padding: 0.45rem 1.2rem;
-      border-radius: 2px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: 'IM Fell English SC', serif;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .lang-btn:hover {
-      background: var(--faded-gold);
-      color: #fff;
-    }
-
-    header {
-      text-align: center;
-      margin: 0 auto 2rem auto;
-      padding: 3rem 1.5rem;
-      background: var(--parchment-base);
-      border: 4px double var(--parchment-border);
-      border-radius: 3px;
-      max-width: 1100px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 0 40px rgba(184, 151, 106, 0.25);
-    }
-
-    .crown-emblem {
-      font-size: 2rem;
-      margin-bottom: 0.3rem;
-      color: var(--faded-gold);
-    }
-
-    h1 {
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-      font-size: 2.4rem;
-      color: var(--antique-brown);
-      letter-spacing: 1.5px;
-      font-weight: normal;
-      margin-bottom: 0.4rem;
-    }
-
-    p.subtitle {
-      color: var(--faded-gold);
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      font-family: 'IM Fell English SC', serif;
-      text-transform: uppercase;
-    }
-
-    .poetic-motto {
-      font-family: 'Amiri', serif;
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: var(--ink-black);
-      margin: 1rem auto 0 auto;
-      display: inline-block;
-      padding: 0.2rem 2rem;
-      border-top: 1px solid var(--parchment-border);
-      border-bottom: 1px solid var(--parchment-border);
-    }
-
-    .stats-bar {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: 1.5rem;
-      padding-top: 1.2rem;
-      border-top: 1px dashed var(--parchment-border);
-      font-size: 0.88rem;
-    }
-
-    .stat-item {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid var(--parchment-border);
-      padding: 0.35rem 0.9rem;
-      border-radius: 2px;
-      font-weight: 700;
-      color: var(--ink-black);
-    }
-
-    .stat-item span {
-      color: var(--vintage-red);
-      font-family: monospace;
-    }
-
-    /* --- Classic Front Page Transition Banner --- */
-    .hero-transition-banner {
-      max-width: 1100px;
-      margin: 0 auto 2.5rem auto;
-      background: var(--parchment-base);
-      border: 2px solid var(--faded-gold);
-      border-radius: 4px;
-      padding: 2.2rem 2.8rem;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(184, 151, 106, 0.2);
-      position: relative;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: antiqueFadeIn 1.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-    }
-
-    @keyframes antiqueFadeIn {
-      0% { opacity: 0; transform: translateY(25px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    .hero-transition-banner::before, .hero-transition-banner::after {
-      content: "❦";
-      display: block;
-      color: var(--faded-gold);
-      font-size: 1.2rem;
-      letter-spacing: 5px;
-      margin: 0.4rem 0;
-    }
-
-    .hero-text-primary {
-      font-family: 'EB Garamond', 'Amiri', serif;
-      font-size: 1.3rem;
-      line-height: 1.8;
-      color: var(--antique-brown);
-      font-weight: 600;
-      margin-bottom: 0.8rem;
-    }
-
-    .hero-text-secondary {
-      font-family: 'EB Garamond', 'Amiri', serif;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: var(--ink-black);
-      font-style: italic;
-    }
-
-    .about-section {
-      max-width: 1100px;
-      margin: 0 auto 2.5rem auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .about-card {
-      background: var(--parchment-base);
-      border: 1px solid var(--parchment-border);
-      border-radius: 2px;
-      padding: 1.8rem;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2), inset 0 1px 4px rgba(0,0,0,0.08);
-    }
-
-    .about-card h3 {
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-      color: var(--antique-brown);
-      font-size: 1.15rem;
-      margin-bottom: 0.8rem;
-      border-bottom: 1px solid var(--parchment-border);
-      padding-bottom: 0.4rem;
-      letter-spacing: 0.5px;
-    }
-
-    .about-card p {
-      font-size: 0.95rem;
-      line-height: 1.65;
-      color: var(--ink-black);
-    }
-
-    .controls {
-      max-width: 1100px;
-      margin: 0 auto 2rem auto;
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 0.9rem 1.4rem;
-      background: var(--parchment-base);
-      border: 1px solid var(--parchment-border);
-      border-radius: 2px;
-      color: var(--ink-black);
-      font-size: 1rem;
-      outline: none;
-      font-family: inherit;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15), inset 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .search-input:focus {
-      border-color: var(--antique-brown);
-    }
-
-    .shelf-filter-title {
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-      font-size: 0.9rem;
-      color: var(--antique-brown);
-      text-align: center;
-      font-weight: bold;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: -0.4rem;
-    }
-
-    .shelf-tabs {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .shelf-btn {
-      background: var(--parchment-base);
-      border: 1px solid var(--parchment-border);
-      color: var(--ink-black);
-      padding: 0.45rem 1.1rem;
-      border-radius: 2px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 600;
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-      transition: all 0.2s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .shelf-btn .badge {
-      background: #fff;
-      color: var(--ink-black);
-      padding: 0.05rem 0.35rem;
-      border-radius: 2px;
-      font-size: 0.75rem;
-      font-family: monospace;
-      border: 1px solid var(--parchment-border);
-    }
-
-    .shelf-btn:hover, .shelf-btn.active {
-      background: var(--antique-brown);
-      color: var(--parchment-base);
-      border-color: var(--antique-brown);
-    }
-
-    .shelf-btn.active .badge {
-      background: #fff;
-      color: var(--ink-black);
-    }
-
-    .category-tabs {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      border-top: 1px dotted var(--parchment-border);
-      padding-top: 1rem;
-    }
-
-    .tab-btn {
-      background: var(--parchment-base);
-      border: 1px solid var(--parchment-border);
-      color: var(--ink-black);
-      padding: 0.35rem 0.9rem;
-      border-radius: 2px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: 600;
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .tab-btn:hover, .tab-btn.active {
-      background: var(--faded-gold);
-      color: #fff;
-      border-color: var(--faded-gold);
-    }
-
-    .grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .card {
-      background: var(--parchment-base);
-      border: 1px solid var(--parchment-border);
-      border-radius: 2px;
-      padding: 1.8rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25), inset 0 0 15px rgba(184, 151, 106, 0.15);
-    }
-
-    .book-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 0.5rem;
-    }
-
-    .book-title {
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-      font-size: 1.25rem;
-      color: var(--antique-brown);
-      font-weight: normal;
-      line-height: 1.25;
-      letter-spacing: 0.5px;
-    }
-
-    .book-year {
-      font-size: 0.8rem;
-      color: var(--vintage-red);
-      font-family: monospace;
-      font-weight: bold;
-      background: #fff;
-      padding: 0.1rem 0.4rem;
-      border-radius: 2px;
-      border: 1px solid var(--parchment-border);
-      white-space: nowrap;
-    }
-
-    .book-specs-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.4rem 0.8rem;
-      background: rgba(255, 255, 255, 0.6);
-      border: 1px solid var(--parchment-border);
-      border-radius: 2px;
-      padding: 0.75rem;
-      margin: 0.8rem 0 1rem 0;
-      font-size: 0.82rem;
-    }
-
-    .spec-item {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.3;
-    }
-
-    .spec-label {
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-      font-size: 0.68rem;
-      font-weight: bold;
-      color: var(--faded-gold);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .spec-value {
-      font-weight: 600;
-      color: var(--ink-black);
-    }
-
-    .book-desc {
-      font-size: 0.92rem;
-      color: var(--ink-black);
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-
-    .insights-box {
-      background: rgba(255, 255, 255, 0.7);
-      border-left: 3px solid var(--faded-gold);
-      padding: 0.75rem;
-      border-radius: 0 2px 2px 0;
-      font-size: 0.86rem;
-      color: var(--ink-black);
-      margin-bottom: 1.2rem;
-      line-height: 1.5;
-    }
-
-    html[dir="rtl"] .insights-box {
-      border-left: none;
-      border-right: 3px solid var(--faded-gold);
-      border-radius: 2px 0 0 2px;
-    }
-
-    .insights-box strong {
-      color: var(--antique-brown);
-      display: block;
-      margin-bottom: 0.2rem;
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-      font-size: 0.8rem;
-    }
-
-    .actions-container {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .action-btn {
-      flex: 1;
-      min-width: 130px;
-      padding: 0.55rem;
-      border-radius: 2px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: center;
-      border: 1px solid var(--parchment-border);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.3rem;
-      font-family: 'EB Garamond', 'Amiri', serif;
-      text-decoration: none;
-    }
-
-    .btn-archive-en {
-      background: var(--antique-brown);
-      color: var(--parchment-base);
-      border-color: var(--antique-brown);
-    }
-
-    .btn-archive-en:hover { background: var(--ink-black); }
-
-    .btn-archive-ar {
-      background: var(--faded-gold);
-      color: #fff;
-      border-color: var(--faded-gold);
-    }
-
-    .btn-archive-ar:hover { background: #755928; }
-
-    .status-container {
-      display: flex;
-      gap: 0.4rem;
-      margin-top: auto;
-      padding-top: 1rem;
-      border-top: 1px solid var(--parchment-border);
-    }
-
-    .status-btn {
-      flex: 1;
-      background: #fff;
-      border: 1px solid var(--parchment-border);
-      color: var(--ink-black);
-      padding: 0.45rem;
-      border-radius: 2px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-    }
-
-    .status-btn:hover {
-      background: var(--faded-gold);
-      color: #fff;
-    }
-
-    .status-btn.active-read {
-      background: var(--vintage-green) !important;
-      color: #fff !important;
-      border-color: var(--vintage-green) !important;
-    }
-
-    .status-btn.active-reading {
-      background: var(--faded-gold) !important;
-      color: #fff !important;
-      border-color: var(--faded-gold) !important;
-    }
-
-    .status-btn.active-unread {
-      background: var(--vintage-red) !important;
-      color: #fff !important;
-      border-color: var(--vintage-red) !important;
-    }
-
-    .pagination-bar {
-      max-width: 700px;
-      margin: 3rem auto 1rem auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .page-btn {
-      background: var(--parchment-base);
-      border: 1px solid var(--parchment-border);
-      color: var(--ink-black);
-      padding: 0.55rem 1.3rem;
-      border-radius: 2px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-    }
-
-    .page-btn:hover:not(:disabled) {
-      background: var(--antique-brown);
-      color: var(--parchment-base);
-    }
-
-    .page-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .page-info {
-      font-size: 0.88rem;
-      color: var(--antique-brown);
-      font-weight: bold;
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-    }
-
-    .page-jump {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    .page-jump input {
-      width: 60px;
-      padding: 0.25rem;
-      border-radius: 2px;
-      border: 1px solid var(--parchment-border);
-      text-align: center;
-      font-weight: bold;
-      background: var(--parchment-base);
-    }
-
-    .footer-container {
-      text-align: center;
-      margin-top: 4rem;
-      border-top: 1px solid var(--parchment-border);
-      padding-top: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .footer-note {
-      color: var(--ink-black);
-      font-size: 0.85rem;
-      font-family: 'IM Fell English SC', 'Amiri', serif;
-    }
-
-    .creator-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      padding: 0.5rem 1.4rem;
-      background: var(--parchment-base);
-      border: 1px solid var(--parchment-border);
-      border-radius: 2px;
-      color: var(--ink-black);
-      font-size: 0.88rem;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-
-    .creator-badge strong {
-      color: var(--vintage-red);
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Grand Imperial Library | المكتبة الإمبراطورية الكبرى</title>
+<meta name="description" content="A bilingual (English/Arabic) personal bookshelf for world literature and modern wisdom. Search, track what you read, and sync your shelf across devices.">
+<meta name="theme-color" content="#2a1f18">
+<link rel="canonical" href="https://imperial-library.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Grand Imperial Library | المكتبة الإمبراطورية الكبرى">
+<meta property="og:description" content="Your personal bilingual bookshelf for world literature and modern wisdom.">
+<meta property="og:url" content="https://imperial-library.github.io/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+
+<!-- Firebase (auth + cloud shelf). The web apiKey is not a secret; protect data with Firestore rules. -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+const app = initializeApp({
+  apiKey: "AIzaSyCXxC4bp2C-R0aCcb5AX3B-2w_XZcYYauY",
+  authDomain: "imperial-library-auth.firebaseapp.com",
+  projectId: "imperial-library-auth",
+  storageBucket: "imperial-library-auth.firebasestorage.app",
+  messagingSenderId: "627538266728",
+  appId: "1:627538266728:web:454222b0986b7a211449dd"
+});
+Object.assign(window, { myAuth:getAuth(app), db:getFirestore(app), googleProvider:new GoogleAuthProvider(), signInWithPopup, signOut, onAuthStateChanged, doc, getDoc, setDoc });
+window.dispatchEvent(new Event('firebase-ready'));
+</script>
+
+<style>
+:root{--parch:rgba(244,236,223,.95);--parch-d:rgba(227,211,189,.97);--bd:#b8976a;--ink:#1f1814;--brown:#4a3325;--gold:#7a5c24;--red:#73261f;--green:#354a32}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#2a1f18;color:var(--ink);font-family:'EB Garamond','Amiri',serif;font-size:18px;min-height:100vh;padding:2rem 1rem;overflow-x:hidden}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;box-shadow:0 0 0 5px #f4ecdf}
+button,input{font-family:inherit}button{cursor:pointer}
+.sc{font-family:'IM Fell English SC','Amiri',serif}
+
+/* Background video */
+.bg{position:fixed;inset:0;z-index:-2;overflow:hidden}
+.bg video{position:absolute;top:50%;left:50%;min-width:100%;min-height:100%;transform:translate(-50%,-50%);object-fit:cover}
+.tint{position:fixed;inset:0;background:rgba(31,24,20,.5);z-index:-1}
+
+/* Shared parchment panel */
+.panel,header,.card,.about div{background:var(--parch);border:1px solid var(--bd);border-radius:3px;box-shadow:0 6px 18px rgba(0,0,0,.28)}
+.wrapw{max-width:1100px;margin:0 auto}
+
+.topbar{max-width:1100px;margin:0 auto 1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.auth,.lang{background:var(--parch-d);border:1px solid var(--bd);border-radius:3px;padding:.4rem .9rem;display:flex;align-items:center;gap:.8rem}
+.btn{background:var(--brown);color:#f4ecdf;border:1px solid var(--gold);border-radius:3px;padding:.45rem 1rem;font-size:.95rem;font-weight:600;min-height:40px}
+.btn:hover{background:var(--red)}
+.lang{color:var(--ink);font-size:1rem;font-weight:600}.lang:hover{background:var(--gold);color:#fff}
+
+header{text-align:center;padding:2.2rem 1.5rem;margin:0 auto 1.5rem;max-width:1100px;border:4px double var(--bd)}
+.orn{color:var(--gold);font-size:1.8rem}
+h1{font-family:'IM Fell English SC','Amiri',serif;font-size:clamp(1.9rem,5vw,2.8rem);color:var(--brown);font-weight:400;line-height:1.2;margin:.2rem 0}
+.sub{color:var(--gold);font-size:1.05rem;font-weight:600}
+.motto{font-family:'Amiri',serif;font-size:1.5rem;font-weight:700;margin:1rem auto;display:inline-block;padding:.2rem 2rem;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.lead{max-width:62ch;margin:.4rem auto 0;line-height:1.7;color:var(--brown)}
+.stats{display:flex;justify-content:center;gap:.7rem;flex-wrap:wrap;margin-top:1.3rem;padding-top:1.1rem;border-top:1px dashed var(--bd)}
+.stat{background:rgba(255,255,255,.75);border:1px solid var(--bd);border-radius:3px;padding:.3rem .9rem;font-weight:600;font-size:.95rem}
+.stat b{color:var(--red);font-family:monospace;font-size:1rem}
+
+/* Controls */
+.controls{max-width:1100px;margin:0 auto 1.5rem;display:flex;flex-direction:column;gap:1rem}
+.search{width:100%;padding:.9rem 1.2rem;background:var(--parch);border:1px solid var(--bd);border-radius:3px;font-size:1.05rem;color:var(--ink);box-shadow:inset 0 2px 5px rgba(0,0,0,.1)}
+.row{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;align-items:center}
+.row-title{color:#f4ecdf;font-size:.95rem;text-align:center;letter-spacing:.5px}
+.chip{background:var(--parch);border:1px solid var(--bd);color:var(--ink);padding:.45rem 1rem;border-radius:3px;font-size:.95rem;font-weight:600;min-height:40px;display:flex;gap:.5rem;align-items:center}
+.chip i{font-style:normal;font-family:monospace;font-size:.8rem;background:#fff;border:1px solid var(--bd);padding:0 .35rem;border-radius:2px}
+.chip:hover,.chip[aria-pressed=true]{background:var(--brown);color:#f4ecdf;border-color:var(--brown)}
+.row.cats .chip{font-size:.9rem;min-height:36px}
+.row.cats .chip:hover,.row.cats .chip[aria-pressed=true]{background:var(--gold);border-color:var(--gold);color:#fff}
+.count{max-width:1200px;margin:0 auto .8rem;color:#f4ecdf;font-size:.95rem}
+
+/* Grid + cards */
+.grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:1.4rem}
+.card{padding:1.5rem;display:flex;flex-direction:column;justify-content:space-between}
+.bh{display:flex;justify-content:space-between;align-items:baseline;gap:.6rem;margin-bottom:.5rem}
+.card h3{font-family:'IM Fell English SC','Amiri',serif;font-size:1.3rem;color:var(--brown);font-weight:400;line-height:1.3}
+.yr{font-family:monospace;font-size:.85rem;font-weight:700;color:var(--red);background:#fff;border:1px solid var(--bd);padding:.1rem .4rem;border-radius:2px}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:.5rem .8rem;background:rgba(255,255,255,.65);border:1px solid var(--bd);border-radius:3px;padding:.75rem;margin:.7rem 0 .9rem;font-size:.9rem}
+.specs .w{grid-column:1/-1}.specs span{display:block;line-height:1.3}
+.lbl{font-family:'IM Fell English SC','Amiri',serif;font-size:.78rem;font-weight:700;color:var(--gold);letter-spacing:.4px}
+.desc{font-size:1rem;line-height:1.6;margin-bottom:.9rem}
+.ins{background:rgba(255,255,255,.7);border-inline-start:3px solid var(--gold);padding:.7rem;font-size:.95rem;line-height:1.5;margin-bottom:1rem}
+.ins strong{display:block;color:var(--brown);font-size:.85rem;font-family:'IM Fell English SC','Amiri',serif;font-weight:400}
+.acts{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.act{flex:1;min-width:130px;padding:.6rem;border-radius:3px;font-size:.95rem;font-weight:600;text-align:center;text-decoration:none;color:#fff;background:var(--brown);border:1px solid var(--brown);min-height:40px}
+.act.ar{background:var(--gold);border-color:var(--gold)}.act:hover{background:var(--ink)}
+.stat-row{display:flex;gap:.4rem;border-top:1px solid var(--bd);padding-top:.9rem;margin-top:auto}
+.sb{flex:1;background:#fff;border:1px solid var(--bd);color:var(--ink);padding:.5rem .3rem;border-radius:3px;font-size:.9rem;font-weight:600;min-height:40px}
+.sb:hover{background:var(--gold);color:#fff}
+.sb[aria-pressed=true]{color:#fff}.sb.read[aria-pressed=true]{background:var(--green);border-color:var(--green)}.sb.reading[aria-pressed=true]{background:var(--gold);border-color:var(--gold)}.sb.unread[aria-pressed=true]{background:var(--red);border-color:var(--red)}
+.empty{grid-column:1/-1;text-align:center;padding:3rem 1rem;color:#f4ecdf;font-size:1.2rem}
+
+/* Pagination */
+.pager{max-width:760px;margin:2.5rem auto 1rem;display:flex;justify-content:center;align-items:center;gap:.8rem;flex-wrap:wrap;color:#f4ecdf}
+.pager .chip{justify-content:center}.pager .chip:disabled{opacity:.45;cursor:not-allowed}
+.jump{display:flex;align-items:center;gap:.4rem;font-size:.95rem}
+.jump input{width:76px;padding:.35rem;border-radius:3px;border:1px solid var(--bd);text-align:center;font-weight:700;background:var(--parch);min-height:40px}
+
+/* About + footer */
+.about{max-width:1100px;margin:3rem auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:1.4rem}
+.about div{padding:1.5rem}
+.about h2{font-family:'IM Fell English SC','Amiri',serif;color:var(--brown);font-size:1.2rem;font-weight:400;border-bottom:1px solid var(--bd);padding-bottom:.4rem;margin-bottom:.7rem}
+.about p{font-size:1rem;line-height:1.65}
+footer{text-align:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid #b8976a;color:#f4ecdf;font-size:.95rem;line-height:1.6}
+.toast{position:fixed;bottom:1.2rem;left:50%;transform:translate(-50%,120px);background:var(--ink);color:#f4ecdf;padding:.8rem 1.4rem;border-radius:3px;border:1px solid var(--gold);transition:transform .35s;z-index:20;max-width:90vw;text-align:center}
+.toast.show{transform:translate(-50%,0)}
+@media(max-width:560px){.specs{grid-template-columns:1fr}.stat-row .sb{font-size:.85rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
 </head>
 <body>
 
-  <!-- Manual Video Background Setup -->
-  <div class="bg-video-container">
-    <video autoplay muted loop playsinline class="bg-video">
-      <source src="background.mp4" type="video/mp4">
-      Your browser does not support HTML5 video.
-    </video>
+<div class="bg" id="bg"><video id="vid" autoplay muted loop playsinline preload="metadata" aria-hidden="true"><source src="background.mp4" type="video/mp4"></video></div>
+<div class="tint"></div>
+
+<div class="topbar">
+  <div class="auth">
+    <div id="out"><button class="btn sc" id="loginBtn" data-i="signin"></button></div>
+    <div id="in" style="display:none;align-items:center;gap:.8rem"><span id="welcome" class="sc"></span><button class="btn" id="logoutBtn" data-i="logout"></button></div>
   </div>
-  <div class="bg-tint"></div>
+  <button class="lang" id="langBtn" type="button"></button>
+</div>
 
-  <div class="top-nav-container">
-    <div class="auth-box">
-      <div id="loggedOutArea">
-        <button class="google-login-btn" onclick="loginWithGoogle()">Sign in with Google</button>
-      </div>
-      <div id="loggedInArea" style="display: none; align-items: center; gap: 0.8rem;">
-        <span id="welcomeText" style="font-weight: bold; font-family: 'IM Fell English SC', serif; color: var(--antique-brown); font-size: 0.9rem;"></span>
-        <button class="logout-btn" onclick="logoutUser()">Log Out</button>
-      </div>
-    </div>
-
-    <button class="lang-btn" onclick="toggleLanguage()">
-      <span id="langFlag">🇸🇦</span>
-      <span id="langText">العربية</span>
-    </button>
+<header>
+  <div class="orn" aria-hidden="true">❦</div>
+  <h1 id="h1" data-i="title"></h1>
+  <p class="sub sc" data-i="sub"></p>
+  <div class="motto" lang="ar" dir="rtl">وَخَيْرُ جَلِيسٍ بِالزَّمَانِ كِتَابُ</div>
+  <p class="lead" data-i="lead"></p>
+  <div class="stats" role="group" id="stats">
+    <div class="stat"><span data-i="total"></span>: <b id="sTotal"></b></div>
+    <div class="stat"><span data-i="read"></span>: <b id="sRead"></b></div>
+    <div class="stat"><span data-i="reading"></span>: <b id="sReading"></b></div>
+    <div class="stat"><span data-i="unread"></span>: <b id="sUnread"></b></div>
   </div>
+</header>
 
-  <header>
-    <div class="crown-emblem">❦</div>
-    <h1 id="uiMainTitle">The Grand Imperial Library</h1>
-    <p class="subtitle" id="uiSubtitle">The 500,000 Masterpieces Archive of World Literature & Modern Wisdom</p>
-    
-    <div class="poetic-motto">
-      <span>وَخَيْرُ جَلِيسٍ بِالزَّمَانِ كِتَابُ</span>
-    </div>
-
-    <div class="stats-bar">
-      <div class="stat-item"><span id="lblTotal">Total Archive</span>: <span id="totalBooksCount">500000</span> 📚</div>
-      <div class="stat-item"><span id="lblRead">Read</span>: <span id="readCount">0</span> ✅</div>
-      <div class="stat-item"><span id="lblReading">Reading</span>: <span id="readingCount">0</span> 📖</div>
-      <div class="stat-item"><span id="lblUnread">Unread</span>: <span id="unreadCount">0</span> ⏳</div>
-    </div>
-  </header>
-
-  <!-- Front Page Animated Classic Transition Banner -->
-  <div class="hero-transition-banner">
-    <p class="hero-text-primary" id="uiHeroTextAr">
-      المكتبة الإمبراطورية الكبرى هي مكتبتك الخاصة لكي تنظم كتبك، وتتطلع إلى الكتب الجديدة، وتقرأ أكثر، وتتطلع إلى العلم والشغف والمعرفة. لقد ساعدناك في هذه المنصة لتوصل إلى الكتب بشكل أسهل وأسرع.
-    </p>
-    <p class="hero-text-secondary" id="uiHeroTextEn">
-      "The Grand Imperial Library is your sanctuary to curate your literary universes, discover new horizons, and fuel the everlasting flame of passion and knowledge. We have forged this monument to bridge your journey to the written word with effortless grace."
-    </p>
-  </div>
-
-  <!-- About Section -->
-  <section class="about-section">
-    <div class="about-card">
-      <h3 id="aboutLibraryTitle">🏛️ About The Library</h3>
-      <p id="aboutLibraryText">
-        An elite personal digital sanctuary housing 500,000 classic masterworks and modern wisdom. Built for absolute speed and historical aesthetics, it allows you to log in with your Google account, curate your private bookshelf across all devices, and instantly access public domain literature.
-      </p>
-    </div>
-    <div class="about-card">
-      <h3 id="aboutCreatorTitle">🎓 About The Creator</h3>
-      <p id="aboutCreatorText">
-        Crafted by <strong>Yazan Al-Shannaq</strong>, a Data Science and Artificial Intelligence student at Philadelphia University, bridging humanistic tradition with optimized modern code architecture.
-      </p>
-    </div>
-  </section>
-
+<main>
+  <h2 class="sr" data-i="catalog"></h2>
   <div class="controls">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search through all 500,000 volumes by title, author, concept, or year..." oninput="handleSearch()">
-    
-    <div class="shelf-filter-title" id="uiShelfTitle">My Royal Bookshelf Filters</div>
-    <div class="shelf-tabs">
-      <button class="shelf-btn active" onclick="filterStatus('all', this)">
-        <span id="tabAll">🏛️ All Catalog</span> <span class="badge" id="badgeAll">500000</span>
-      </button>
-      <button class="shelf-btn" onclick="filterStatus('read', this)">
-        <span id="tabRead">✅ Finished Reading</span> <span class="badge" id="badgeRead">0</span>
-      </button>
-      <button class="shelf-btn" onclick="filterStatus('reading', this)">
-        <span id="tabReading">📖 Currently Reading</span> <span class="badge" id="badgeReading">0</span>
-      </button>
-      <button class="shelf-btn" onclick="filterStatus('unread', this)">
-        <span id="tabUnread">⏳ Want to Read / Unread</span> <span class="badge" id="badgeUnread">500000</span>
-      </button>
+    <label class="sr" for="q" data-i="searchLbl"></label>
+    <input id="q" class="search" type="search" autocomplete="off">
+    <div class="row-title sc" data-i="shelf"></div>
+    <div class="row" id="statusRow">
+      <button class="chip" data-s="all" aria-pressed="true"><span data-i="all"></span><i id="bAll"></i></button>
+      <button class="chip" data-s="read" aria-pressed="false"><span data-i="fRead"></span><i id="bRead"></i></button>
+      <button class="chip" data-s="reading" aria-pressed="false"><span data-i="fReading"></span><i id="bReading"></i></button>
+      <button class="chip" data-s="unread" aria-pressed="false"><span data-i="fUnread"></span><i id="bUnread"></i></button>
     </div>
-
-    <div class="category-tabs" id="categoryTabsContainer"></div>
+    <div class="row cats" id="catRow"></div>
   </div>
 
-  <div class="grid" id="booksGrid"></div>
-
-  <div class="pagination-bar">
-    <button class="page-btn" id="prevBtn" onclick="changePage(-1)">◀ Previous</button>
-    <span class="page-info" id="pageIndicator">Page 1 of 20000</span>
-    <button class="page-btn" id="nextBtn" onclick="changePage(1)">Next ▶</button>
-    <div class="page-jump">
-      <span id="uiJumpTo">Jump:</span>
-      <input type="number" id="pageJumpInput" min="1" max="20000" value="1" onchange="jumpToPage(this.value)">
-    </div>
-  </div>
-
-  <footer class="footer-container">
-    <p class="footer-note" id="uiFooterNote">The Grand Imperial Library • Preserved in the permanent public domain ❦</p>
-    
-    <div class="creator-badge" id="uiCreatorBadge">
-      <span>Crafted by <strong>Yazan Al-Shannaq</strong> • Philadelphia University</span>
-    </div>
-  </footer>
-
-  <script>
-    const CORE_ANCHORS = [
-      {
-        id: "b1", cat: "modern",
-        title: "Rich Dad Poor Dad", titleAr: "الأب الغني والأب الفقير",
-        author: "Robert T. Kiyosaki", authorAr: "روبرت كيوساكي",
-        year: "1997",
-        lang: "English / Arabic", langAr: "الإنجليزية والعربية",
-        genre: "Financial Wisdom", genreAr: "الثقافة المالية والذكاء المالي",
-        setting: "Global Finance", settingAr: "المال والأعمال العالمية",
-        theme: "Assets vs Liabilities", themeAr: "الأصول والخصوم والحرية المالية",
-        desc: "Explores the differing mindsets, teachings, and financial philosophies surrounding money, work, and investments through two paternal figures.",
-        descAr: "يستعرض الفروق الجوهرية في التفكير بين الأب الغني والأب الفقير تجاه المال، العمل، وكيفية جعل الأصول تعمل لصالحك.",
-        insight: "The poor and middle class work for money. The rich have money work for them.",
-        insightAr: "الفقراء وابناء الطبقة الوسطى يعملون من أجل المال، بينما الأغنياء يجعلون المال يعمل من أجلهم."
-      },
-      {
-        id: "b2", cat: "modern",
-        title: "The Pistachio Theory", titleAr: "نظرية الفستق",
-        author: "Fahd Al-Ahmadi", authorAr: "فهد الأحمدي",
-        year: "2018",
-        lang: "Arabic", langAr: "العربية",
-        genre: "Self Development", genreAr: "التنمية البشرية وتطوير الذات",
-        setting: "Middle East", settingAr: "العالم العربي",
-        theme: "Self-Awareness & Perception", themeAr: "الوعي الذاتي، التفكير النقدي، وتغيير السلوك",
-        desc: "A profound collection of essays designed to alter how you perceive yourself, humanity, decision-making, and personal success patterns.",
-        descAr: "كتاب عميق يهدف إلى إعادة برمجة طريقة تفكيرك، وعيك الذاتي، اتخاذ القرارات، وفهم دوافع النفس البشرية والنجاح.",
-        insight: "Your life does not reflect your limits, but rather the limits of your own thinking and convictions.",
-        insightAr: "حياتك لا تعكس حدود قدراتك، بل تعكس حدود أفكارك وقناعاتك الراسخة."
-      },
-      {
-        id: "b3", cat: "dostoevsky",
-        title: "Crime and Punishment", titleAr: "الجريمة والعقاب",
-        author: "Fyodor Dostoevsky", authorAr: "فيودور دوستويفسكي",
-        year: "1866",
-        lang: "Russian", langAr: "الروسية",
-        genre: "Psychological Realism", genreAr: "الواقعية النفسية",
-        setting: "St. Petersburg, Russia", settingAr: "سانت بطرسبرغ، روسيا",
-        theme: "Morality, Guilt & Redemption", themeAr: "الأخلاق، الذنب، والخلاص الروحي",
-        desc: "Raskolnikov formulates a theory that extraordinary individuals are permitted to transcend moral boundaries, culminating in psychological torment.",
-        descAr: "راسبولينيكوف يرتكب جريمة قتل بناءً على نظريته الفوقية، ليدخل في عذاب ضمير مدمر يقوده إلى رحلة الاعتراف والتوبة.",
-        insight: "True punishment is not institutional confinement, but the unbearable psychological isolation from humanity.",
-        insightAr: "العقاب الحقيقي ليس قيود السجن وقوانينه، بل العزلة النفسية المرعبة والانفصال عن البشرية."
-      },
-      {
-        id: "b4", cat: "russian",
-        title: "War and Peace", titleAr: "الحرب والسلام",
-        author: "Leo Tolstoy", authorAr: "ليو تولستوي",
-        year: "1869",
-        lang: "Russian", langAr: "الروسية",
-        genre: "Historical Epic", genreAr: "الملحمة التاريخية",
-        setting: "Imperial Russia", settingAr: "روسيا القيصرية",
-        theme: "Epic Destiny & Free Will", themeAr: "القدر الإنساني والفلسفة التاريخية",
-        desc: "Tolstoy's monumental panorama tracking aristocratic families across the Napoleonic invasion, examining free will versus determinism.",
-        descAr: "ملحمة الأدب الروسي الكبرى التي تسرد مصائر العائلات النبيلة إبان حروب نابليون وتناقش فلسفة الإرادة والتاريخ.",
-        insight: "History is steered not by legendary rulers, but by the microscopic decisions of everyday individuals.",
-        insightAr: "التاريخ لا يصنعه القادة العظام وحدهم، بل محصلة ملايين الأفعال البشرية الصغيرة."
-      },
-      {
-        id: "b5", cat: "philosophy",
-        title: "The Metamorphosis", titleAr: "المسخ",
-        author: "Franz Kafka", authorAr: "فرانز كافكا",
-        year: "1915",
-        lang: "German", langAr: "الألمانية",
-        genre: "Absurdist Fiction", genreAr: "أدب العبث",
-        setting: "Prague", settingAr: "براغ",
-        theme: "Alienation & Utilitarianism", genreAr: "الاغتراب والمنفعة المادية",
-        desc: "Gregor Samsa awakes transformed into a vermin, discovering his family values him solely for his financial output.",
-        descAr: "يستيقظ غريغور سامسا ليجد نفسه متحولاً لحشرة، لتتكشف قسوة عائلته التي قدرت مديونيته لا إنسانيته.",
-        insight: "When your economic utility expires, familial affection can vanish with terrifying speed.",
-        insightAr: "حين تسقط قدرتك على الإنتاج المادي، يتلاشى تقدير أقرب الناس إليك بسرعة مرعبة."
-      },
-      {
-        id: "b6", cat: "arabic",
-        title: "The Cairo Trilogy", titleAr: "ثلاثية القاهرة",
-        author: "Naguib Mahfouz", authorAr: "نجيب محفوظ",
-        year: "1957",
-        lang: "Arabic", langAr: "العربية",
-        genre: "Social Realism", genreAr: "الواقعية الاجتماعية وأدب الأجيال",
-        setting: "Cairo, Egypt", settingAr: "القاهرة التاريخية، مصر",
-        theme: "Tradition vs Modernity", themeAr: "التقاليد والتحولات الاجتماعية",
-        desc: "Following three generations of a traditional Cairo household during Egypt's tumultuous political awakening.",
-        descAr: "ملحمة أجيال عائلة القاهرة عبر عقود، ترصد تحولات المجتمع وصراع الأبناء بين التقاليد والحرية.",
-        insight: "Time is the ultimate sovereign ruler that dismantles every rigid structure.",
-        insightAr: "الزمن هو الحاكم الفعلي الذي يغير كل الثوابت ويذيب الجبروت."
-      }
-    ];
-
-    function buildLibraryCatalog() {
-      const fullList = [...CORE_ANCHORS];
-      const canonAuthors = [
-        { name: "Robert Kiyosaki", nameAr: "روبرت كيوساكي", cat: "modern", lang: "English", langAr: "الإنجليزية", genre: "Financial Mastery", genreAr: "المال والأعمال", setting: "Global", settingAr: "عالمي", theme: "Wealth Building", themeAr: "صناعة الثروة", insight: "Assets put money in your pocket.", insightAr: "الأصول تضع المال في جيبك." },
-        { name: "Fahd Al-Ahmadi", nameAr: "فهد الأحمدي", cat: "modern", lang: "Arabic", langAr: "العربية", genre: "Mindset & Growth", genreAr: "تطوير العقلية", setting: "Middle East", settingAr: "الشرق الأوسط", theme: "Cognitive Expansion", themeAr: "توسيع الإدراك", insight: "Small habits compound into monumental life changes.", insightAr: "العادات الصغيرة تصنع فارقاً هائلاً عبر الزمن." },
-        { name: "Fyodor Dostoevsky", nameAr: "فيودور دوستويفسكي", cat: "dostoevsky", lang: "Russian", langAr: "الروسية", genre: "Psychological Realism", genreAr: "الواقعية النفسية", setting: "St. Petersburg", settingAr: "سانت بطرسبرغ", theme: "Conscience & Faith", themeAr: "الضمير والإيمان", insight: "To love someone is to see them as God intended them.", insightAr: "أن تحب شخصاً يعني أن تراه كما أراده الله." },
-        { name: "Leo Tolstoy", nameAr: "ليو تولستوي", cat: "russian", lang: "Russian", langAr: "الروسية", genre: "Epic Realism", genreAr: "الواقعية الملحمية", setting: "Russia", settingAr: "روسيا", theme: "Moral Purity", themeAr: "النقاء الأخلاقي", insight: "The two most powerful warriors are patience and time.", insightAr: "أقوى المحاربين هما الصبر والزمن." }
-      ];
-
-      const volumeThemes = [
-        { en: "Masterclass Edition", ar: "طبعة الخبراء" },
-        { en: "Expanded Codex", ar: "المجلد الموسع" },
-        { en: "Philosophical Treatise", ar: "دراسة فلسفية" },
-        { en: "Private Archives", ar: "الأرشيف الخاص" }
-      ];
-
-      let count = fullList.length + 1;
-      const targetTotal = 500000;
-
-      while (fullList.length < targetTotal) {
-        const authorObj = canonAuthors[(count - 1) % canonAuthors.length];
-        const themeIndex = Math.floor(count / canonAuthors.length) % volumeThemes.length;
-        const subTheme = volumeThemes[themeIndex];
-        const calcYear = 1500 + (count % 500);
-
-        fullList.push({
-          id: `b${count}`,
-          cat: authorObj.cat,
-          title: `${authorObj.name}: ${subTheme.en} (Vol. ${count})`,
-          titleAr: `${authorObj.nameAr}: ${subTheme.ar} (مجلد ${count})`,
-          author: authorObj.name,
-          authorAr: authorObj.nameAr,
-          year: `${calcYear}`,
-          lang: authorObj.lang,
-          langAr: authorObj.langAr,
-          genre: authorObj.genre,
-          genreAr: authorObj.genreAr,
-          setting: authorObj.setting,
-          settingAr: authorObj.settingAr,
-          theme: authorObj.theme,
-          themeAr: authorObj.themeAr,
-          desc: `An essential publication by ${authorObj.name} focusing on human intellect, strategy, and timeless principles.`,
-          descAr: `مؤلف أصيل للمفكر ${authorObj.nameAr} يستقصي المبادئ الخالدة والوعي المعرفي.`,
-          insight: authorObj.insight,
-          insightAr: authorObj.insightAr
-        });
-        count++;
-      }
-      return fullList;
-    }
-
-    const ALL_BOOKS = buildLibraryCatalog();
-
-    let currentLang = 'en';
-    let currentCategory = 'all';
-    let currentStatus = 'all';
-    let searchQuery = '';
-    let currentPage = 1;
-    const pageSize = 25;
-    let currentUser = null;
-    let userCloudStatuses = {};
-
-    const CATEGORIES = [
-      { id: "all", en: "All Categories", ar: "كل التصنيفات" },
-      { id: "modern", en: "Modern Bestsellers", ar: "الكتب المعاصرة والأكثر مبيعاً" },
-      { id: "dostoevsky", en: "Fyodor Dostoevsky", ar: "فيودور دوستويفسكي" },
-      { id: "russian", en: "Russian Literature", ar: "الأدب الروسي" },
-      { id: "philosophy", en: "Philosophy", ar: "الفلسفة" },
-      { id: "arabic", en: "Arabic Classics", ar: "الأدب العربي" }
-    ];
-
-    function toggleLanguage() {
-      currentLang = (currentLang === 'en') ? 'ar' : 'en';
-      document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-      document.documentElement.setAttribute('lang', currentLang);
-      
-      updateUILabels();
-      renderCategoryTabs();
-      renderLibrary();
-    }
-
-    function updateUILabels() {
-      const isAr = (currentLang === 'ar');
-      
-      document.getElementById('langFlag').innerText = isAr ? "🇬🇧" : "🇸🇦";
-      document.getElementById('langText').innerText = isAr ? "English" : "العربية";
-
-      document.getElementById('uiMainTitle').innerText = isAr ? "المكتبة الإمبراطورية الكبرى" : "The Grand Imperial Library";
-      document.getElementById('uiSubtitle').innerText = isAr ? "أرشيف الـ 500,000 كتاب من عيون الأدب والفكر المعاصر" : "The 500,000 Masterpieces Archive of World Literature & Modern Wisdom";
-
-      document.getElementById('uiHeroTextAr').innerText = isAr 
-        ? "المكتبة الإمبراطورية الكبرى هي مكتبتك الخاصة لكي تنظم كتبك، وتتطلع إلى الكتب الجديدة، وتقرأ أكثر، وتتطلع إلى العلم والشغف والمعرفة. لقد ساعدناك في هذه المنصة لتوصل إلى الكتب بشكل أسهل وأسرع."
-        : "The Grand Imperial Library is your sanctuary to curate your literary universes, discover new horizons, and fuel the everlasting flame of passion and knowledge. We have forged this monument to bridge your journey to the written word with effortless grace.";
-
-      document.getElementById('uiHeroTextEn').innerText = isAr
-        ? "\"The Grand Imperial Library is your sanctuary to curate your literary universes, discover new horizons, and fuel the everlasting flame of passion and knowledge. We have forged this monument to bridge your journey to the written word with effortless grace.\""
-        : "\"المكتبة الإمبراطورية الكبرى هي مكتبتك الخاصة لكي تنظم كتبك، وتتطلع إلى الكتب الجديدة، وتقرأ أكثر، وتتطلع إلى العلم والشغف والمعرفة. لقد ساعدناك في هذه المنصة لتوصل إلى الكتب بشكل أسهل وأسرع.\"";
-
-      document.getElementById('aboutLibraryTitle').innerText = isAr ? "🏛️ حول المكتبة" : "🏛️ About The Library";
-      document.getElementById('aboutLibraryText').innerText = isAr 
-        ? "ملاذ رقمي كلاسيكي يضم 500,000 عمل أدبي وفكري معاصر. صُممت خصيصاً للسرعة القصوى والأداء الخفيف، تتيح لك حفظ تقدمك السحابي ومزامنة رفوفك عبر جميع أجهزتك."
-        : "An elite personal digital sanctuary housing 500,000 classic masterworks and modern wisdom. Built for absolute speed and historical aesthetics, it allows you to log in with your Google account, curate your private bookshelf across all devices, and instantly access public domain literature.";
-
-      document.getElementById('aboutCreatorTitle').innerText = isAr ? "🎓 حول المنشئ" : "🎓 About The Creator";
-      document.getElementById('aboutCreatorText').innerHTML = isAr 
-        ? "تم تصميم هذا الموقع بواسطة <strong>يزن الشناق</strong>، طالب علم البيانات والذكاء الاصطناعي في جامعة فيلادلفيا، ليجمع بين الأصالة التاريخية وهندسة البرمجيات السريعة."
-        : "Crafted by <strong>Yazan Al-Shannaq</strong>, a Data Science and Artificial Intelligence student at Philadelphia University, bridging humanistic tradition with optimized modern code architecture.";
-
-      document.getElementById('lblTotal').innerText = isAr ? "إجمالي الأرشيف" : "Total Archive";
-      document.getElementById('lblRead').innerText = isAr ? "مقروء" : "Read";
-      document.getElementById('lblReading').innerText = isAr ? "قيد القراءة" : "Reading";
-      document.getElementById('lblUnread').innerText = isAr ? "لم يُقرأ" : "Unread";
-
-      document.getElementById('searchInput').placeholder = isAr ? "🔍 ابحث في 500,000 مجلد بالعنوان، المؤلف، أو الفكرة..." : "🔍 Search through all 500,000 volumes by title, author, concept, or year...";
-      document.getElementById('uiShelfTitle').innerText = isAr ? "فلاتر الرف الملكي" : "My Royal Bookshelf Filters";
-
-      document.getElementById('tabAll').innerText = isAr ? "🏛️ كل المجلدات" : "🏛️ All Catalog";
-      document.getElementById('tabRead').innerText = isAr ? "✅ مقروء" : "✅ Finished Reading";
-      document.getElementById('tabReading').innerText = isAr ? "📖 قيد القراءة" : "📖 Currently Reading";
-      document.getElementById('tabUnread').innerText = isAr ? "⏳ لم يُقرأ" : "⏳ Want to Read / Unread";
-
-      document.getElementById('prevBtn').innerText = isAr ? "السابق ◀" : "◀ Previous";
-      document.getElementById('nextBtn').innerText = isAr ? "التالي ▶" : "Next ▶";
-      document.getElementById('uiJumpTo').innerText = isAr ? "انتقال:" : "Jump:";
-      
-      document.getElementById('uiFooterNote').innerText = isAr 
-        ? "المكتبة الإمبراطورية الكبرى • محفوظة في الملكية العامة ❦" 
-        : "The Grand Imperial Library • Preserved in the permanent public domain ❦";
-
-      document.getElementById('uiCreatorBadge').innerHTML = isAr 
-        ? "<span>تصميم وتنفيذ <strong>يزن الشناق</strong> • جامعة فيلادلفيا</span>" 
-        : "<span>Crafted by <strong>Yazan Al-Shannaq</strong> • Philadelphia University</span>";
-    }
-
-    function renderCategoryTabs() {
-      const container = document.getElementById('categoryTabsContainer');
-      container.innerHTML = '';
-      
-      CATEGORIES.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = `tab-btn ${currentCategory === cat.id ? 'active' : ''}`;
-        btn.innerText = (currentLang === 'ar') ? cat.ar : cat.en;
-        btn.onclick = () => filterCategory(cat.id, btn);
-        container.appendChild(btn);
-      });
-    }
-
-    function getFilteredBooks() {
-      return ALL_BOOKS.filter(b => {
-        const matchesCategory = (currentCategory === 'all' || b.cat === currentCategory);
-        const savedStatus = userCloudStatuses[b.id] || 'unread';
-        const matchesStatus = (currentStatus === 'all' || savedStatus === currentStatus);
-
-        const titleText = (currentLang === 'ar') ? (b.titleAr || b.title) : b.title;
-        const authorText = (currentLang === 'ar') ? (b.authorAr || b.author) : b.author;
-        const themeText = (currentLang === 'ar') ? (b.themeAr || b.theme) : b.theme;
-        const genreText = (currentLang === 'ar') ? (b.genreAr || b.genre) : b.genre;
-        const settingText = (currentLang === 'ar') ? (b.settingAr || b.setting) : b.setting;
-        const descText = (currentLang === 'ar') ? (b.descAr || b.desc) : b.desc;
-        const insightText = (currentLang === 'ar') ? (b.insightAr || b.insight) : b.insight;
-
-        const corpus = `${titleText} ${authorText} ${themeText} ${genreText} ${settingText} ${descText} ${insightText} ${b.year}`.toLowerCase();
-        const matchesSearch = corpus.includes(searchQuery.toLowerCase().trim());
-
-        return matchesCategory && matchesStatus && matchesSearch;
-      });
-    }
-
-    function renderLibrary() {
-      const grid = document.getElementById('booksGrid');
-      grid.innerHTML = '';
-
-      const isAr = (currentLang === 'ar');
-      const filtered = getFilteredBooks();
-      const totalPages = Math.ceil(filtered.length / pageSize) || 1;
-
-      if (currentPage > totalPages) currentPage = totalPages;
-      if (currentPage < 1) currentPage = 1;
-
-      const startIndex = (currentPage - 1) * pageSize;
-      const paginatedBooks = filtered.slice(startIndex, startIndex + pageSize);
-
-      if (paginatedBooks.length === 0) {
-        grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--antique-brown); font-size: 1.1rem; font-family: 'IM Fell English SC', serif;">
-            ${isAr ? "لم يُعثر على أعمال تطابق بحثك في الأرشيف. ❦" : "No volumes found matching your active filter. ❦"}
-          </div>
-        `;
-      }
-
-      paginatedBooks.forEach(book => {
-        const savedStatus = userCloudStatuses[book.id] || 'unread';
-
-        const displayTitle = isAr ? (book.titleAr || book.title) : book.title;
-        const displayAuthor = isAr ? (book.authorAr || book.author) : book.author;
-        const displayLang = isAr ? (book.langAr || book.lang) : book.lang;
-        const displayGenre = isAr ? (book.genreAr || book.genre) : book.genre;
-        const displaySetting = isAr ? (book.settingAr || book.setting) : book.setting;
-        const displayTheme = isAr ? (book.themeAr || book.theme) : book.theme;
-        const displayDesc = isAr ? (book.descAr || book.desc) : book.desc;
-        const displayInsight = isAr ? (book.insightAr || book.insight) : book.insight;
-
-        // UPDATED: Archive search query uses the book title ONLY (no author name)
-        const archiveEnUrl = `https://archive.org/search.php?query=${encodeURIComponent(book.title)}&and[]=mediatype%3A%22texts%22`;
-        const archiveArUrl = `https://archive.org/search.php?query=${encodeURIComponent(book.titleAr || book.title)}&and[]=mediatype%3A%22texts%22`;
-
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.id = `card-${book.id}`;
-
-        card.innerHTML = `
-          <div>
-            <div class="book-header">
-              <h2 class="book-title">${displayTitle}</h2>
-              <span class="book-year">${book.year}</span>
-            </div>
-
-            <div class="book-specs-grid">
-              <div class="spec-item">
-                <span class="spec-label">${isAr ? "المؤلف" : "Author"}</span>
-                <span class="spec-value">${displayAuthor}</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">${isAr ? "اللغة" : "Language"}</span>
-                <span class="spec-value">${displayLang}</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">${isAr ? "التصنيف" : "Genre"}</span>
-                <span class="spec-value">${displayGenre}</span>
-              </div>
-              <div class="spec-item">
-                <span class="spec-label">${isAr ? "البيئة" : "Setting"}</span>
-                <span class="spec-value">${displaySetting}</span>
-              </div>
-              <div class="spec-item" style="grid-column: 1 / -1;">
-                <span class="spec-label">${isAr ? "المحور الرئيسي" : "Core Theme"}</span>
-                <span class="spec-value">${displayTheme}</span>
-              </div>
-            </div>
-
-            <p class="book-desc">${displayDesc}</p>
-
-            <div class="insights-box">
-              <strong>${isAr ? "الحكمة المستخلصة" : "Imperial Insight"}</strong>
-              ${displayInsight}
-            </div>
-
-            <div class="actions-container">
-              <a class="action-btn btn-archive-en" href="${archiveEnUrl}" target="_blank" rel="noopener noreferrer">
-                ❦ Archive (EN)
-              </a>
-              <a class="action-btn btn-archive-ar" href="${archiveArUrl}" target="_blank" rel="noopener noreferrer">
-                ❦ الأرشيف (عربي)
-              </a>
-            </div>
-          </div>
-
-          <div class="status-container">
-            <button class="status-btn ${savedStatus === 'read' ? 'active-read' : ''}" onclick="setBookStatus('${book.id}', 'read')">
-              ${isAr ? "قرأته ✅" : "Read ✅"}
-            </button>
-            <button class="status-btn ${savedStatus === 'reading' ? 'active-reading' : ''}" onclick="setBookStatus('${book.id}', 'reading')">
-              ${isAr ? "أقرأه 📖" : "Reading 📖"}
-            </button>
-            <button class="status-btn ${savedStatus === 'unread' ? 'active-unread' : ''}" onclick="setBookStatus('${book.id}', 'unread')">
-              ${isAr ? "لم أقرأه ⏳" : "Unread ⏳"}
-            </button>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-
-      document.getElementById('pageIndicator').innerText = isAr 
-        ? `الصفحة ${currentPage} من ${totalPages} (${filtered.length} عمل)` 
-        : `Page ${currentPage} of ${totalPages} (${filtered.length} Works)`;
-
-      document.getElementById('prevBtn').disabled = (currentPage === 1);
-      document.getElementById('nextBtn').disabled = (currentPage === totalPages);
-      
-      const jumpInput = document.getElementById('pageJumpInput');
-      jumpInput.max = totalPages;
-      jumpInput.value = currentPage;
-
-      updateStats();
-    }
-
-    async function setBookStatus(id, status) {
-      if (!currentUser) {
-        alert("🔒 Please sign in with Google to manage your personal bookshelf.");
-        return;
-      }
-
-      userCloudStatuses[id] = status;
-
-      try {
-        const userRef = window.doc(window.db, "userLibraries", currentUser.uid);
-        await window.setDoc(userRef, { statuses: userCloudStatuses }, { merge: true });
-      } catch (e) {
-        console.error("Cloud sync error:", e);
-      }
-      
-      const card = document.getElementById(`card-${id}`);
-      if (card) {
-        const buttons = card.querySelectorAll('.status-btn');
-        buttons.forEach(b => b.classList.remove('active-read', 'active-reading', 'active-unread'));
-        if (status === 'read') buttons[0].classList.add('active-read');
-        if (status === 'reading') buttons[1].classList.add('active-reading');
-        if (status === 'unread') buttons[2].classList.add('active-unread');
-      }
-      
-      updateStats();
-      if (currentStatus !== 'all') {
-        renderLibrary();
-      }
-    }
-
-    function updateStats() {
-      let read = 0;
-      let reading = 0;
-      let unread = 0;
-
-      ALL_BOOKS.forEach(b => {
-        const status = userCloudStatuses[b.id] || 'unread';
-        if (status === 'read') read++;
-        else if (status === 'reading') reading++;
-        else unread++;
-      });
-
-      document.getElementById('totalBooksCount').innerText = ALL_BOOKS.length;
-      document.getElementById('readCount').innerText = read;
-      document.getElementById('readingCount').innerText = reading;
-      document.getElementById('unreadCount').innerText = unread;
-
-      document.getElementById('badgeAll').innerText = ALL_BOOKS.length;
-      document.getElementById('badgeRead').innerText = read;
-      document.getElementById('badgeReading').innerText = reading;
-      document.getElementById('badgeUnread').innerText = unread;
-    }
-
-    function filterStatus(status, btn) {
-      currentStatus = status;
-      currentPage = 1;
-      document.querySelectorAll('.shelf-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderLibrary();
-    }
-
-    function filterCategory(cat, btn) {
-      currentCategory = cat;
-      currentPage = 1;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderLibrary();
-    }
-
-    function handleSearch() {
-      searchQuery = document.getElementById('searchInput').value;
-      currentPage = 1;
-      renderLibrary();
-    }
-
-    function changePage(direction) {
-      currentPage += direction;
-      renderLibrary();
-      window.scrollTo({ top: 300, behavior: 'smooth' });
-    }
-
-    function jumpToPage(val) {
-      const pageNum = parseInt(val, 10);
-      const filtered = getFilteredBooks();
-      const totalPages = Math.ceil(filtered.length / pageSize) || 1;
-      if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
-        currentPage = pageNum;
-        renderLibrary();
-        window.scrollTo({ top: 300, behavior: 'smooth' });
-      }
-    }
-
-    function loginWithGoogle() {
-      window.signInWithPopup(window.myAuth, window.googleProvider)
-        .catch((error) => alert("Google Login Error: " + error.message));
-    }
-
-    function logoutUser() {
-      const confirmed = window.confirm("Are you sure you wish to depart from the Imperial Library? ❦");
-      if (confirmed) {
-        window.signOut(window.myAuth)
-          .then(() => { window.location.reload(); })
-          .catch((error) => { alert("Logout Error: " + error.message); });
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      renderCategoryTabs();
-
-      setTimeout(() => {
-        window.onAuthStateChanged(window.myAuth, async (user) => {
-          const outArea = document.getElementById('loggedOutArea');
-          const inArea = document.getElementById('loggedInArea');
-          const welcomeText = document.getElementById('welcomeText');
-
-          if (user) {
-            currentUser = user;
-            outArea.style.display = 'none';
-            inArea.style.display = 'flex';
-            const name = user.displayName || user.email.split('@')[0];
-            welcomeText.innerText = `Welcome, ${name} ❦`;
-
-            try {
-              const docRef = window.doc(window.db, "userLibraries", user.uid);
-              const docSnap = await window.getDoc(docRef);
-              if (docSnap.exists()) {
-                userCloudStatuses = docSnap.data().statuses || {};
-              } else {
-                userCloudStatuses = {};
-              }
-            } catch (e) {
-              console.error("Cloud data load error:", e);
-              userCloudStatuses = {};
-            }
-          } else {
-            currentUser = null;
-            userCloudStatuses = {};
-            outArea.style.display = 'block';
-            inArea.style.display = 'none';
-          }
-          renderLibrary();
-        });
-      }, 1000);
-    });
-  </script>
-
+  <p class="count" id="count" aria-live="polite"></p>
+  <div class="grid" id="grid"></div>
+
+  <nav class="pager" aria-label="Pagination">
+    <button class="chip" id="first" aria-label="First page">«</button>
+    <button class="chip" id="prev"></button>
+    <span id="pageInfo"></span>
+    <button class="chip" id="next"></button>
+    <button class="chip" id="last" aria-label="Last page">»</button>
+    <label class="jump"><span data-i="jump"></span><input type="number" id="jumpIn" min="1" value="1"></label>
+  </nav>
+
+  <section class="about">
+    <div><h2 data-i="aboutL"></h2><p data-i="aboutLT"></p></div>
+    <div><h2 data-i="aboutC"></h2><p data-i="aboutCT"></p></div>
+  </section>
+</main>
+
+<footer>
+  <p><span aria-hidden="true">❦ </span><span data-i="foot"></span></p>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ===== TRANSLATIONS ===== */
+const T={
+en:{title:'The Grand Imperial Library',sub:'Your personal bookshelf for world literature & modern wisdom',
+lead:'Organize your books, discover new ones, and keep track of what you read. Sign in to sync your shelf across all your devices.',
+total:'Catalog',read:'Read',reading:'Reading',unread:'Unread',catalog:'Book catalog',searchLbl:'Search books',
+search:'Search by title, author, theme, or year',shelf:'My bookshelf',all:'All books',fRead:'Finished',fReading:'Reading now',fUnread:'Want to read',
+prev:'Previous',next:'Next',jump:'Go to page',aboutL:'About the library',
+aboutLT:'A personal digital bookshelf for world literature and modern wisdom. Sign in with Google to keep your reading status synced across devices, then follow the Internet Archive links to find editions to read.',
+aboutC:'About the creator',aboutCT:'Crafted by <strong>Yazan Al-Shannaq</strong>, a Data Science and Artificial Intelligence student at Philadelphia University.',
+foot:'The Grand Imperial Library · Links open the Internet Archive. Availability and copyright vary by title.',
+signin:'Sign in with Google',logout:'Log out',welcome:n=>`Welcome, ${n}`,confirm:'Log out of the library?',need:'Sign in with Google to manage your bookshelf.',
+none:'No books match your search or filters.',cats:{all:'All categories',modern:'Modern bestsellers',dostoevsky:'Fyodor Dostoevsky',russian:'Russian literature',philosophy:'Philosophy',arabic:'Arabic classics'},
+f:{author:'Author',lang:'Language',genre:'Genre',setting:'Setting',theme:'Core theme',ins:'Insight'},
+works:(n)=>`${n} ${n===1?'book':'books'}`,page:(p,t)=>`Page ${p} of ${t}`,aEn:'Find on Archive (EN)',aAr:'Find on Archive (AR)',
+bRead:'Read',bReading:'Reading',bUnread:'Unread',langBtn:'العربية'},
+ar:{title:'المكتبة الإمبراطورية الكبرى',sub:'رفّك الشخصي لأدب العالم والفكر المعاصر',
+lead:'نظّم كتبك، واكتشف كتباً جديدة، وتابع ما تقرؤه. سجّل الدخول لتتم مزامنة رفّك عبر جميع أجهزتك.',
+total:'الفهرس',read:'مقروء',reading:'قيد القراءة',unread:'لم يُقرأ',catalog:'فهرس الكتب',searchLbl:'ابحث في الكتب',
+search:'ابحث بالعنوان أو المؤلف أو الموضوع أو السنة',shelf:'رفّي',all:'كل الكتب',fRead:'أنهيتها',fReading:'أقرؤها الآن',fUnread:'أريد قراءتها',
+prev:'السابق',next:'التالي',jump:'اذهب إلى صفحة',aboutL:'حول المكتبة',
+aboutLT:'رفّ رقمي شخصي لأدب العالم والفكر المعاصر. سجّل الدخول بحساب Google لمزامنة حالة قراءتك عبر أجهزتك، ثم اتبع روابط أرشيف الإنترنت للعثور على نسخ للقراءة.',
+aboutC:'حول المنشئ',aboutCT:'تم تصميم هذا الموقع بواسطة <strong>يزن الشناق</strong>، طالب علم البيانات والذكاء الاصطناعي في جامعة فيلادلفيا.',
+foot:'المكتبة الإمبراطورية الكبرى · الروابط تفتح أرشيف الإنترنت، وتختلف إتاحة الكتب وحقوقها من كتاب لآخر.',
+signin:'تسجيل الدخول عبر Google',logout:'تسجيل الخروج',welcome:n=>`أهلاً، ${n}`,confirm:'هل تريد تسجيل الخروج من المكتبة؟',need:'سجّل الدخول عبر Google لإدارة رفّك.',
+none:'لا توجد كتب تطابق بحثك أو الفلاتر.',cats:{all:'كل التصنيفات',modern:'الكتب المعاصرة',dostoevsky:'فيودور دوستويفسكي',russian:'الأدب الروسي',philosophy:'الفلسفة',arabic:'الأدب العربي'},
+f:{author:'المؤلف',lang:'اللغة',genre:'التصنيف',setting:'البيئة',theme:'المحور الرئيسي',ins:'الحكمة المستخلصة'},
+works:(n)=>`${n.toLocaleString('ar')} كتاب`,page:(p,t)=>`الصفحة ${p.toLocaleString('ar')} من ${t.toLocaleString('ar')}`,aEn:'ابحث في الأرشيف (EN)',aAr:'ابحث في الأرشيف (عربي)',
+bRead:'قرأته',bReading:'أقرؤه',bUnread:'لم أقرأه',langBtn:'English'}};
+
+/* ===== CATALOG DATA ===== */
+const CORE=[
+{cat:'modern',title:'Rich Dad Poor Dad',titleAr:'الأب الغني والأب الفقير',author:'Robert T. Kiyosaki',authorAr:'روبرت كيوساكي',year:'1997',lang:'English / Arabic',langAr:'الإنجليزية والعربية',genre:'Financial Wisdom',genreAr:'الثقافة المالية',setting:'Global Finance',settingAr:'المال والأعمال العالمية',theme:'Assets vs Liabilities',themeAr:'الأصول والخصوم والحرية المالية',desc:'Explores differing mindsets and financial philosophies about money, work, and investing through two paternal figures.',descAr:'يستعرض الفروق الجوهرية في التفكير بين الأب الغني والأب الفقير تجاه المال والعمل والأصول.',insight:'The poor and middle class work for money. The rich have money work for them.',insightAr:'الفقراء وأبناء الطبقة الوسطى يعملون من أجل المال، بينما الأغنياء يجعلون المال يعمل من أجلهم.'},
+{cat:'modern',title:'The Pistachio Theory',titleAr:'نظرية الفستق',author:'Fahd Al-Ahmadi',authorAr:'فهد الأحمدي',year:'2018',lang:'Arabic',langAr:'العربية',genre:'Self Development',genreAr:'التنمية البشرية وتطوير الذات',setting:'Middle East',settingAr:'العالم العربي',theme:'Self-Awareness & Perception',themeAr:'الوعي الذاتي والتفكير النقدي وتغيير السلوك',desc:'A collection of essays designed to change how you see yourself, decision-making, and personal success.',descAr:'كتاب يهدف إلى إعادة برمجة طريقة تفكيرك ووعيك الذاتي واتخاذ القرارات وفهم دوافع النفس والنجاح.',insight:'Your life reflects not your limits, but the limits of your thinking and convictions.',insightAr:'حياتك لا تعكس حدود قدراتك، بل حدود أفكارك وقناعاتك الراسخة.'},
+{cat:'dostoevsky',title:'Crime and Punishment',titleAr:'الجريمة والعقاب',author:'Fyodor Dostoevsky',authorAr:'فيودور دوستويفسكي',year:'1866',lang:'Russian',langAr:'الروسية',genre:'Psychological Realism',genreAr:'الواقعية النفسية',setting:'St. Petersburg, Russia',settingAr:'سانت بطرسبرغ، روسيا',theme:'Morality, Guilt & Redemption',themeAr:'الأخلاق والذنب والخلاص الروحي',desc:'Raskolnikov theorizes that extraordinary people may transcend moral limits, then collapses into psychological torment.',descAr:'راسكولنيكوف يرتكب جريمة قتل بناءً على نظريته، ليدخل في عذاب ضمير يقوده إلى الاعتراف والتوبة.',insight:'True punishment is not confinement, but unbearable isolation from humanity.',insightAr:'العقاب الحقيقي ليس قيود السجن، بل العزلة النفسية والانفصال عن البشرية.'},
+{cat:'russian',title:'War and Peace',titleAr:'الحرب والسلام',author:'Leo Tolstoy',authorAr:'ليو تولستوي',year:'1869',lang:'Russian',langAr:'الروسية',genre:'Historical Epic',genreAr:'الملحمة التاريخية',setting:'Imperial Russia',settingAr:'روسيا القيصرية',theme:'Epic Destiny & Free Will',themeAr:'القدر الإنساني والفلسفة التاريخية',desc:"Tolstoy's panorama of aristocratic families through the Napoleonic invasion, weighing free will against determinism.",descAr:'ملحمة الأدب الروسي التي تسرد مصائر العائلات النبيلة إبان حروب نابليون وتناقش فلسفة الإرادة والتاريخ.',insight:'History is steered less by rulers than by the small decisions of everyday people.',insightAr:'التاريخ لا يصنعه القادة وحدهم، بل ملايين الأفعال الصغيرة.'},
+{cat:'philosophy',title:'The Metamorphosis',titleAr:'المسخ',author:'Franz Kafka',authorAr:'فرانز كافكا',year:'1915',lang:'German',langAr:'الألمانية',genre:'Absurdist Fiction',genreAr:'أدب العبث',setting:'Prague',settingAr:'براغ',theme:'Alienation & Utilitarianism',themeAr:'الاغتراب والمنفعة المادية',desc:'Gregor Samsa wakes transformed into a vermin and learns his family values him only for his income.',descAr:'يستيقظ غريغور سامسا ليجد نفسه حشرة، فتتكشف قسوة عائلته التي قدّرت إنتاجه لا إنسانيته.',insight:'When your economic usefulness ends, affection can vanish with terrifying speed.',insightAr:'حين تسقط قدرتك على الإنتاج، قد يتلاشى تقدير أقرب الناس إليك بسرعة.'},
+{cat:'arabic',title:'The Cairo Trilogy',titleAr:'ثلاثية القاهرة',author:'Naguib Mahfouz',authorAr:'نجيب محفوظ',year:'1957',lang:'Arabic',langAr:'العربية',genre:'Social Realism',genreAr:'الواقعية الاجتماعية',setting:'Cairo, Egypt',settingAr:'القاهرة، مصر',theme:'Tradition vs Modernity',themeAr:'التقاليد والتحولات الاجتماعية',desc:"Three generations of a traditional Cairo household during Egypt's political awakening.",descAr:'ملحمة أجيال عائلة قاهرية عبر عقود، ترصد تحولات المجتمع وصراع الأبناء بين التقاليد والحرية.',insight:'Time is the ruler that eventually changes every fixed order.',insightAr:'الزمن هو الحاكم الفعلي الذي يغيّر كل الثوابت.'}];
+const AUTH=[
+{name:'Robert Kiyosaki',nameAr:'روبرت كيوساكي',cat:'modern',lang:'English',langAr:'الإنجليزية',genre:'Financial Mastery',genreAr:'المال والأعمال',setting:'Global',settingAr:'عالمي',theme:'Wealth Building',themeAr:'صناعة الثروة',insight:'Assets put money in your pocket.',insightAr:'الأصول تضع المال في جيبك.'},
+{name:'Fahd Al-Ahmadi',nameAr:'فهد الأحمدي',cat:'modern',lang:'Arabic',langAr:'العربية',genre:'Mindset & Growth',genreAr:'تطوير العقلية',setting:'Middle East',settingAr:'الشرق الأوسط',theme:'Cognitive Expansion',themeAr:'توسيع الإدراك',insight:'Small habits compound into large life changes.',insightAr:'العادات الصغيرة تصنع فارقاً هائلاً عبر الزمن.'},
+{name:'Fyodor Dostoevsky',nameAr:'فيودور دوستويفسكي',cat:'dostoevsky',lang:'Russian',langAr:'الروسية',genre:'Psychological Realism',genreAr:'الواقعية النفسية',setting:'St. Petersburg',settingAr:'سانت بطرسبرغ',theme:'Conscience & Faith',themeAr:'الضمير والإيمان',insight:'To love someone is to see them as God intended them.',insightAr:'أن تحب شخصاً يعني أن تراه كما أراده الله.'},
+{name:'Leo Tolstoy',nameAr:'ليو تولستوي',cat:'russian',lang:'Russian',langAr:'الروسية',genre:'Epic Realism',genreAr:'الواقعية الملحمية',setting:'Russia',settingAr:'روسيا',theme:'Moral Purity',themeAr:'النقاء الأخلاقي',insight:'The two most powerful warriors are patience and time.',insightAr:'أقوى المحاربين هما الصبر والزمن.'}];
+const VOL=[{en:'Masterclass Edition',ar:'طبعة الخبراء'},{en:'Expanded Codex',ar:'المجلد الموسع'},{en:'Philosophical Treatise',ar:'دراسة فلسفية'},{en:'Private Archives',ar:'الأرشيف الخاص'}];
+const TOTAL=500000,PAGE=25,CATS=['all','modern','dostoevsky','russian','philosophy','arabic'];
+
+/* Books are generated on demand (index -> book) instead of building 500,000 objects in memory. */
+function bookAt(i){
+  if(i<CORE.length)return{id:'b'+(i+1),...CORE[i]};
+  const n=i+1,a=AUTH[i%4],v=VOL[Math.floor(n/4)%4];
+  return{id:'b'+n,cat:a.cat,title:`${a.name}: ${v.en} (Vol. ${n})`,titleAr:`${a.nameAr}: ${v.ar} (مجلد ${n})`,author:a.name,authorAr:a.nameAr,year:'',
+    lang:a.lang,langAr:a.langAr,genre:a.genre,genreAr:a.genreAr,setting:a.setting,settingAr:a.settingAr,theme:a.theme,themeAr:a.themeAr,
+    desc:`A publication by ${a.name} on human intellect, strategy, and timeless principles.`,descAr:`مؤلَّف للمفكر ${a.nameAr} يستقصي المبادئ الخالدة والوعي المعرفي.`,insight:a.insight,insightAr:a.insightAr,generated:true};
+}
+
+/* ===== STATE ===== */
+let lang=(()=>{try{return localStorage.getItem('lib_lang')||'en'}catch(e){return'en'}})();
+let cat='all',status='all',query='',page=1,filtered=[],user=null,st={};
+const $=id=>document.getElementById(id),t=()=>T[lang],nf=n=>n.toLocaleString(lang==='ar'?'ar':'en');
+const L=(b,k)=>lang==='ar'?(b[k+'Ar']||b[k]):b[k];
+let tt;function toast(m){const e=$('toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),2800)}
+
+/* ===== FILTER (recomputed only when a filter/search/language changes) ===== */
+function refilter(){
+  const q=query.trim().toLowerCase(),out=[];
+  for(let i=0;i<TOTAL;i++){
+    const c=i<CORE.length?CORE[i].cat:AUTH[i%4].cat;
+    if(cat!=='all'&&c!==cat)continue;
+    if(status!=='all'&&(st['b'+(i+1)]||'unread')!==status)continue;
+    if(q){const b=bookAt(i);
+      if(!`${L(b,'title')} ${L(b,'author')} ${L(b,'theme')} ${L(b,'genre')} ${L(b,'setting')} ${L(b,'desc')} ${b.year}`.toLowerCase().includes(q))continue}
+    out.push(i);
+  }
+  filtered=out;
+}
+
+/* ===== RENDER ===== */
+function archiveUrl(s){return`https://archive.org/search?query=${encodeURIComponent(s)}&and[]=mediatype%3A%22texts%22`}
+function render(){
+  const tr=t(),pages=Math.max(1,Math.ceil(filtered.length/PAGE));
+  page=Math.min(Math.max(1,page),pages);
+  const slice=filtered.slice((page-1)*PAGE,page*PAGE),g=$('grid');
+  g.innerHTML=slice.length?slice.map(i=>{
+    const b=bookAt(i),s=st[b.id]||'unread';
+    /* generated entries search by author, because their volume titles are not real book titles */
+    const qEn=b.generated?b.author:b.title,qAr=b.generated?(b.authorAr||b.author):(b.titleAr||b.title);
+    const btn=(k,label)=>`<button class="sb ${k}" aria-pressed="${s===k}" data-b="${b.id}" data-k="${k}">${label}</button>`;
+    return`<article class="card" id="c-${b.id}"><div>
+     <div class="bh"><h3>${L(b,'title')}</h3>${b.year?`<span class="yr">${b.year}</span>`:''}</div>
+     <div class="specs">
+      <div><span class="lbl">${tr.f.author}</span><span>${L(b,'author')}</span></div>
+      <div><span class="lbl">${tr.f.lang}</span><span>${L(b,'lang')}</span></div>
+      <div><span class="lbl">${tr.f.genre}</span><span>${L(b,'genre')}</span></div>
+      <div><span class="lbl">${tr.f.setting}</span><span>${L(b,'setting')}</span></div>
+      <div class="w"><span class="lbl">${tr.f.theme}</span><span>${L(b,'theme')}</span></div></div>
+     <p class="desc">${L(b,'desc')}</p>
+     <div class="ins"><strong>${tr.f.ins}</strong>${L(b,'insight')}</div>
+     <div class="acts"><a class="act" href="${archiveUrl(qEn)}" target="_blank" rel="noopener noreferrer">${tr.aEn}</a><a class="act ar" href="${archiveUrl(qAr)}" target="_blank" rel="noopener noreferrer">${tr.aAr}</a></div></div>
+     <div class="stat-row">${btn('read',tr.bRead)}${btn('reading',tr.bReading)}${btn('unread',tr.bUnread)}</div></article>`}).join('')
+   :`<div class="empty">${tr.none}</div>`;
+  $('count').textContent=tr.works(filtered.length);
+  $('pageInfo').textContent=tr.page(page,pages);
+  $('first').disabled=$('prev').disabled=page===1;$('next').disabled=$('last').disabled=page===pages;
+  $('jumpIn').max=pages;$('jumpIn').value=page;
+  stats();
+}
+function stats(){
+  let r=0,rd=0;for(const k in st){if(st[k]==='read')r++;else if(st[k]==='reading')rd++}
+  const u=TOTAL-r-rd;
+  [['sTotal','bAll',TOTAL],['sRead','bRead',r],['sReading','bReading',rd],['sUnread','bUnread',u]].forEach(([a,b,v])=>{$(a).textContent=nf(v);$(b).textContent=nf(v)});
+}
+function cats(){$('catRow').innerHTML=CATS.map(c=>`<button class="chip" data-c="${c}" aria-pressed="${c===cat}">${t().cats[c]}</button>`).join('')}
+function scrollTop(){$('grid').scrollIntoView({behavior:'smooth',block:'start'})}
+
+/* ===== LANGUAGE ===== */
+function applyLang(){
+  const tr=t(),h=document.documentElement;h.lang=lang;h.dir=lang==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-i]').forEach(e=>{e.innerHTML=tr[e.dataset.i]});
+  $('q').placeholder=tr.search;$('prev').textContent=(lang==='ar'?'':'◀ ')+tr.prev+(lang==='ar'?' ▶':'');
+  $('next').textContent=(lang==='ar'?'◀ ':'')+tr.next+(lang==='ar'?'':' ▶');
+  $('langBtn').textContent=tr.langBtn;$('langBtn').lang=lang==='ar'?'ar':'en';
+  $('langBtn').setAttribute('aria-label',lang==='ar'?'Switch to English':'التبديل إلى العربية');
+  if(user)$('welcome').textContent=tr.welcome(user.displayName||user.email.split('@')[0]);
+  cats();refilter();render();
+}
+
+/* ===== EVENTS ===== */
+$('langBtn').onclick=()=>{lang=lang==='en'?'ar':'en';try{localStorage.setItem('lib_lang',lang)}catch(e){}applyLang()};
+let deb;$('q').oninput=e=>{clearTimeout(deb);deb=setTimeout(()=>{query=e.target.value;page=1;refilter();render()},250)};
+$('statusRow').onclick=e=>{const b=e.target.closest('[data-s]');if(!b)return;status=b.dataset.s;page=1;
+  document.querySelectorAll('#statusRow .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));refilter();render()};
+$('catRow').onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;cat=b.dataset.c;page=1;cats();refilter();render()};
+const go=p=>{page=p;render();scrollTop()};
+$('first').onclick=()=>go(1);$('prev').onclick=()=>go(page-1);$('next').onclick=()=>go(page+1);
+$('last').onclick=()=>go(Math.ceil(filtered.length/PAGE)||1);
+$('jumpIn').onchange=e=>{const p=parseInt(e.target.value,10);if(p>=1)go(p)};
+$('grid').onclick=async e=>{
+  const b=e.target.closest('.sb');if(!b)return;
+  if(!user)return toast(t().need);
+  st[b.dataset.b]=b.dataset.k;
+  try{await window.setDoc(window.doc(window.db,'userLibraries',user.uid),{statuses:st},{merge:true})}catch(err){console.error('Cloud sync error:',err)}
+  if(status!=='all'){refilter();render()}else{
+    b.parentNode.querySelectorAll('.sb').forEach(x=>x.setAttribute('aria-pressed',x===b));stats()}
+};
+
+/* ===== AUTH ===== */
+$('loginBtn').onclick=()=>{
+  if(!window.myAuth)return toast('Sign-in is unavailable right now. Check your connection and try again.');
+  window.signInWithPopup(window.myAuth,window.googleProvider).catch(err=>toast('Google login error: '+err.message))};
+$('logoutBtn').onclick=()=>{if(confirm(t().confirm))window.signOut(window.myAuth).catch(err=>toast('Logout error: '+err.message))};
+function initAuth(){
+  window.onAuthStateChanged(window.myAuth,async u=>{
+    user=u;$('out').style.display=u?'none':'block';$('in').style.display=u?'flex':'none';st={};
+    if(u){$('welcome').textContent=t().welcome(u.displayName||u.email.split('@')[0]);
+      try{const s=await window.getDoc(window.doc(window.db,'userLibraries',u.uid));if(s.exists())st=s.data().statuses||{}}catch(err){console.error('Cloud data load error:',err)}}
+    refilter();render()})}
+if(window.myAuth)initAuth();else window.addEventListener('firebase-ready',initAuth,{once:true});
+
+/* ===== VIDEO: skip on phones, reduced motion, or data saver ===== */
+if(matchMedia('(prefers-reduced-motion:reduce)').matches||innerWidth<700||(navigator.connection&&navigator.connection.saveData))$('bg').remove();
+
+/* ===== INIT (renders immediately; no timers) ===== */
+applyLang();
+</script>
 </body>
 </html>

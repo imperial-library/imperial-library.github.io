@@ -46,8 +46,8 @@
 
   <style>
     :root {
-      --parchment-base: rgba(244, 236, 223, 0.93);
-      --parchment-dark: rgba(227, 211, 189, 0.95);
+      --parchment-base: rgba(244, 236, 223, 0.94);
+      --parchment-dark: rgba(227, 211, 189, 0.96);
       --parchment-border: #b8976a;
       --ink-black: #1f1814;
       --antique-brown: #4a3325;
@@ -59,7 +59,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
 
     body {
-      background-color: #e3d3bd;
       color: var(--ink-black);
       font-family: 'EB Garamond', 'Amiri', serif;
       min-height: 100vh;
@@ -68,29 +67,28 @@
       overflow-x: hidden;
     }
 
-    /* --- Moving Vintage Background Animation --- */
-    .vintage-moving-bg {
-      position: fixed;
-      top: 0; left: 0; width: 200%; height: 100%;
-      background: linear-gradient(120deg, rgba(140, 109, 54, 0.12), rgba(74, 51, 37, 0.22)),
-                  url('https://upload.wikimedia.org/wikipedia/commons/2/22/Paper_texture.jpg');
-      background-repeat: repeat;
-      z-index: -2;
-      animation: driftBackground 60s linear infinite;
-    }
-
-    @keyframes driftBackground {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    /* Subtle wave/desert dust particle overlay effect */
-    .vintage-overlay-waves {
+    /* --- Moving Video Background Container --- */
+    .bg-video-container {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at 50% 30%, transparent 20%, rgba(31, 24, 20, 0.15) 90%);
-      z-index: -1;
-      pointer-events: none;
+      overflow: hidden;
+      z-index: -3;
+    }
+
+    .bg-video {
+      position: absolute;
+      top: 50%; left: 50%;
+      min-width: 100%; min-height: 100%;
+      width: auto; height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+
+    .bg-tint {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(31, 24, 20, 0.48);
+      z-index: -2;
     }
 
     .top-nav-container {
@@ -170,7 +168,7 @@
       border: 4px double var(--parchment-border);
       border-radius: 3px;
       max-width: 1100px;
-      box-shadow: 0 6px 20px rgba(31, 24, 20, 0.15), inset 0 0 40px rgba(184, 151, 106, 0.25);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 0 40px rgba(184, 151, 106, 0.25);
     }
 
     .crown-emblem {
@@ -221,7 +219,7 @@
     }
 
     .stat-item {
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.7);
       border: 1px solid var(--parchment-border);
       padding: 0.35rem 0.9rem;
       border-radius: 2px;
@@ -238,12 +236,12 @@
     .hero-transition-banner {
       max-width: 1100px;
       margin: 0 auto 2.5rem auto;
-      background: linear-gradient(135deg, rgba(233, 220, 206, 0.95), rgba(217, 199, 176, 0.95));
+      background: var(--parchment-base);
       border: 2px solid var(--faded-gold);
       border-radius: 4px;
       padding: 2.2rem 2.8rem;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(31, 24, 20, 0.15), inset 0 0 20px rgba(184, 151, 106, 0.25);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(184, 151, 106, 0.2);
       position: relative;
       opacity: 0;
       transform: translateY(20px);
@@ -294,7 +292,7 @@
       border: 1px solid var(--parchment-border);
       border-radius: 2px;
       padding: 1.8rem;
-      box-shadow: inset 0 1px 4px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2), inset 0 1px 4px rgba(0,0,0,0.08);
     }
 
     .about-card h3 {
@@ -331,7 +329,7 @@
       font-size: 1rem;
       outline: none;
       font-family: inherit;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15), inset 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .search-input:focus {
@@ -370,6 +368,7 @@
       display: flex;
       align-items: center;
       gap: 0.4rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .shelf-btn .badge {
@@ -412,6 +411,7 @@
       font-size: 0.8rem;
       font-weight: 600;
       font-family: 'IM Fell English SC', 'Amiri', serif;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .tab-btn:hover, .tab-btn.active {
@@ -436,7 +436,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: 0 4px 12px rgba(31, 24, 20, 0.1), inset 0 0 15px rgba(184, 151, 106, 0.15);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25), inset 0 0 15px rgba(184, 151, 106, 0.15);
     }
 
     .book-header {
@@ -471,7 +471,7 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 0.4rem 0.8rem;
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.6);
       border: 1px solid var(--parchment-border);
       border-radius: 2px;
       padding: 0.75rem;
@@ -507,7 +507,7 @@
     }
 
     .insights-box {
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.7);
       border-left: 3px solid var(--faded-gold);
       padding: 0.75rem;
       border-radius: 0 2px 2px 0;
@@ -636,6 +636,7 @@
       font-weight: 600;
       cursor: pointer;
       font-family: 'IM Fell English SC', 'Amiri', serif;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     }
 
     .page-btn:hover:not(:disabled) {
@@ -702,6 +703,7 @@
       color: var(--ink-black);
       font-size: 0.88rem;
       font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .creator-badge strong {
@@ -711,9 +713,14 @@
 </head>
 <body>
 
-  <!-- Moving Vintage Background Layers -->
-  <div class="vintage-moving-bg"></div>
-  <div class="vintage-overlay-waves"></div>
+  <!-- Manual Video Background Setup -->
+  <div class="bg-video-container">
+    <video autoplay muted loop playsinline class="bg-video">
+      <source src="background.mp4" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+  </div>
+  <div class="bg-tint"></div>
 
   <div class="top-nav-container">
     <div class="auth-box">
